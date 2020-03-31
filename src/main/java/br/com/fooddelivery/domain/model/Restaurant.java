@@ -31,6 +31,10 @@ public class Restaurant {
     private Kitchen kitchen;
 
     @JsonIgnore
+    @Embedded
+    private Address address;
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "tb_restaurant_payment",

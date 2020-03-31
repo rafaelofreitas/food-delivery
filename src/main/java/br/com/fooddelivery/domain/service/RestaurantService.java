@@ -7,6 +7,7 @@ import br.com.fooddelivery.domain.repository.KitchenRepository;
 import br.com.fooddelivery.domain.repository.RestaurantRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -19,6 +20,7 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
     private KitchenRepository kitchenRepository;
 
+    @Autowired
     public RestaurantService(RestaurantRepository restaurantRepository, KitchenRepository kitchenRepository) {
         this.restaurantRepository = restaurantRepository;
         this.kitchenRepository = kitchenRepository;
@@ -47,7 +49,7 @@ public class RestaurantService {
     public Restaurant updateRestaurant(Integer id, Restaurant restaurant) {
         Restaurant restaurantSaved = this.getRestaurantById(id);
 
-        BeanUtils.copyProperties(restaurant, restaurantSaved, "id", "payment");
+        BeanUtils.copyProperties(restaurant, restaurantSaved, "id", "payment", "address");
 
         return this.saveRestaurant(restaurantSaved);
     }
