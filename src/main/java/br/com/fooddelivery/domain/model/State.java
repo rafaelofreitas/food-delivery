@@ -13,6 +13,7 @@ public class State {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "state_id")
     private Integer id;
 
     @Column(nullable = false)

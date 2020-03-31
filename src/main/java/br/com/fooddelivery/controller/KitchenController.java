@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/kitchens")
 public class KitchenController {
-    private final KitchenService kitchenService;
+    private KitchenService kitchenService;
 
     @Autowired
     public KitchenController(KitchenService kitchenService) {

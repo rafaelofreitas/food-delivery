@@ -13,6 +13,7 @@ public class City {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "city_id")
     private Integer id;
 
     @Column(nullable = false)

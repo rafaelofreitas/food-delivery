@@ -13,6 +13,7 @@ public class Payment {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "payment_id")
     private Integer id;
 
     @Column(nullable = false)

@@ -13,6 +13,7 @@ public class Permission {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "permission_id")
     private Integer id;
 
     @Column(nullable = false)
