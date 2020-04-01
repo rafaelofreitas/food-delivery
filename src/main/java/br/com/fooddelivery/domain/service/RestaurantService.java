@@ -49,7 +49,7 @@ public class RestaurantService {
     public Restaurant updateRestaurant(Integer id, Restaurant restaurant) {
         Restaurant restaurantSaved = this.getRestaurantById(id);
 
-        BeanUtils.copyProperties(restaurant, restaurantSaved, "id", "payment", "address");
+        BeanUtils.copyProperties(restaurant, restaurantSaved, "id", "payment", "address", "dateRegister", "products");
 
         return this.saveRestaurant(restaurantSaved);
     }
