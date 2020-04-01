@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -33,21 +34,21 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveRestaurant(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<?> saveRestaurant(@Valid  @RequestBody Restaurant restaurant) {
         restaurant = restaurantService.saveRestaurant(restaurant);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateRestaurant(@PathVariable Integer id, @RequestBody Restaurant restaurant) {
+    public ResponseEntity<?> updateRestaurant(@PathVariable Integer id, @Valid @RequestBody Restaurant restaurant) {
         restaurant = this.restaurantService.updateRestaurant(id, restaurant);
 
         return ResponseEntity.ok().body(restaurant);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> pathRestaurant(@PathVariable Integer id, @RequestBody Map<String, Object> dataSource) {
+    public ResponseEntity<?> pathRestaurant(@PathVariable Integer id, @Valid @RequestBody Map<String, Object> dataSource) {
         Restaurant restaurant = this.restaurantService.pathRestaurant(id, dataSource);
 
         return ResponseEntity.ok().body(restaurant);
