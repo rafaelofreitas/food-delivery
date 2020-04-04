@@ -1,3 +1,30 @@
+set foreign_key_checks = 0;
+
+delete from tb_city;
+delete from tb_kitchen;
+delete from tb_state;
+delete from tb_payment;
+delete from tb_group;
+delete from tb_group_permission;
+delete from tb_permission;
+delete from tb_product;
+delete from tb_restaurant;
+delete from tb_restaurant_payment;
+delete from tb_user;
+delete from tb_user_group;
+
+set foreign_key_checks = 1;
+
+alter table tb_city auto_increment = 1;
+alter table tb_kitchen auto_increment = 1;
+alter table tb_state auto_increment = 1;
+alter table tb_payment auto_increment = 1;
+alter table tb_group auto_increment = 1;
+alter table tb_permission auto_increment = 1;
+alter table tb_product auto_increment = 1;
+alter table tb_restaurant auto_increment = 1;
+alter table tb_user auto_increment = 1;
+
 insert into tb_kitchen(kitchen_id, name) values (1, 'Tailandesa');
 insert into tb_kitchen(kitchen_id, name) values (2, 'Indiana');
 insert into tb_kitchen(kitchen_id, name) values (3, 'Argentina');
