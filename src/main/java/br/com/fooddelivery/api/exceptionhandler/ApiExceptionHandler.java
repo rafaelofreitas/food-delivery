@@ -105,7 +105,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         BindingResult bindingResult = ex.getBindingResult();
 
-        List<Error.Field> errorFields = bindingResult.getFieldErrors().stream()
+        List<Error.Field> errorFields = bindingResult
+                .getFieldErrors()
+                .stream()
                 .map(fieldError -> {
                     String message = this.messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
 
@@ -139,7 +141,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                     .status(status.value())
                     .userMessage(GENERIC_ERROR_MESSAGE_END_USER)
                     .build();
-        } else if (body instanceof String) {
+
+            return super.handleExceptionInternal(ex, body, headers, status, request);
+        }
+
+        if (body instanceof String) {
             body = Error.builder()
                     .timestamp(LocalDateTime.now())
                     .title((String) body)

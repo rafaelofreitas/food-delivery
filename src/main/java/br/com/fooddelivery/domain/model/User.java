@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @Email
     @Column(nullable = false)
     private String email;
 

@@ -1,9 +1,14 @@
 package br.com.fooddelivery.domain.model;
 
+import br.com.fooddelivery.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -16,9 +21,13 @@ public class City {
     @Column(name = "city_id")
     private Integer id;
 
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
+    @Valid
+    @ConvertGroup(to = Groups.StateId.class)
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "state_id", nullable = false)
     private State state;

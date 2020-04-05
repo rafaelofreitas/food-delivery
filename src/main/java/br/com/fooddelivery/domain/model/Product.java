@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
 @Data
@@ -17,9 +18,11 @@ public class Product {
     @Column(name = "product_id")
     private Integer id;
 
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
+    @NotBlank
     @Column(nullable = false)
     private String description;
 

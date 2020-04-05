@@ -85,4 +85,3 @@ create table tb_product (
 	primary key (product_id),
 	constraint fk_product_restaurant_id foreign key (restaurant_id) references tb_restaurant (restaurant_id)
 ) engine=InnoDB default charset=utf8;
-

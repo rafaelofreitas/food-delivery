@@ -36,6 +36,3 @@ create table tb_user_group (
 	constraint fk_user_group_user_id foreign key (user_id) references tb_user (user_id),
 	constraint fk_user_group_group_id foreign key (group_id) references tb_group (group_id)
 ) engine=InnoDB default charset=utf8;
-
-
-

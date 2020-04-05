@@ -47,7 +47,7 @@ public class StateController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<State> updateState(@PathVariable Integer id, @RequestBody State state) {
+    public ResponseEntity<State> updateState(@PathVariable Integer id, @Valid @RequestBody State state) {
         state = this.stateService.updateState(id, state);
 
         return ResponseEntity.ok().body(state);
