@@ -1,4 +1,4 @@
-package br.com.fooddelivery.controller;
+package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.domain.model.State;
 import br.com.fooddelivery.domain.service.StateService;
