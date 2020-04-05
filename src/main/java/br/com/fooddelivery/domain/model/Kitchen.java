@@ -1,6 +1,6 @@
 package br.com.fooddelivery.domain.model;
 
-import br.com.fooddelivery.Groups;
+import br.com.fooddelivery.core.validation.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

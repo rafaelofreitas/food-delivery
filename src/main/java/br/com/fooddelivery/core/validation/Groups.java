@@ -1,4 +1,4 @@
-package br.com.fooddelivery;
+package br.com.fooddelivery.core.validation;
 
 public interface Groups {
     interface KitchenId {
