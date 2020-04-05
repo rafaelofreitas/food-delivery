@@ -1,9 +1,8 @@
 package br.com.fooddelivery.domain.service;
 
-import br.com.fooddelivery.domain.exception.EntityNotFoundException;
+import br.com.fooddelivery.domain.exception.RestaurantNotFoundException;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.model.Restaurant;
-import br.com.fooddelivery.domain.repository.KitchenRepository;
 import br.com.fooddelivery.domain.repository.RestaurantRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
@@ -18,12 +17,12 @@ import java.util.Map;
 @Service
 public class RestaurantService {
     private RestaurantRepository restaurantRepository;
-    private KitchenRepository kitchenRepository;
+    private KitchenService kitchenService;
 
     @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository, KitchenRepository kitchenRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository, KitchenService kitchenService) {
         this.restaurantRepository = restaurantRepository;
-        this.kitchenRepository = kitchenRepository;
+        this.kitchenService = kitchenService;
     }
 
     public List<Restaurant> getRestaurants() {
@@ -32,14 +31,13 @@ public class RestaurantService {
 
     public Restaurant getRestaurantById(Integer id) {
         return this.restaurantRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Não existe cadastro de restaurante com código %d", id)));
+                .orElseThrow(() -> new RestaurantNotFoundException(id));
     }
 
     public Restaurant saveRestaurant(Restaurant restaurant) {
         Integer kitchenId = restaurant.getKitchen().getId();
 
-        Kitchen kitchen = this.kitchenRepository.findById(kitchenId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Não existe cadastro de cozinha com código %d", kitchenId)));
+        Kitchen kitchen = this.kitchenService.getKitchenById(kitchenId);
 
         restaurant.setKitchen(kitchen);
 

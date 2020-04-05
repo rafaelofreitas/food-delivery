@@ -3,11 +3,12 @@ package br.com.fooddelivery.controller;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -36,7 +37,13 @@ public class CityController {
     public ResponseEntity<City> saveCity(@Valid @RequestBody City city) {
         city = this.cityService.saveCity(city);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(city);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(city.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(city);
     }
 
     @PutMapping("/{id}")

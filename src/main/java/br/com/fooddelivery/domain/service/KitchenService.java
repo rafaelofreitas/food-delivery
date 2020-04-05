@@ -1,12 +1,13 @@
 package br.com.fooddelivery.domain.service;
 
 import br.com.fooddelivery.domain.exception.EntityInUseException;
-import br.com.fooddelivery.domain.exception.EntityNotFoundException;
+import br.com.fooddelivery.domain.exception.KitchenNotFoundException;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.repository.KitchenRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class KitchenService {
     public Kitchen getKitchenById(Integer id) {
         return this.kitchenRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("No kitchen found with code: %s", id)));
+                .orElseThrow(() -> new KitchenNotFoundException(id));
     }
 
     public Kitchen createKitchen(Kitchen kitchen) {
@@ -35,10 +36,10 @@ public class KitchenService {
     }
 
     public void deleteKitchenById(Integer id) {
-        this.getKitchenById(id);
-
         try {
             this.kitchenRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new KitchenNotFoundException(id);
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(String.format("Kitchen cannot be removed as it is in use: %s", id));
         }

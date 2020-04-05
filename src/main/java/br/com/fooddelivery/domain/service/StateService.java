@@ -1,10 +1,13 @@
 package br.com.fooddelivery.domain.service;
 
-import br.com.fooddelivery.domain.exception.EntityNotFoundException;
+import br.com.fooddelivery.domain.exception.EntityInUseException;
+import br.com.fooddelivery.domain.exception.StateNotFoundException;
 import br.com.fooddelivery.domain.model.State;
 import br.com.fooddelivery.domain.repository.StateRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +26,9 @@ public class StateService {
     }
 
     public State getStateById(Integer id) {
-        return this.stateRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Não existe cadastro de estados com código %d", id)));
+        return this.stateRepository
+                .findById(id)
+                .orElseThrow(() -> new StateNotFoundException(id));
     }
 
     public State saveState(State state) {
@@ -40,8 +44,12 @@ public class StateService {
     }
 
     public void deleteById(Integer id) {
-        State state = this.getStateById(id);
-
-        this.stateRepository.delete(state);
+        try {
+            this.stateRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new StateNotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new EntityInUseException(String.format("State cannot be removed as it is in use: %s", id));
+        }
     }
 }

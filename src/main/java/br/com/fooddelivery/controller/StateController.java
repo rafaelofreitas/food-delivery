@@ -3,11 +3,12 @@ package br.com.fooddelivery.controller;
 import br.com.fooddelivery.domain.model.State;
 import br.com.fooddelivery.domain.service.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -36,7 +37,13 @@ public class StateController {
     public ResponseEntity<State> saveState(@Valid @RequestBody State state) {
         state = this.stateService.saveState(state);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(state);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(state.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(state);
     }
 
     @PutMapping("/{id}")
