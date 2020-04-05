@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
-    @Query("from Restaurant restaurant join restaurant.kitchen left join fetch restaurant.payment")
+    @Query("from Restaurant restaurant join restaurant.kitchen")
     List<Restaurant> findAll();
 }

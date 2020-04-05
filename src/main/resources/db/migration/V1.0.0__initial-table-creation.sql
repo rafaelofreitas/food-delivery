@@ -21,7 +21,7 @@ create table tb_city (
 	state_id integer not null,
 	
 	primary key (city_id),
-	foreign key (state_id) references tb_state (state_id)
+	constraint fk_city_state_id foreign key (state_id) references tb_state (state_id)
 ) engine=InnoDB default charset=utf8;
 
 #Creating Restaurant table
@@ -42,8 +42,8 @@ create table tb_restaurant (
 	address_zip_code varchar(9),
 
 	primary key (restaurant_id),
-	foreign key (city_id) references tb_city (city_id),
-	foreign key (kitchen_id) references tb_kitchen (kitchen_id)
+	constraint fk_restaurant_city_id foreign key (city_id) references tb_city (city_id),
+	constraint fk_restaurant_kitchen_id foreign key (kitchen_id) references tb_kitchen (kitchen_id)
 ) engine=InnoDB default charset=utf8;
 
 #Creating Payment table
@@ -69,8 +69,8 @@ create table tb_restaurant_payment (
 	payment_id integer not null,
 	
 	primary key (restaurant_id, payment_id),
-	foreign key (restaurant_id) references tb_restaurant (restaurant_id),
-	foreign key (payment_id) references tb_payment (payment_id)
+	constraint fk_restaurant_payment_restaurant_id foreign key (restaurant_id) references tb_restaurant (restaurant_id),
+	constraint fk_restaurant_payment_payment_id foreign key (payment_id) references tb_payment (payment_id)
 ) engine=InnoDB default charset=utf8;
 
 #Creating Product table
@@ -83,6 +83,6 @@ create table tb_product (
 	restaurant_id integer, 
 
 	primary key (product_id),
-	foreign key (restaurant_id) references tb_restaurant (restaurant_id)
+	constraint fk_product_restaurant_id foreign key (restaurant_id) references tb_restaurant (restaurant_id)
 ) engine=InnoDB default charset=utf8;
 
