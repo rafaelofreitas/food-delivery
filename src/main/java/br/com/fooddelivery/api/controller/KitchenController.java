@@ -35,7 +35,7 @@ public class KitchenController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Kitchen> getKitchenById(@PathVariable Integer id) {
-        Kitchen kitchen = this.kitchenService.getKitchenById(id);
+        var kitchen = this.kitchenService.getKitchenById(id);
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 

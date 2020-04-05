@@ -36,7 +36,7 @@ public class StateService {
     }
 
     public State updateState(Integer id, State state) {
-        State stateSaved = this.getStateById(id);
+        var stateSaved = this.getStateById(id);
 
         BeanUtils.copyProperties(state, stateSaved, "id");
 

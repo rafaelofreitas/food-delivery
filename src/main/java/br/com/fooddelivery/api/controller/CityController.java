@@ -28,7 +28,7 @@ public class CityController {
 
     @GetMapping("/{id}")
     public ResponseEntity<City> getCityById(@PathVariable Integer id) {
-        City city = this.cityService.getCityById(id);
+        var city = this.cityService.getCityById(id);
 
         return ResponseEntity.ok().body(city);
     }

@@ -46,7 +46,7 @@ public class KitchenService {
     }
 
     public Kitchen updateKitchen(Integer id, Kitchen kitchen) {
-        Kitchen savedKitchen = this.getKitchenById(id);
+        var savedKitchen = this.getKitchenById(id);
 
         BeanUtils.copyProperties(kitchen, savedKitchen, "id");
         savedKitchen = this.createKitchen(savedKitchen);

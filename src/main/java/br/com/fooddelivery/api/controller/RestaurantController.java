@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -29,7 +30,7 @@ public class RestaurantController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Integer id) {
-        Restaurant restaurant = restaurantService.getRestaurantById(id);
+        var restaurant = restaurantService.getRestaurantById(id);
 
         return ResponseEntity.ok().body(restaurant);
     }
@@ -55,8 +56,12 @@ public class RestaurantController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> pathRestaurant(@PathVariable Integer id, @Valid @RequestBody Map<String, Object> dataSource) {
-        Restaurant restaurant = this.restaurantService.pathRestaurant(id, dataSource);
+    public ResponseEntity<?> pathRestaurant(
+            @PathVariable Integer id,
+            @Valid @RequestBody Map<String, Object> dataSource,
+            HttpServletRequest request
+    ) {
+        Restaurant restaurant = this.restaurantService.pathRestaurant(id, dataSource, request);
 
         return ResponseEntity.ok().body(restaurant);
     }

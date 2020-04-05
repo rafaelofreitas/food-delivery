@@ -28,7 +28,7 @@ public class StateController {
 
     @GetMapping("/{id}")
     public ResponseEntity<State> getStateById(@PathVariable Integer id) {
-        State state = this.stateService.getStateById(id);
+        var state = this.stateService.getStateById(id);
 
         return ResponseEntity.ok().body(state);
     }

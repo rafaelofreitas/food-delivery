@@ -3,7 +3,6 @@ package br.com.fooddelivery.domain.service;
 import br.com.fooddelivery.domain.exception.CityNotFoundException;
 import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.model.City;
-import br.com.fooddelivery.domain.model.State;
 import br.com.fooddelivery.domain.repository.CityRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class CityService {
     public City saveCity(City city) {
         Integer stateId = city.getState().getId();
 
-        State state = this.stateService.getStateById(stateId);
+        var state = this.stateService.getStateById(stateId);
 
         city.setState(state);
 
@@ -45,7 +44,7 @@ public class CityService {
     }
 
     public City updateCity(Integer id, City city) {
-        City citySaved = this.getCityById(id);
+        var citySaved = this.getCityById(id);
 
         BeanUtils.copyProperties(city, citySaved, "id");
 

@@ -1,15 +1,19 @@
 package br.com.fooddelivery.domain.service;
 
 import br.com.fooddelivery.domain.exception.RestaurantNotFoundException;
-import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.model.Restaurant;
 import br.com.fooddelivery.domain.repository.RestaurantRepository;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -30,14 +34,15 @@ public class RestaurantService {
     }
 
     public Restaurant getRestaurantById(Integer id) {
-        return this.restaurantRepository.findById(id)
+        return this.restaurantRepository
+                .findById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(id));
     }
 
     public Restaurant saveRestaurant(Restaurant restaurant) {
-        Integer kitchenId = restaurant.getKitchen().getId();
+        var kitchenId = restaurant.getKitchen().getId();
 
-        Kitchen kitchen = this.kitchenService.getKitchenById(kitchenId);
+        var kitchen = this.kitchenService.getKitchenById(kitchenId);
 
         restaurant.setKitchen(kitchen);
 
@@ -45,38 +50,47 @@ public class RestaurantService {
     }
 
     public Restaurant updateRestaurant(Integer id, Restaurant restaurant) {
-        Restaurant restaurantSaved = this.getRestaurantById(id);
+        var restaurantSaved = this.getRestaurantById(id);
 
         BeanUtils.copyProperties(restaurant, restaurantSaved, "id", "payment", "address", "dateRegister", "products");
 
         return this.saveRestaurant(restaurantSaved);
     }
 
-    public Restaurant pathRestaurant(Integer id, Map<String, Object> dataSource) {
-        Restaurant restaurant = this.getRestaurantById(id);
+    public Restaurant pathRestaurant(Integer id, Map<String, Object> dataSource, HttpServletRequest request) {
+        var restaurant = this.getRestaurantById(id);
 
-        this.merge(dataSource, restaurant);
+        this.merge(dataSource, restaurant, request);
 
         return this.updateRestaurant(id, restaurant);
     }
 
-    private void merge(Map<String, Object> dataSource, Restaurant restaurant) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    private void merge(Map<String, Object> dataSource, Restaurant restaurant, HttpServletRequest request) {
+        var serverHttpRequest = new ServletServerHttpRequest(request);
 
-        Restaurant newRestaurant = objectMapper.convertValue(dataSource, Restaurant.class);
+        try {
+            var objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
 
-        dataSource.forEach((key, value) -> {
-            Field field = ReflectionUtils.findField(Restaurant.class, key);
+            Restaurant newRestaurant = objectMapper.convertValue(dataSource, Restaurant.class);
 
-            if (field == null) {
-                return;
-            }
+            dataSource.forEach((key, value) -> {
+                Field field = ReflectionUtils.findField(Restaurant.class, key);
 
-            field.setAccessible(true);
+                if (field == null) {
+                    return;
+                }
 
-            Object newValue = ReflectionUtils.getField(field, newRestaurant);
+                field.setAccessible(true);
 
-            ReflectionUtils.setField(field, restaurant, newValue);
-        });
+                Object newValue = ReflectionUtils.getField(field, newRestaurant);
+
+                ReflectionUtils.setField(field, restaurant, newValue);
+            });
+        } catch (IllegalArgumentException e) {
+            var rootCause = ExceptionUtils.getRootCause(e);
+            throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
+        }
     }
 }

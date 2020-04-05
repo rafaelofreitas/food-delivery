@@ -42,8 +42,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUncaught(Exception ex, WebRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        ErrorType errorType = ErrorType.SYSTEM_ERROR;
+        var status = HttpStatus.INTERNAL_SERVER_ERROR;
+        var errorType = ErrorType.SYSTEM_ERROR;
 
         ex.printStackTrace();
 
@@ -56,8 +56,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        ErrorType errorType = ErrorType.RESOURCE_NOT_FOUND;
+        var status = HttpStatus.NOT_FOUND;
+        var errorType = ErrorType.RESOURCE_NOT_FOUND;
         String detail = ex.getMessage();
 
         Error error = this.createErrorBuilder(status, errorType, detail)
@@ -69,8 +69,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityInUseException.class)
     public ResponseEntity<?> handleEntityInUseException(EntityInUseException ex, WebRequest request) {
-        HttpStatus status = HttpStatus.CONFLICT;
-        ErrorType errorType = ErrorType.ENTITY_IN_US;
+        var status = HttpStatus.CONFLICT;
+        var errorType = ErrorType.ENTITY_IN_US;
         String detail = ex.getMessage();
 
         Error error = this.createErrorBuilder(status, errorType, detail)
@@ -82,8 +82,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handleBusinessException(BusinessException ex, WebRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        ErrorType errorType = ErrorType.BUSINESS_ERROR;
+        var status = HttpStatus.BAD_REQUEST;
+        var errorType = ErrorType.BUSINESS_ERROR;
         String detail = ex.getMessage();
 
         Error error = this.createErrorBuilder(status, errorType, detail)
@@ -100,8 +100,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status,
             WebRequest request
     ) {
-        ErrorType errorType = ErrorType.INVALID_DATA;
-        String detail = "One or more fields are invalid. Fill in correctly and try again.";
+        var errorType = ErrorType.INVALID_DATA;
+        var detail = "One or more fields are invalid. Fill in correctly and try again.";
 
         BindingResult bindingResult = ex.getBindingResult();
 
@@ -158,7 +158,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status,
             WebRequest request
     ) {
-        String detail = String.format(
+        var detail = String.format(
                 "The %s resource, which you tried to access, does not exist.", exception.getRequestURL()
         );
 
@@ -197,7 +197,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             return this.handlePropertyBinding((PropertyBindingException) rootCause, headers, status, request);
         }
 
-        String detail = "The request body is invalid. Check syntax error.";
+        var detail = "The request body is invalid. Check syntax error.";
 
         Error error = this.createErrorBuilder(status, ErrorType.INCOMPREHENSIBLE_MESSAGE, detail)
                 .userMessage(GENERIC_ERROR_MESSAGE_END_USER)
@@ -230,8 +230,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             WebRequest request
     ) {
         String path = this.joinPath(ex.getPath());
-
-        ErrorType errorType = ErrorType.INCOMPREHENSIBLE_MESSAGE;
+        var errorType = ErrorType.INCOMPREHENSIBLE_MESSAGE;
         String detail = String.format(
                 "The property '%s' does not exist. Correct or remove this property and try again.", path
         );
@@ -250,9 +249,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             WebRequest request
     ) {
         String path = this.joinPath(ex.getPath());
-
-        ErrorType errorType = ErrorType.INCOMPREHENSIBLE_MESSAGE;
-        String detail = String.format(
+        var errorType = ErrorType.INCOMPREHENSIBLE_MESSAGE;
+        var detail = String.format(
                 "The property '%s' was given the value '%s', which is of an invalid type. Correct and enter a value compatible with type %s.",
                 path, ex.getValue(), ex.getTargetType().getSimpleName()
         );
