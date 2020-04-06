@@ -7,11 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/restaurants")
@@ -51,17 +49,6 @@ public class RestaurantController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateRestaurant(@PathVariable Integer id, @Valid @RequestBody Restaurant restaurant) {
         restaurant = this.restaurantService.updateRestaurant(id, restaurant);
-
-        return ResponseEntity.ok().body(restaurant);
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<?> pathRestaurant(
-            @PathVariable Integer id,
-            @Valid @RequestBody Map<String, Object> dataSource,
-            HttpServletRequest request
-    ) {
-        Restaurant restaurant = this.restaurantService.pathRestaurant(id, dataSource, request);
 
         return ResponseEntity.ok().body(restaurant);
     }
