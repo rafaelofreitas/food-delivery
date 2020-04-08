@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -33,6 +34,7 @@ public class CityService {
                 .orElseThrow(() -> new CityNotFoundException(id));
     }
 
+    @Transactional
     public City saveCity(City city) {
         Integer stateId = city.getState().getId();
 
@@ -43,6 +45,7 @@ public class CityService {
         return this.cityRepository.save(city);
     }
 
+    @Transactional
     public City updateCity(Integer id, City city) {
         var citySaved = this.getCityById(id);
 
@@ -51,6 +54,7 @@ public class CityService {
         return this.saveCity(citySaved);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         try {
             this.cityRepository.deleteById(id);

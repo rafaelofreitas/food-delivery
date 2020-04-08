@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -30,6 +31,7 @@ public class RestaurantService {
                 .orElseThrow(() -> new RestaurantNotFoundException(id));
     }
 
+    @Transactional
     public Restaurant saveRestaurant(Restaurant restaurant) {
         var kitchenId = restaurant.getKitchen().getId();
 
@@ -40,6 +42,7 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
+    @Transactional
     public Restaurant updateRestaurant(Integer id, Restaurant restaurant) {
         var restaurantSaved = this.getRestaurantById(id);
 

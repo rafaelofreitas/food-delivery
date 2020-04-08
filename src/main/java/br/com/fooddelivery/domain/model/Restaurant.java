@@ -1,7 +1,6 @@
 package br.com.fooddelivery.domain.model;
 
 import br.com.fooddelivery.core.validation.Groups;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -37,12 +36,10 @@ public class Restaurant {
     @Column(name = "freigh_rate", nullable = false)
     private BigDecimal freightRate;
 
-    @JsonIgnore
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dateRegister;
 
-    @JsonIgnore
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime updateDate;
@@ -54,15 +51,12 @@ public class Restaurant {
     @JoinColumn(name = "kitchen_id", nullable = false)
     private Kitchen kitchen;
 
-    @JsonIgnore
     @Embedded
     private Address address;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "restaurant")
     private List<Product> products = new ArrayList<>();
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "tb_restaurant_payment",

@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -31,10 +32,12 @@ public class KitchenService {
                 .orElseThrow(() -> new KitchenNotFoundException(id));
     }
 
-    public Kitchen createKitchen(Kitchen kitchen) {
+    @Transactional
+    public Kitchen saveKitchen(Kitchen kitchen) {
         return this.kitchenRepository.save(kitchen);
     }
 
+    @Transactional
     public void deleteKitchenById(Integer id) {
         try {
             this.kitchenRepository.deleteById(id);
@@ -45,11 +48,12 @@ public class KitchenService {
         }
     }
 
+    @Transactional
     public Kitchen updateKitchen(Integer id, Kitchen kitchen) {
         var savedKitchen = this.getKitchenById(id);
 
         BeanUtils.copyProperties(kitchen, savedKitchen, "id");
-        savedKitchen = this.createKitchen(savedKitchen);
+        savedKitchen = this.saveKitchen(savedKitchen);
 
         return savedKitchen;
     }

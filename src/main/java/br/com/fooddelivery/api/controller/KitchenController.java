@@ -44,7 +44,7 @@ public class KitchenController {
 
     @PostMapping
     public ResponseEntity<Kitchen> createKitchen(@Valid @RequestBody Kitchen kitchen) {
-        kitchen = this.kitchenService.createKitchen(kitchen);
+        kitchen = this.kitchenService.saveKitchen(kitchen);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()

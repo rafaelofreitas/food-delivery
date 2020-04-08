@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -31,10 +32,12 @@ public class StateService {
                 .orElseThrow(() -> new StateNotFoundException(id));
     }
 
+    @Transactional
     public State saveState(State state) {
         return this.stateRepository.save(state);
     }
 
+    @Transactional
     public State updateState(Integer id, State state) {
         var stateSaved = this.getStateById(id);
 
@@ -43,6 +46,7 @@ public class StateService {
         return this.saveState(stateSaved);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         try {
             this.stateRepository.deleteById(id);
