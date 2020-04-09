@@ -41,13 +41,4 @@ public class RestaurantService {
 
         return restaurantRepository.save(restaurant);
     }
-
-    @Transactional
-    public Restaurant updateRestaurant(Integer id, Restaurant restaurant) {
-        var restaurantSaved = this.getRestaurantById(id);
-
-        BeanUtils.copyProperties(restaurant, restaurantSaved, "id", "payment", "address", "dateRegister", "products");
-
-        return this.saveRestaurant(restaurantSaved);
-    }
 }
