@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -26,16 +26,16 @@ public class Purchase {
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private LocalDateTime creationDate;
+    private OffsetDateTime creationDate;
 
     @Column
-    private LocalDateTime confirmationDate;
+    private OffsetDateTime confirmationDate;
 
     @Column
-    private LocalDateTime cancellationDate;
+    private OffsetDateTime cancellationDate;
 
     @Column
-    private LocalDateTime deliveryDate;
+    private OffsetDateTime deliveryDate;
 
     @Enumerated
     @Column

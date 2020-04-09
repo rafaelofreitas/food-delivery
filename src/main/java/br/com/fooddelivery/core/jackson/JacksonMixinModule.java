@@ -1,9 +1,9 @@
 package br.com.fooddelivery.core.jackson;
 
-import br.com.fooddelivery.api.model.CityMixin;
-import br.com.fooddelivery.api.model.KitchenMixin;
-import br.com.fooddelivery.api.model.RestaurantMixin;
-import br.com.fooddelivery.api.model.UserMixin;
+import br.com.fooddelivery.api.model.mixin.CityMixin;
+import br.com.fooddelivery.api.model.mixin.KitchenMixin;
+import br.com.fooddelivery.api.model.mixin.RestaurantMixin;
+import br.com.fooddelivery.api.model.mixin.UserMixin;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.model.Restaurant;

@@ -1,4 +1,4 @@
-package br.com.fooddelivery.api.model;
+package br.com.fooddelivery.api.model.mixin;
 
 import br.com.fooddelivery.domain.model.Restaurant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
