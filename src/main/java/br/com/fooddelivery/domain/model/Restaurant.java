@@ -44,6 +44,8 @@ public class Restaurant {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime updateDate;
 
+    private Boolean active = Boolean.TRUE;
+
     @Valid
     @ConvertGroup(to = Groups.KitchenId.class)
     @NotNull
@@ -64,4 +66,12 @@ public class Restaurant {
             inverseJoinColumns = @JoinColumn(name = "payment_id")
     )
     private List<Payment> payment = new ArrayList<>();
+
+    public void activate() {
+        this.setActive(true);
+    }
+
+    public void inactivate() {
+        this.setActive(false);
+    }
 }

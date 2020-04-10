@@ -73,4 +73,18 @@ public class RestaurantController {
 
         return ResponseEntity.ok().body(this.restaurantMapper.toOutput(restaurant));
     }
+
+    @PutMapping("/{id}/active")
+    public ResponseEntity<?> activate(@PathVariable Integer id) {
+        this.restaurantService.activate(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/active")
+    public ResponseEntity<?> inactivate(@PathVariable Integer id) {
+        this.restaurantService.inactivate(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

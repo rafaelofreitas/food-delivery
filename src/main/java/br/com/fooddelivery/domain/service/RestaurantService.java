@@ -3,7 +3,6 @@ package br.com.fooddelivery.domain.service;
 import br.com.fooddelivery.domain.exception.RestaurantNotFoundException;
 import br.com.fooddelivery.domain.model.Restaurant;
 import br.com.fooddelivery.domain.repository.RestaurantRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +38,20 @@ public class RestaurantService {
 
         restaurant.setKitchen(kitchen);
 
-        return restaurantRepository.save(restaurant);
+        return this.restaurantRepository.save(restaurant);
+    }
+
+    @Transactional
+    public void activate(Integer id) {
+        var restaurant = this.getRestaurantById(id);
+
+        restaurant.activate();
+    }
+
+    @Transactional
+    public void inactivate(Integer id) {
+        var restaurant = this.getRestaurantById(id);
+
+        restaurant.inactivate();
     }
 }
