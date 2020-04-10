@@ -1,5 +1,8 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.mapper.KitchenMapper;
+import br.com.fooddelivery.api.model.entry.KitchenEntry;
+import br.com.fooddelivery.api.model.output.KitchenOutput;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.service.KitchenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,33 +21,39 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/kitchens")
 public class KitchenController {
     private KitchenService kitchenService;
+    private KitchenMapper kitchenMapper;
 
     @Autowired
-    public KitchenController(KitchenService kitchenService) {
+    public KitchenController(KitchenService kitchenService, KitchenMapper kitchenMapper) {
         this.kitchenService = kitchenService;
+        this.kitchenMapper = kitchenMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<Kitchen>> getKitchens() {
-        List<Kitchen> kitchens = this.kitchenService.getKitchens();
+    public ResponseEntity<List<KitchenOutput>> getKitchens() {
+        List<KitchenOutput> cities = this.kitchenMapper
+                .toCollectionOutput(this.kitchenService.getKitchens());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.status(HttpStatus.OK).cacheControl(cache).body(kitchens);
+        return ResponseEntity.ok().cacheControl(cache).body(cities);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Kitchen> getKitchenById(@PathVariable Integer id) {
+    public ResponseEntity<KitchenOutput> getKitchenById(@PathVariable Integer id) {
         var kitchen = this.kitchenService.getKitchenById(id);
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.status(HttpStatus.OK).cacheControl(cache).body(kitchen);
+        return ResponseEntity
+                .ok()
+                .cacheControl(cache)
+                .body(this.kitchenMapper.toOutput(kitchen));
     }
 
     @PostMapping
-    public ResponseEntity<Kitchen> createKitchen(@Valid @RequestBody Kitchen kitchen) {
-        kitchen = this.kitchenService.saveKitchen(kitchen);
+    public ResponseEntity<KitchenOutput> createKitchen(@Valid @RequestBody KitchenEntry kitchenEntry) {
+        Kitchen kitchen = this.kitchenService.saveKitchen(this.kitchenMapper.toDomain(kitchenEntry));
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -52,18 +61,19 @@ public class KitchenController {
                 .buildAndExpand(kitchen.getId())
                 .toUri();
 
-        CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.created(uri).cacheControl(cache).body(kitchen);
+        return ResponseEntity.created(uri).body(this.kitchenMapper.toOutput(kitchen));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Kitchen> updateKitchen(@PathVariable Integer id, @Valid @RequestBody Kitchen kitchen) {
-        kitchen = this.kitchenService.updateKitchen(id, kitchen);
+    public ResponseEntity<KitchenOutput> updateKitchen(@PathVariable Integer id, @Valid @RequestBody KitchenEntry kitchenEntry) {
+        var kitchen = this.kitchenService.getKitchenById(id);
 
-        CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
+        this.kitchenMapper.copyPropertiesToDomain(kitchenEntry, kitchen);
 
-        return ResponseEntity.ok().cacheControl(cache).body(kitchen);
+        kitchen = this.kitchenService.saveKitchen(kitchen);
+
+        return ResponseEntity.ok().body(this.kitchenMapper.toOutput(kitchen));
     }
 
     @DeleteMapping("/{id}")

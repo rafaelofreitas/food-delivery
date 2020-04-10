@@ -1,12 +1,12 @@
 package br.com.fooddelivery.api.model.output;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Builder
-@Data
+@Getter
+@Setter
 public class RestaurantOutput {
     private Integer id;
     private String name;

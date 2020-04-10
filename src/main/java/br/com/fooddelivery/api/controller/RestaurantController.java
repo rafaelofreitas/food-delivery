@@ -6,6 +6,7 @@ import br.com.fooddelivery.api.model.output.RestaurantOutput;
 import br.com.fooddelivery.domain.model.Restaurant;
 import br.com.fooddelivery.domain.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/restaurants")
@@ -27,17 +29,25 @@ public class RestaurantController {
     }
 
     @GetMapping
-    public List<RestaurantOutput> getRestaurants() {
-        var restaurants = this.restaurantService.getRestaurants();
+    public ResponseEntity<List<RestaurantOutput>> getRestaurants() {
+        List<RestaurantOutput> restaurants = this.restaurantMapper
+                .toCollectionOutput(this.restaurantService.getRestaurants());
 
-        return this.restaurantMapper.toCollectionOutput(restaurants);
+        CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
+
+        return ResponseEntity.ok().cacheControl(cache).body(restaurants);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantOutput> getRestaurantById(@PathVariable Integer id) {
         var restaurant = restaurantService.getRestaurantById(id);
 
-        return ResponseEntity.ok().body(this.restaurantMapper.toOutput(restaurant));
+        CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
+
+        return ResponseEntity
+                .ok()
+                .cacheControl(cache)
+                .body(this.restaurantMapper.toOutput(restaurant));
     }
 
     @PostMapping

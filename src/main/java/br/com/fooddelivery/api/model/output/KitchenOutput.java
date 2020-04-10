@@ -1,10 +1,10 @@
 package br.com.fooddelivery.api.model.output;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Builder
-@Data
+@Getter
+@Setter
 public class KitchenOutput {
     private Integer id;
     private String name;

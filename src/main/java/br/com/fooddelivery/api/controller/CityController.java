@@ -3,8 +3,10 @@ package br.com.fooddelivery.api.controller;
 import br.com.fooddelivery.api.mapper.CityMapper;
 import br.com.fooddelivery.api.model.entry.CityEntry;
 import br.com.fooddelivery.api.model.output.CityOutput;
+import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/cities")
@@ -26,22 +29,30 @@ public class CityController {
     }
 
     @GetMapping
-    public List<CityOutput> getCities() {
-        var cities = this.cityService.getCities();
+    public ResponseEntity<List<CityOutput>> getCities() {
+        List<CityOutput> cities = this.cityMapper
+                .toCollectionOutput(this.cityService.getCities());
 
-        return this.cityMapper.toCollectionOutput(cities);
+        CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
+
+        return ResponseEntity.ok().cacheControl(cache).body(cities);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CityOutput> getCityById(@PathVariable Integer id) {
         var city = this.cityService.getCityById(id);
 
-        return ResponseEntity.ok().body(this.cityMapper.toOutput(city));
+        CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
+
+        return ResponseEntity
+                .ok()
+                .cacheControl(cache)
+                .body(this.cityMapper.toOutput(city));
     }
 
     @PostMapping
     public ResponseEntity<CityOutput> saveCity(@Valid @RequestBody CityEntry cityEntry) {
-        var city = this.cityService.saveCity(this.cityMapper.toDomain(cityEntry));
+        City city = this.cityService.saveCity(this.cityMapper.toDomain(cityEntry));
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()

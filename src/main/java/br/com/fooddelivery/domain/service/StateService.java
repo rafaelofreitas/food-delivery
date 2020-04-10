@@ -4,7 +4,6 @@ import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.exception.StateNotFoundException;
 import br.com.fooddelivery.domain.model.State;
 import br.com.fooddelivery.domain.repository.StateRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -35,15 +34,6 @@ public class StateService {
     @Transactional
     public State saveState(State state) {
         return this.stateRepository.save(state);
-    }
-
-    @Transactional
-    public State updateState(Integer id, State state) {
-        var stateSaved = this.getStateById(id);
-
-        BeanUtils.copyProperties(state, stateSaved, "id");
-
-        return this.saveState(stateSaved);
     }
 
     @Transactional

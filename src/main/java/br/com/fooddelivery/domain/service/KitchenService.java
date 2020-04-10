@@ -4,7 +4,6 @@ import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.exception.KitchenNotFoundException;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.repository.KitchenRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -46,15 +45,5 @@ public class KitchenService {
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(String.format("Kitchen cannot be removed as it is in use: %s", id));
         }
-    }
-
-    @Transactional
-    public Kitchen updateKitchen(Integer id, Kitchen kitchen) {
-        var savedKitchen = this.getKitchenById(id);
-
-        BeanUtils.copyProperties(kitchen, savedKitchen, "id");
-        savedKitchen = this.saveKitchen(savedKitchen);
-
-        return savedKitchen;
     }
 }
