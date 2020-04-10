@@ -40,6 +40,7 @@ public class KitchenService {
     public void deleteKitchenById(Integer id) {
         try {
             this.kitchenRepository.deleteById(id);
+            this.kitchenRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new KitchenNotFoundException(id);
         } catch (DataIntegrityViolationException e) {

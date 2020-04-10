@@ -15,7 +15,7 @@ create table tb_purchase (
    	order_status varchar(10) not null,
 	creation_date datetime not null,
 	confirmation_date datetime null,
-	data_cancelamento datetime null,
+	cancellation_date datetime null,
 	delivery_date datetime null,
 	restaurant_id integer not null,
 	user_id integer not null,

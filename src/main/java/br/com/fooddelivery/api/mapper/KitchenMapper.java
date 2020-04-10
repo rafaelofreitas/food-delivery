@@ -24,7 +24,8 @@ public class KitchenMapper {
     }
 
     public List<KitchenOutput> toCollectionOutput(List<Kitchen> kitchens) {
-        return kitchens.stream()
+        return kitchens
+                .stream()
                 .map(this::toOutput)
                 .collect(Collectors.toList());
     }

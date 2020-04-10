@@ -40,6 +40,7 @@ public class StateService {
     public void deleteById(Integer id) {
         try {
             this.stateRepository.deleteById(id);
+            this.stateRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new StateNotFoundException(id);
         } catch (DataIntegrityViolationException e) {

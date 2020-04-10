@@ -24,7 +24,8 @@ public class StateMapper {
     }
 
     public List<StateOutput> toCollectionOutput(List<State> states) {
-        return states.stream()
+        return states
+                .stream()
                 .map(this::toOutput)
                 .collect(Collectors.toList());
     }

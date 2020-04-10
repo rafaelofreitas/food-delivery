@@ -25,7 +25,8 @@ public class CityMapper {
     }
 
     public List<CityOutput> toCollectionOutput(List<City> cities) {
-        return cities.stream()
+        return cities
+                .stream()
                 .map(this::toOutput)
                 .collect(Collectors.toList());
     }

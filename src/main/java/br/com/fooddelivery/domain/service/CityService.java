@@ -48,6 +48,7 @@ public class CityService {
     public void deleteById(Integer id) {
         try {
             this.cityRepository.deleteById(id);
+            this.cityRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new CityNotFoundException(id);
         } catch (DataIntegrityViolationException e) {

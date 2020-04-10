@@ -25,7 +25,8 @@ public class RestaurantMapper {
     }
 
     public List<RestaurantOutput> toCollectionOutput(List<Restaurant> restaurants) {
-        return restaurants.stream()
+        return restaurants
+                .stream()
                 .map(this::toOutput)
                 .collect(Collectors.toList());
     }
