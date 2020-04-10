@@ -1,7 +1,9 @@
 package br.com.fooddelivery.api.mapper;
 
+import br.com.fooddelivery.api.model.entry.CityEntry;
 import br.com.fooddelivery.api.model.output.CityOutput;
 import br.com.fooddelivery.domain.model.City;
+import br.com.fooddelivery.domain.model.State;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,12 +21,24 @@ public class CityMapper {
     }
 
     public CityOutput toOutput(City city) {
-        return modelMapper.map(city, CityOutput.class);
+        return this.modelMapper.map(city, CityOutput.class);
     }
 
     public List<CityOutput> toCollectionOutput(List<City> cities) {
         return cities.stream()
                 .map(this::toOutput)
                 .collect(Collectors.toList());
+    }
+
+    public City toDomain(CityEntry cityEntry) {
+        return this.modelMapper.map(cityEntry, City.class);
+    }
+
+    public void copyPropertiesToDomain(CityEntry cityEntry, City city) {
+        // So that we can reference a new state for a city
+        // Without JPA understanding that we are changing the state ID.
+        city.setState(new State());
+
+        this.modelMapper.map(cityEntry, city);
     }
 }

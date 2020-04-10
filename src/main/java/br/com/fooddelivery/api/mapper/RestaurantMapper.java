@@ -34,9 +34,9 @@ public class RestaurantMapper {
         return this.modelMapper.map(restaurantEntry, Restaurant.class);
     }
 
-    public void copyPropertiesToDomainObject(RestaurantEntry restaurantEntry, Restaurant restaurant) {
-        // Para que possamos referenciar um nova cozinha para restaurante
-        // Sem que o JPA entenda que estamos alterando o ID de cozinha.
+    public void copyPropertiesToDomain(RestaurantEntry restaurantEntry, Restaurant restaurant) {
+        //So that we can reference a new kitchen for a restaurant
+        //Without JPA understanding that we are changing the kitchen ID.
         restaurant.setKitchen(new Kitchen());
 
         this.modelMapper.map(restaurantEntry, restaurant);

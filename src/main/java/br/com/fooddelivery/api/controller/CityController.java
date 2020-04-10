@@ -1,6 +1,8 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.domain.model.City;
+import br.com.fooddelivery.api.mapper.CityMapper;
+import br.com.fooddelivery.api.model.entry.CityEntry;
+import br.com.fooddelivery.api.model.output.CityOutput;
 import br.com.fooddelivery.domain.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,27 +17,31 @@ import java.util.List;
 @RequestMapping("/cities")
 public class CityController {
     private CityService cityService;
+    private CityMapper cityMapper;
 
     @Autowired
-    public CityController(CityService cityService) {
+    public CityController(CityService cityService, CityMapper cityMapper) {
         this.cityService = cityService;
+        this.cityMapper = cityMapper;
     }
 
     @GetMapping
-    public List<City> getCities() {
-        return this.cityService.getCities();
+    public List<CityOutput> getCities() {
+        var cities = this.cityService.getCities();
+
+        return this.cityMapper.toCollectionOutput(cities);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<City> getCityById(@PathVariable Integer id) {
+    public ResponseEntity<CityOutput> getCityById(@PathVariable Integer id) {
         var city = this.cityService.getCityById(id);
 
-        return ResponseEntity.ok().body(city);
+        return ResponseEntity.ok().body(this.cityMapper.toOutput(city));
     }
 
     @PostMapping
-    public ResponseEntity<City> saveCity(@Valid @RequestBody City city) {
-        city = this.cityService.saveCity(city);
+    public ResponseEntity<CityOutput> saveCity(@Valid @RequestBody CityEntry cityEntry) {
+        var city = this.cityService.saveCity(this.cityMapper.toDomain(cityEntry));
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -43,14 +49,18 @@ public class CityController {
                 .buildAndExpand(city.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(city);
+        return ResponseEntity.created(uri).body(this.cityMapper.toOutput(city));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<City> updateCity(@PathVariable Integer id, @Valid @RequestBody City city) {
-        city = this.cityService.updateCity(id, city);
+    public ResponseEntity<CityOutput> updateCity(@PathVariable Integer id, @Valid @RequestBody CityEntry cityEntry) {
+        var city = this.cityService.getCityById(id);
 
-        return ResponseEntity.ok().body(city);
+        this.cityMapper.copyPropertiesToDomain(cityEntry, city);
+
+        city = this.cityService.saveCity(city);
+
+        return ResponseEntity.ok().body(this.cityMapper.toOutput(city));
     }
 
     @DeleteMapping("/{id}")

@@ -1,5 +1,6 @@
 package br.com.fooddelivery.api.mapper;
 
+import br.com.fooddelivery.api.model.entry.StateEntry;
 import br.com.fooddelivery.api.model.output.StateOutput;
 import br.com.fooddelivery.domain.model.State;
 import org.modelmapper.ModelMapper;
@@ -19,12 +20,20 @@ public class StateMapper {
     }
 
     public StateOutput toOutput(State state) {
-        return modelMapper.map(state, StateOutput.class);
+        return this.modelMapper.map(state, StateOutput.class);
     }
 
     public List<StateOutput> toCollectionOutput(List<State> states) {
         return states.stream()
                 .map(this::toOutput)
                 .collect(Collectors.toList());
+    }
+
+    public State toDomain(StateEntry stateEntry) {
+        return this.modelMapper.map(stateEntry, State.class);
+    }
+
+    public void copyPropertiesToDomain(StateEntry stateEntry, State state) {
+        this.modelMapper.map(stateEntry, state);
     }
 }

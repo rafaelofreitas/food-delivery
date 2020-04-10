@@ -57,7 +57,7 @@ public class RestaurantController {
     public ResponseEntity<RestaurantOutput> updateRestaurant(@PathVariable Integer id, @Valid @RequestBody RestaurantEntry restaurantEntry) {
         var restaurant = this.restaurantService.getRestaurantById(id);
 
-        this.restaurantMapper.copyPropertiesToDomainObject(restaurantEntry, restaurant);
+        this.restaurantMapper.copyPropertiesToDomain(restaurantEntry, restaurant);
 
         restaurant = this.restaurantService.saveRestaurant(restaurant);
 

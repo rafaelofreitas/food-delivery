@@ -4,7 +4,6 @@ import br.com.fooddelivery.domain.exception.CityNotFoundException;
 import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.repository.CityRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -43,15 +42,6 @@ public class CityService {
         city.setState(state);
 
         return this.cityRepository.save(city);
-    }
-
-    @Transactional
-    public City updateCity(Integer id, City city) {
-        var citySaved = this.getCityById(id);
-
-        BeanUtils.copyProperties(city, citySaved, "id");
-
-        return this.saveCity(citySaved);
     }
 
     @Transactional
