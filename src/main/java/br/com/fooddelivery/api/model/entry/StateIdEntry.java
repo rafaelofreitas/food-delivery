@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class KitchenIdEntry {
+public class StateIdEntry {
     @NotNull
     private Integer id;
 }
