@@ -40,7 +40,7 @@ public class RestaurantController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantOutput> getRestaurantById(@PathVariable Integer id) {
-        var restaurant = restaurantService.getRestaurantById(id);
+        var restaurant = this.restaurantService.getRestaurantById(id);
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
