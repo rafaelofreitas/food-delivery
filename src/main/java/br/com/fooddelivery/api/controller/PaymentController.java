@@ -75,7 +75,7 @@ public class PaymentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Integer id) {
+    public ResponseEntity<?> deletePayment(@PathVariable Integer id) {
         this.paymentService.deleteById(id);
 
         return ResponseEntity.noContent().build();

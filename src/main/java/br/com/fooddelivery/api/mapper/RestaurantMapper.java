@@ -2,6 +2,7 @@ package br.com.fooddelivery.api.mapper;
 
 import br.com.fooddelivery.api.model.entry.RestaurantEntry;
 import br.com.fooddelivery.api.model.output.RestaurantOutput;
+import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
@@ -39,6 +40,10 @@ public class RestaurantMapper {
         //So that we can reference a new kitchen for a restaurant
         //Without JPA understanding that we are changing the kitchen ID.
         restaurant.setKitchen(new Kitchen());
+
+        if (restaurant.getAddress() != null) {
+            restaurant.getAddress().setCity(new City());
+        }
 
         this.modelMapper.map(restaurantEntry, restaurant);
     }

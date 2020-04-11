@@ -13,11 +13,13 @@ import java.util.List;
 public class RestaurantService {
     private RestaurantRepository restaurantRepository;
     private KitchenService kitchenService;
+    private CityService cityService;
 
     @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository, KitchenService kitchenService) {
+    public RestaurantService(RestaurantRepository restaurantRepository, KitchenService kitchenService, CityService cityService) {
         this.restaurantRepository = restaurantRepository;
         this.kitchenService = kitchenService;
+        this.cityService = cityService;
     }
 
     public List<Restaurant> getRestaurants() {
@@ -33,10 +35,13 @@ public class RestaurantService {
     @Transactional
     public Restaurant saveRestaurant(Restaurant restaurant) {
         var kitchenId = restaurant.getKitchen().getId();
+        var cityId = restaurant.getAddress().getCity().getId();
 
         var kitchen = this.kitchenService.getKitchenById(kitchenId);
+        var city = this.cityService.getCityById(cityId);
 
         restaurant.setKitchen(kitchen);
+        restaurant.getAddress().setCity(city);
 
         return this.restaurantRepository.save(restaurant);
     }

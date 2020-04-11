@@ -1,0 +1,50 @@
+package br.com.fooddelivery.domain.service;
+
+import br.com.fooddelivery.domain.exception.EntityInUseException;
+import br.com.fooddelivery.domain.exception.GroupNotFoundException;
+import br.com.fooddelivery.domain.model.Group;
+import br.com.fooddelivery.domain.repository.GroupRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Service
+public class GroupService {
+    private GroupRepository groupRepository;
+
+    @Autowired
+    public GroupService(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
+    }
+
+    public List<Group> getGroups() {
+        return this.groupRepository.findAll();
+    }
+
+    public Group getGroupById(Integer id) {
+        return this.groupRepository
+                .findById(id)
+                .orElseThrow(() -> new GroupNotFoundException(id));
+    }
+
+    @Transactional
+    public Group saveGroup(Group group) {
+        return this.groupRepository.save(group);
+    }
+
+    @Transactional
+    public void deleteById(Integer id) {
+        try {
+            this.groupRepository.deleteById(id);
+            this.groupRepository.flush();
+        } catch (EmptyResultDataAccessException e) {
+            throw new GroupNotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new EntityInUseException(String.format("Group cannot be removed as it is in use: %s", id));
+        }
+    }
+}

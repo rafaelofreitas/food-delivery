@@ -22,4 +22,8 @@ public class RestaurantEntry {
     @Valid
     @NotNull
     private KitchenIdEntry kitchen;
+
+    @Valid
+    @NotNull
+    private AddressEntry address;
 }
