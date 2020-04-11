@@ -21,5 +21,5 @@ public class RestaurantEntry {
 
     @Valid
     @NotNull
-    private KitchenIdEntry kitchenIdEntry;
+    private KitchenIdEntry kitchen;
 }

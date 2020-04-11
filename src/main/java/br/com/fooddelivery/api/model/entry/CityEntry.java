@@ -15,5 +15,5 @@ public class CityEntry {
 
     @Valid
     @NotNull
-    private StateIdEntry stateIdEntry;
+    private StateIdEntry state;
 }

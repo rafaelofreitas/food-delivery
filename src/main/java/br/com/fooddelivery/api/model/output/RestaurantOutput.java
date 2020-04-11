@@ -11,5 +11,6 @@ public class RestaurantOutput {
     private Integer id;
     private String name;
     private BigDecimal freightRate;
-    private KitchenOutput kitchenOutput;
+    private KitchenOutput kitchen;
+    private AddressOutput address;
 }

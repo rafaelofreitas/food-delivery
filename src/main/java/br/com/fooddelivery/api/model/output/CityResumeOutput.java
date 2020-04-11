@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CityOutput {
+public class CityResumeOutput {
     private Integer id;
     private String name;
-    private StateOutput state;
+    private String state;
 }
