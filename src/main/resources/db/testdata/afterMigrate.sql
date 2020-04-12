@@ -67,3 +67,9 @@ insert into tb_product(name, description, price, active, restaurant_id) values (
 insert into tb_product(name, description, price, active, restaurant_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
 
 insert into tb_group (name) values ('Gerente'), ('Vendedor'), ('Secretária'), ('Cadastrador');
+
+insert into tb_user (user_id, name, email, password, date_register) values
+(1, 'João da Silva', 'joao.ger@fooddelivery.com', '123', utc_timestamp),
+(2, 'Maria Joaquina', 'maria.vnd@fooddelivery.com', '123', utc_timestamp),
+(3, 'José Souza', 'jose.aux@fooddelivery.com', '123', utc_timestamp),
+(4, 'Sebastião Martins', 'sebastiao.cad@fooddelivery.com', '123', utc_timestamp);
