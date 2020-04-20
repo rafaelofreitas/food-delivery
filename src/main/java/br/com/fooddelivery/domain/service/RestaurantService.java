@@ -15,13 +15,15 @@ public class RestaurantService {
     private KitchenService kitchenService;
     private CityService cityService;
     private PaymentService paymentService;
+    private ProductService productService;
 
     @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository, KitchenService kitchenService, CityService cityService, PaymentService paymentService) {
+    public RestaurantService(RestaurantRepository restaurantRepository, KitchenService kitchenService, CityService cityService, PaymentService paymentService, ProductService productService) {
         this.restaurantRepository = restaurantRepository;
         this.kitchenService = kitchenService;
         this.cityService = cityService;
         this.paymentService = paymentService;
+        this.productService = productService;
     }
 
     public List<Restaurant> getRestaurants() {

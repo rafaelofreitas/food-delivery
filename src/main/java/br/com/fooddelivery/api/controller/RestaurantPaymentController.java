@@ -26,7 +26,7 @@ public class RestaurantPaymentController {
 
     @GetMapping
     public ResponseEntity<List<PaymentOutput>> getRestaurantPayment(@PathVariable Integer restaurantId) {
-        Restaurant restaurant = this.restaurantService.getRestaurantById(restaurantId);
+        var restaurant = this.restaurantService.getRestaurantById(restaurantId);
 
         List<PaymentOutput> paymentOutputs = this.paymentMapper.toCollectionOutput(restaurant.getPayments());
 
