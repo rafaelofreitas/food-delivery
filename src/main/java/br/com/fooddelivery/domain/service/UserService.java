@@ -10,16 +10,20 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private EntityManager entityManager;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, EntityManager entityManager) {
         this.userRepository = userRepository;
+        this.entityManager = entityManager;
     }
 
     public List<User> getUsers() {
@@ -34,6 +38,14 @@ public class UserService {
 
     @Transactional
     public User saveUser(User user) {
+        this.entityManager.detach(user);
+
+        Optional<User> userRegistered = this.userRepository.findByEmail(user.getEmail());
+
+        if (userRegistered.isPresent() && !userRegistered.get().equals(user)) {
+            throw new BusinessException(String.format("E-mail %s already registered", user.getEmail()));
+        }
+
         return this.userRepository.save(user);
     }
 

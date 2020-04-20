@@ -1,0 +1,51 @@
+package br.com.fooddelivery.api.controller;
+
+import br.com.fooddelivery.api.mapper.PaymentMapper;
+import br.com.fooddelivery.api.model.output.PaymentOutput;
+import br.com.fooddelivery.domain.model.Restaurant;
+import br.com.fooddelivery.domain.service.RestaurantService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+@RestController
+@RequestMapping("/restaurants/{restaurantId}/payments")
+public class RestaurantPaymentController {
+    private RestaurantService restaurantService;
+    private PaymentMapper paymentMapper;
+
+    @Autowired
+    public RestaurantPaymentController(RestaurantService restaurantService, PaymentMapper paymentMapper) {
+        this.restaurantService = restaurantService;
+        this.paymentMapper = paymentMapper;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PaymentOutput>> getRestaurantPayment(@PathVariable Integer restaurantId) {
+        Restaurant restaurant = this.restaurantService.getRestaurantById(restaurantId);
+
+        List<PaymentOutput> paymentOutputs = this.paymentMapper.toCollectionOutput(restaurant.getPayments());
+
+        CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
+
+        return ResponseEntity.ok().cacheControl(cache).body(paymentOutputs);
+    }
+
+    @PutMapping("/{paymentId}")
+    public ResponseEntity<?> addRestaurantPayment(@PathVariable Integer restaurantId, @PathVariable Integer paymentId) {
+        this.restaurantService.addPayment(restaurantId, paymentId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{paymentId}")
+    public ResponseEntity<?> deleteRestaurantPayment(@PathVariable Integer restaurantId, @PathVariable Integer paymentId) {
+        this.restaurantService.deletePayment(restaurantId, paymentId);
+
+        return ResponseEntity.noContent().build();
+    }
+}

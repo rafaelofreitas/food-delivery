@@ -14,12 +14,14 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
     private KitchenService kitchenService;
     private CityService cityService;
+    private PaymentService paymentService;
 
     @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository, KitchenService kitchenService, CityService cityService) {
+    public RestaurantService(RestaurantRepository restaurantRepository, KitchenService kitchenService, CityService cityService, PaymentService paymentService) {
         this.restaurantRepository = restaurantRepository;
         this.kitchenService = kitchenService;
         this.cityService = cityService;
+        this.paymentService = paymentService;
     }
 
     public List<Restaurant> getRestaurants() {
@@ -58,5 +60,23 @@ public class RestaurantService {
         var restaurant = this.getRestaurantById(id);
 
         restaurant.inactivate();
+    }
+
+    @Transactional
+    public void addPayment(Integer restaurantId, Integer paymentId) {
+        var restaurant = this.getRestaurantById(restaurantId);
+
+        var payment = this.paymentService.getPaymentById(paymentId);
+
+        restaurant.addPayment(payment);
+    }
+
+    @Transactional
+    public void deletePayment(Integer restaurantId, Integer paymentId) {
+        var restaurant = this.getRestaurantById(restaurantId);
+
+        var payment = this.paymentService.getPaymentById(paymentId);
+
+        restaurant.removePayment(payment);
     }
 }

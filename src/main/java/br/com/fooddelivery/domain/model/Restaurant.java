@@ -15,7 +15,9 @@ import javax.validation.groups.ConvertGroup;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -65,7 +67,7 @@ public class Restaurant {
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "payment_id")
     )
-    private List<Payment> payment = new ArrayList<>();
+    private Set<Payment> payments = new HashSet<>();
 
     public void activate() {
         this.setActive(true);
@@ -73,5 +75,13 @@ public class Restaurant {
 
     public void inactivate() {
         this.setActive(false);
+    }
+
+    public boolean addPayment(Payment payment) {
+        return this.getPayments().add(payment);
+    }
+
+    public boolean removePayment(Payment payment) {
+        return this.getPayments().remove(payment);
     }
 }
