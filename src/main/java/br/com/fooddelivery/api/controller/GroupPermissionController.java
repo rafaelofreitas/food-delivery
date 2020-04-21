@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/groups/{groupId}")
+@RequestMapping("/groups/{groupId}/permissions")
 public class GroupPermissionController {
     private GroupService groupService;
     private PermissionMapper permissionMapper;

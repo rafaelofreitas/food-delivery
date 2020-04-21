@@ -77,3 +77,4 @@ insert into tb_user (user_id, name, email, password, date_register) values
 insert into tb_group (group_id, name) values (1, 'Gerente'), (2, 'Vendedor'), (3, 'Secretária'), (4, 'Cadastrador');
 insert into tb_group_permission (group_id, permission_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
 
+insert into tb_user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2);

@@ -19,11 +19,13 @@ import java.util.Optional;
 public class UserService {
     private UserRepository userRepository;
     private EntityManager entityManager;
+    private GroupService groupService;
 
     @Autowired
-    public UserService(UserRepository userRepository, EntityManager entityManager) {
+    public UserService(UserRepository userRepository, EntityManager entityManager, GroupService groupService) {
         this.userRepository = userRepository;
         this.entityManager = entityManager;
+        this.groupService = groupService;
     }
 
     public List<User> getUsers() {
@@ -70,5 +72,23 @@ public class UserService {
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(String.format("User cannot be removed as it is in use: %s", id));
         }
+    }
+
+    @Transactional
+    public void associateGroup(Integer userId, Integer groupId) {
+        var user = this.getUserById(userId);
+
+        var group = this.groupService.getGroupById(groupId);
+
+        user.addGroup(group);
+    }
+
+    @Transactional
+    public void disassociateGroup(Integer userId, Integer groupId) {
+        var user = this.getUserById(userId);
+
+        var group = this.groupService.getGroupById(groupId);
+
+        user.removeGroup(group);
     }
 }
