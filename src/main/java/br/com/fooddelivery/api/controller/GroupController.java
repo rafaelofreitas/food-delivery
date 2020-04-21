@@ -1,6 +1,7 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.mapper.GroupMapper;
+import br.com.fooddelivery.api.mapper.PermissionMapper;
 import br.com.fooddelivery.api.model.entry.GroupEntry;
 import br.com.fooddelivery.api.model.output.GroupOutput;
 import br.com.fooddelivery.domain.model.Group;
@@ -21,11 +22,13 @@ import java.util.concurrent.TimeUnit;
 public class GroupController {
     private GroupService groupService;
     private GroupMapper groupMapper;
+    private PermissionMapper permissionMapper;
 
     @Autowired
-    public GroupController(GroupService groupService, GroupMapper groupMapper) {
+    public GroupController(GroupService groupService, GroupMapper groupMapper, PermissionMapper permissionMapper) {
         this.groupService = groupService;
         this.groupMapper = groupMapper;
+        this.permissionMapper = permissionMapper;
     }
 
     @GetMapping

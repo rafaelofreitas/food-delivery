@@ -73,3 +73,7 @@ insert into tb_user (user_id, name, email, password, date_register) values
 (2, 'Maria Joaquina', 'maria.vnd@fooddelivery.com', '123', utc_timestamp),
 (3, 'José Souza', 'jose.aux@fooddelivery.com', '123', utc_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@fooddelivery.com', '123', utc_timestamp);
+
+insert into tb_group (group_id, name) values (1, 'Gerente'), (2, 'Vendedor'), (3, 'Secretária'), (4, 'Cadastrador');
+insert into tb_group_permission (group_id, permission_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
+

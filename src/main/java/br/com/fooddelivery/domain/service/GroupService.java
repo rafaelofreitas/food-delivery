@@ -15,10 +15,12 @@ import java.util.List;
 @Service
 public class GroupService {
     private GroupRepository groupRepository;
+    private PermissionService permissionService;
 
     @Autowired
-    public GroupService(GroupRepository groupRepository) {
+    public GroupService(GroupRepository groupRepository, PermissionService permissionService) {
         this.groupRepository = groupRepository;
+        this.permissionService = permissionService;
     }
 
     public List<Group> getGroups() {
@@ -46,5 +48,23 @@ public class GroupService {
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(String.format("Group cannot be removed as it is in use: %s", id));
         }
+    }
+
+    @Transactional
+    public void associatePermission(Integer groupId, Integer permissionId) {
+        var group = this.getGroupById(groupId);
+
+        var permission = this.permissionService.getPermissionById(permissionId);
+
+        group.removePermission(permission);
+    }
+
+    @Transactional
+    public void disassociatePermission(Integer groupId, Integer permissionId) {
+        var group = this.getGroupById(groupId);
+
+        var permission = this.permissionService.getPermissionById(permissionId);
+
+        group.removePermission(permission);
     }
 }
