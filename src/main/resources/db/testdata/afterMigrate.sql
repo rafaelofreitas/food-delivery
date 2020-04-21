@@ -40,12 +40,12 @@ insert into tb_city(city_id, name, state_id) values (3, 'São Paulo', 2);
 insert into tb_city(city_id, name, state_id) values (4, 'Campinas', 2);
 insert into tb_city(city_id, name, state_id) values (5, 'Fortaleza', 3);
 
-insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, city_id, address_zip_code, address_neighborhood, address_number, address_public_place, active) values (1, 'Thai Gourmet', 10, utc_timestamp , utc_timestamp , 1, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro', true);
-insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active) values (2, 'Thai Delivery', 9.50, utc_timestamp , utc_timestamp , 1, true);
-insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active) values (3, 'Tuk Tuk Comida Indiana', 15, utc_timestamp , utc_timestamp , 2, true);
-insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active) values (4, 'Java Steakhouse', 12, utc_timestamp , utc_timestamp , 3, true);
-insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active) values (5, 'Lanchonete do Tio Sam', 11, utc_timestamp , utc_timestamp , 4, true);
-insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active) values (6, 'Bar da Maria', 6, utc_timestamp , utc_timestamp , 4, true);
+insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active, open, city_id, address_zip_code, address_neighborhood, address_number, address_public_place) values (1, 'Thai Gourmet', 10, utc_timestamp , utc_timestamp , 1, true, true, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
+insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active, open) values (2, 'Thai Delivery', 9.50, utc_timestamp , utc_timestamp , 1, true, true);
+insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active, open) values (3, 'Tuk Tuk Comida Indiana', 15, utc_timestamp , utc_timestamp , 2, true, true);
+insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active, open) values (4, 'Java Steakhouse', 12, utc_timestamp , utc_timestamp , 3, true, true);
+insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active, open) values (5, 'Lanchonete do Tio Sam', 11, utc_timestamp , utc_timestamp , 4, true, true);
+insert into tb_restaurant(restaurant_id, name, freigh_rate, date_register, update_date, kitchen_id, active, open) values (6, 'Bar da Maria', 6, utc_timestamp , utc_timestamp , 4, true, true);
 
 insert into tb_payment(payment_id, description) values (1, 'Cartão de crédito');
 insert into tb_payment(payment_id, description) values (2, 'Cartão de débito');

@@ -13,4 +13,5 @@ public class RestaurantOutput {
     private BigDecimal freightRate;
     private KitchenOutput kitchen;
     private AddressOutput address;
+    private Boolean open;
 }

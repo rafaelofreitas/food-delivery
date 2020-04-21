@@ -48,6 +48,16 @@ public class Restaurant {
 
     private Boolean active = Boolean.TRUE;
 
+    private Boolean open = Boolean.FALSE;
+
+    public void open() {
+        this.setOpen(true);
+    }
+
+    public void close() {
+        this.setOpen(false);
+    }
+
     @Valid
     @ConvertGroup(to = Groups.KitchenId.class)
     @NotNull

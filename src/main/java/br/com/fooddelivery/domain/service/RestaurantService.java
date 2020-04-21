@@ -81,4 +81,18 @@ public class RestaurantService {
 
         restaurant.removePayment(payment);
     }
+
+    @Transactional
+    public void open(Integer id) {
+        Restaurant currentRestaurant = this.getRestaurantById(id);
+
+        currentRestaurant.open();
+    }
+
+    @Transactional
+    public void close(Integer id) {
+        Restaurant currentRestaurant = this.getRestaurantById(id);
+
+        currentRestaurant.close();
+    }
 }
