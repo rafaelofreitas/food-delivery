@@ -35,16 +35,16 @@ public class UserGroupController {
                 .body(this.groupMapper.toCollectionOutput(user.getGroups()));
     }
 
-    @DeleteMapping("/{groupId}")
-    public ResponseEntity<?> disassociateGroup(@PathVariable Integer userId, @PathVariable Integer groupId) {
-        this.userService.disassociateGroup(userId, groupId);
+    @PutMapping("/{groupId}")
+    public ResponseEntity<?> associateGroup(@PathVariable Integer userId, @PathVariable Integer groupId) {
+        this.userService.associateGroup(userId, groupId);
 
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{groupId}")
-    public ResponseEntity<?> associateGroup(@PathVariable Integer userId, @PathVariable Integer groupId) {
-        this.userService.associateGroup(userId, groupId);
+    @DeleteMapping("/{groupId}")
+    public ResponseEntity<?> disassociateGroup(@PathVariable Integer userId, @PathVariable Integer groupId) {
+        this.userService.disassociateGroup(userId, groupId);
 
         return ResponseEntity.noContent().build();
     }

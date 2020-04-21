@@ -66,15 +66,16 @@ insert into tb_product(name, description, price, active, restaurant_id) values (
 insert into tb_product(name, description, price, active, restaurant_id) values ('Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, 1, 5);
 insert into tb_product(name, description, price, active, restaurant_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
 
-insert into tb_group (name) values ('Gerente'), ('Vendedor'), ('Secretária'), ('Cadastrador');
-
 insert into tb_user (user_id, name, email, password, date_register) values
 (1, 'João da Silva', 'joao.ger@fooddelivery.com', '123', utc_timestamp),
 (2, 'Maria Joaquina', 'maria.vnd@fooddelivery.com', '123', utc_timestamp),
 (3, 'José Souza', 'jose.aux@fooddelivery.com', '123', utc_timestamp),
-(4, 'Sebastião Martins', 'sebastiao.cad@fooddelivery.com', '123', utc_timestamp);
+(4, 'Sebastião Martins', 'sebastiao.cad@fooddelivery.com', '123', utc_timestamp),
+(5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp);
 
 insert into tb_group (group_id, name) values (1, 'Gerente'), (2, 'Vendedor'), (3, 'Secretária'), (4, 'Cadastrador');
 insert into tb_group_permission (group_id, permission_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
 
 insert into tb_user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2);
+
+insert into tb_user_restaurant_responsible(restaurant_id, user_id) values (1, 5), (3, 5);

@@ -15,15 +15,18 @@ public class RestaurantService {
     private KitchenService kitchenService;
     private CityService cityService;
     private PaymentService paymentService;
-    private ProductService productService;
+    private UserService userService;
 
     @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository, KitchenService kitchenService, CityService cityService, PaymentService paymentService, ProductService productService) {
+    public RestaurantService(
+            RestaurantRepository restaurantRepository, KitchenService kitchenService, CityService cityService,
+            PaymentService paymentService, UserService userService
+    ) {
         this.restaurantRepository = restaurantRepository;
         this.kitchenService = kitchenService;
         this.cityService = cityService;
         this.paymentService = paymentService;
-        this.productService = productService;
+        this.userService = userService;
     }
 
     public List<Restaurant> getRestaurants() {
@@ -94,5 +97,23 @@ public class RestaurantService {
         Restaurant currentRestaurant = this.getRestaurantById(id);
 
         currentRestaurant.close();
+    }
+
+    @Transactional
+    public void associateResponsible(Integer restaurantId, Integer userId) {
+        var restaurant = this.getRestaurantById(restaurantId);
+
+        var user = this.userService.getUserById(userId);
+
+        restaurant.addResponsible(user);
+    }
+
+    @Transactional
+    public void disassociateResponsible(Integer restaurantId, Integer userId) {
+        var restaurant = this.getRestaurantById(restaurantId);
+
+        var user = this.userService.getUserById(userId);
+
+        restaurant.removeResponsible(user);
     }
 }

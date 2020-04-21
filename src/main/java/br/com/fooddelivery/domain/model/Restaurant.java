@@ -79,6 +79,14 @@ public class Restaurant {
     )
     private Set<Payment> payments = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "tb_user_restaurant_responsible",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> responsible = new HashSet<>();
+
     public void activate() {
         this.setActive(true);
     }
@@ -93,5 +101,13 @@ public class Restaurant {
 
     public boolean removePayment(Payment payment) {
         return this.getPayments().remove(payment);
+    }
+
+    public boolean addResponsible(User user) {
+        return this.getResponsible().add(user);
+    }
+
+    public boolean removeResponsible(User user) {
+        return this.getResponsible().remove(user);
     }
 }
