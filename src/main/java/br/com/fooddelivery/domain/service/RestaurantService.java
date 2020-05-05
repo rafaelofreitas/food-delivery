@@ -61,10 +61,20 @@ public class RestaurantService {
     }
 
     @Transactional
+    public void activate(List<Integer> restaurantIds) {
+        restaurantIds.forEach(this::activate);
+    }
+
+    @Transactional
     public void inactivate(Integer id) {
         var restaurant = this.getRestaurantById(id);
 
         restaurant.inactivate();
+    }
+
+    @Transactional
+    public void inactivate(List<Integer> restaurantIds) {
+        restaurantIds.forEach(this::inactivate);
     }
 
     @Transactional

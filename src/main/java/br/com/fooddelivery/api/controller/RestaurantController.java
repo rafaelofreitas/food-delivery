@@ -3,6 +3,8 @@ package br.com.fooddelivery.api.controller;
 import br.com.fooddelivery.api.mapper.RestaurantMapper;
 import br.com.fooddelivery.api.model.entry.RestaurantEntry;
 import br.com.fooddelivery.api.model.output.RestaurantOutput;
+import br.com.fooddelivery.domain.exception.BusinessException;
+import br.com.fooddelivery.domain.exception.RestaurantNotFoundException;
 import br.com.fooddelivery.domain.model.Restaurant;
 import br.com.fooddelivery.domain.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,9 +83,31 @@ public class RestaurantController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/active-restaurants")
+    public ResponseEntity<?> activate(@RequestBody List<Integer> ids) {
+        try {
+            this.restaurantService.activate(ids);
+        } catch (RestaurantNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}/active")
     public ResponseEntity<?> inactivate(@PathVariable Integer id) {
         this.restaurantService.inactivate(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/active-restaurants")
+    public ResponseEntity<?> inactivate(@RequestBody List<Integer> ids) {
+        try {
+            this.restaurantService.inactivate(ids);
+        } catch (RestaurantNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
 
         return ResponseEntity.noContent().build();
     }
