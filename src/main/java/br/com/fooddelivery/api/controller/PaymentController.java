@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/payments")
 public class PaymentController {
-    private PaymentService paymentService;
-    private PaymentMapper paymentMapper;
+    private final PaymentService paymentService;
+    private final PaymentMapper paymentMapper;
 
     @Autowired
     public PaymentController(PaymentService paymentService, PaymentMapper paymentMapper) {
@@ -30,8 +30,7 @@ public class PaymentController {
 
     @GetMapping
     public ResponseEntity<List<PaymentOutput>> getPayments() {
-        List<PaymentOutput> payments = this.paymentMapper
-                .toCollectionOutput(this.paymentService.getPayments());
+        List<PaymentOutput> payments = this.paymentMapper.toCollectionOutput(this.paymentService.getPayments());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 

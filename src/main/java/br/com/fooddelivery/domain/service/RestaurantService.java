@@ -11,16 +11,19 @@ import java.util.List;
 
 @Service
 public class RestaurantService {
-    private RestaurantRepository restaurantRepository;
-    private KitchenService kitchenService;
-    private CityService cityService;
-    private PaymentService paymentService;
-    private UserService userService;
+    private final RestaurantRepository restaurantRepository;
+    private final KitchenService kitchenService;
+    private final CityService cityService;
+    private final PaymentService paymentService;
+    private final UserService userService;
 
     @Autowired
     public RestaurantService(
-            RestaurantRepository restaurantRepository, KitchenService kitchenService, CityService cityService,
-            PaymentService paymentService, UserService userService
+            RestaurantRepository restaurantRepository,
+            KitchenService kitchenService,
+            CityService cityService,
+            PaymentService paymentService,
+            UserService userService
     ) {
         this.restaurantRepository = restaurantRepository;
         this.kitchenService = kitchenService;

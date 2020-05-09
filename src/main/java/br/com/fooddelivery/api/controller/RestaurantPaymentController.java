@@ -2,7 +2,6 @@ package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.mapper.PaymentMapper;
 import br.com.fooddelivery.api.model.output.PaymentOutput;
-import br.com.fooddelivery.domain.model.Restaurant;
 import br.com.fooddelivery.domain.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
@@ -15,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/payments")
 public class RestaurantPaymentController {
-    private RestaurantService restaurantService;
-    private PaymentMapper paymentMapper;
+    private final RestaurantService restaurantService;
+    private final PaymentMapper paymentMapper;
 
     @Autowired
     public RestaurantPaymentController(RestaurantService restaurantService, PaymentMapper paymentMapper) {

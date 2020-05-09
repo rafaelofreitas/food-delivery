@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/cities")
 public class CityController {
-    private CityService cityService;
-    private CityMapper cityMapper;
+    private final CityService cityService;
+    private final CityMapper cityMapper;
 
     @Autowired
     public CityController(CityService cityService, CityMapper cityMapper) {
@@ -30,8 +30,7 @@ public class CityController {
 
     @GetMapping
     public ResponseEntity<List<CityOutput>> getCities() {
-        List<CityOutput> cities = this.cityMapper
-                .toCollectionOutput(this.cityService.getCities());
+        List<CityOutput> cities = this.cityMapper.toCollectionOutput(this.cityService.getCities());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 

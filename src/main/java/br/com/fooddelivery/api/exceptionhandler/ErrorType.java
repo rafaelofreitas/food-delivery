@@ -12,8 +12,8 @@ public enum ErrorType {
     ENTITY_IN_US("/entity-in-use", "Entity in Use"),
     BUSINESS_ERROR("/business-mistake", "Business Rule Violation");
 
-    private String title;
-    private String uri;
+    private final String title;
+    private final String uri;
 
     ErrorType(String path, String title) {
         this.uri = "http://localhost:8080" + path;

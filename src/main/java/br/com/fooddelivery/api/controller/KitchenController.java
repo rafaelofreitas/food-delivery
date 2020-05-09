@@ -20,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/kitchens")
 public class KitchenController {
-    private KitchenService kitchenService;
-    private KitchenMapper kitchenMapper;
+    private final KitchenService kitchenService;
+    private final KitchenMapper kitchenMapper;
 
     @Autowired
     public KitchenController(KitchenService kitchenService, KitchenMapper kitchenMapper) {
@@ -31,8 +31,7 @@ public class KitchenController {
 
     @GetMapping
     public ResponseEntity<List<KitchenOutput>> getKitchens() {
-        List<KitchenOutput> cities = this.kitchenMapper
-                .toCollectionOutput(this.kitchenService.getKitchens());
+        List<KitchenOutput> cities = this.kitchenMapper.toCollectionOutput(this.kitchenService.getKitchens());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 

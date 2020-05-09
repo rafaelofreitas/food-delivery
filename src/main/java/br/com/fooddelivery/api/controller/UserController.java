@@ -20,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
-    private UserService userService;
-    private UserMapper userMapper;
+    private final UserService userService;
+    private final UserMapper userMapper;
 
     @Autowired
     public UserController(UserService userService, UserMapper userMapper) {
@@ -31,8 +31,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserOutput>> getUsers() {
-        List<UserOutput> users = this.userMapper
-                .toCollectionOutput(this.userService.getUsers());
+        List<UserOutput> users = this.userMapper.toCollectionOutput(this.userService.getUsers());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 

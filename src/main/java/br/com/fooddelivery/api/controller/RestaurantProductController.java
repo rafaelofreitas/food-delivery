@@ -20,9 +20,9 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/products")
 public class RestaurantProductController {
-    private RestaurantService restaurantService;
-    private ProductService productService;
-    private ProductMapper productMapper;
+    private final RestaurantService restaurantService;
+    private final ProductService productService;
+    private final ProductMapper productMapper;
 
     @Autowired
     public RestaurantProductController(RestaurantService restaurantService, ProductService productService, ProductMapper productMapper) {

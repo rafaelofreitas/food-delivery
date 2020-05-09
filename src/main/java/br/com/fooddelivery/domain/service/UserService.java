@@ -17,9 +17,9 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
-    private EntityManager entityManager;
-    private GroupService groupService;
+    private final UserRepository userRepository;
+    private final EntityManager entityManager;
+    private final GroupService groupService;
 
     @Autowired
     public UserService(UserRepository userRepository, EntityManager entityManager, GroupService groupService) {

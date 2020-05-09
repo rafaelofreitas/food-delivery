@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/states")
 public class StateController {
-    private StateService stateService;
-    private StateMapper stateMapper;
+    private final StateService stateService;
+    private final StateMapper stateMapper;
 
     @Autowired
     public StateController(StateService stateService, StateMapper stateMapper) {
@@ -30,8 +30,7 @@ public class StateController {
 
     @GetMapping
     public ResponseEntity<List<StateOutput>> getCities() {
-        List<StateOutput> states = this.stateMapper
-                .toCollectionOutput(this.stateService.getStates());
+        List<StateOutput> states = this.stateMapper.toCollectionOutput(this.stateService.getStates());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 

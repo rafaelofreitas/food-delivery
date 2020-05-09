@@ -14,8 +14,8 @@ import java.util.List;
 
 @Service
 public class CityService {
-    private CityRepository cityRepository;
-    private StateService stateService;
+    private final CityRepository cityRepository;
+    private final StateService stateService;
 
     @Autowired
     public CityService(CityRepository cityRepository, StateService stateService) {

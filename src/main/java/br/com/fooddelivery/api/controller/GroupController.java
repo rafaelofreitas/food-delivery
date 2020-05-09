@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/groups")
 public class GroupController {
-    private GroupService groupService;
-    private GroupMapper groupMapper;
+    private final GroupService groupService;
+    private final GroupMapper groupMapper;
 
     @Autowired
     public GroupController(GroupService groupService, GroupMapper groupMapper) {
@@ -30,8 +30,7 @@ public class GroupController {
 
     @GetMapping
     public ResponseEntity<List<GroupOutput>> getGroups() {
-        List<GroupOutput> groups = this.groupMapper
-                .toCollectionOutput(this.groupService.getGroups());
+        List<GroupOutput> groups = this.groupMapper.toCollectionOutput(this.groupService.getGroups());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 

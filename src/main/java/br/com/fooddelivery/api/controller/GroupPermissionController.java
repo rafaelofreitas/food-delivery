@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/groups/{groupId}/permissions")
 public class GroupPermissionController {
-    private GroupService groupService;
-    private PermissionMapper permissionMapper;
+    private final GroupService groupService;
+    private final PermissionMapper permissionMapper;
 
     @Autowired
     public GroupPermissionController(GroupService groupService, PermissionMapper permissionMapper) {

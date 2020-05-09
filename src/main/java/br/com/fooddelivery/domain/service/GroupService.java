@@ -14,8 +14,8 @@ import java.util.List;
 
 @Service
 public class GroupService {
-    private GroupRepository groupRepository;
-    private PermissionService permissionService;
+    private final GroupRepository groupRepository;
+    private final PermissionService permissionService;
 
     @Autowired
     public GroupService(GroupRepository groupRepository, PermissionService permissionService) {

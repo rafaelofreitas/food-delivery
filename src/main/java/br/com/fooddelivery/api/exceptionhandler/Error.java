@@ -11,18 +11,18 @@ import java.util.List;
 @Getter
 @Builder
 public class Error {
-    private Integer status;
-    private OffsetDateTime timestamp;
-    private String type;
-    private String title;
-    private String detail;
-    private String userMessage;
-    private List<Field> fields;
+    private final Integer status;
+    private final OffsetDateTime timestamp;
+    private final String type;
+    private final String title;
+    private final String detail;
+    private final String userMessage;
+    private final List<Field> fields;
 
     @Getter
     @Builder
     public static class Field {
-        private String name;
-        private String userMessage;
+        private final String name;
+        private final String userMessage;
     }
 }
