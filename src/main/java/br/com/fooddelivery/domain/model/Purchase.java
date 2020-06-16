@@ -1,12 +1,17 @@
 package br.com.fooddelivery.domain.model;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Data
 @Entity
 @Table(name = "tb_purchase")
 public class Purchase {
@@ -25,21 +30,14 @@ public class Purchase {
     @Column(nullable = false)
     private BigDecimal amount;
 
-    @Column(nullable = false)
+    @CreationTimestamp
     private OffsetDateTime creationDate;
-
-    @Column
     private OffsetDateTime confirmationDate;
-
-    @Column
     private OffsetDateTime cancellationDate;
-
-    @Column
     private OffsetDateTime deliveryDate;
 
-    @Enumerated
-    @Column
-    private OrderStatus orderStatus;
+    @Enumerated(EnumType.STRING)
+    private final OrderStatus orderStatus = OrderStatus.CREATED;
 
     @Embedded
     private Address deliveryAddress;
@@ -55,4 +53,24 @@ public class Purchase {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User client;
+
+    @OneToMany(mappedBy = "purchase")
+    private List<OrderItem> items = new ArrayList<>();
+
+    public void calculateTotalValue() {
+        this.subtotal = this.getItems()
+                .stream()
+                .map(OrderItem::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.amount = this.subtotal.add(this.shippingFee);
+    }
+
+    public void setShipping() {
+        this.setShippingFee(this.getRestaurant().getFreightRate());
+    }
+
+    public void assignOrderToItems() {
+        this.getItems().forEach(item -> item.setPurchase(this));
+    }
 }

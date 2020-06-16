@@ -1,11 +1,13 @@
 package br.com.fooddelivery.domain.model;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Data
 @Entity
 @Table(name = "tb_order_item")
 public class OrderItem {
