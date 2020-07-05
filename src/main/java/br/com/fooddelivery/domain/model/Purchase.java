@@ -45,7 +45,7 @@ public class Purchase {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
-    private final OrderStatus orderStatus = OrderStatus.CREATED;
+    private OrderStatus orderStatus = OrderStatus.CREATED;
 
     @Embedded
     private Address deliveryAddress;

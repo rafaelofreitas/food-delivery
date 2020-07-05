@@ -1,8 +1,8 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.PaymentMapper;
 import br.com.fooddelivery.api.dto.entry.PaymentEntry;
 import br.com.fooddelivery.api.dto.output.PaymentOutput;
+import br.com.fooddelivery.api.mapper.PaymentMapper;
 import br.com.fooddelivery.domain.model.Payment;
 import br.com.fooddelivery.domain.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +63,10 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaymentOutput> updatePayment(@PathVariable Integer id, @Valid @RequestBody PaymentEntry paymentEntry) {
+    public ResponseEntity<PaymentOutput> updatePayment(
+            @PathVariable Integer id,
+            @Valid @RequestBody PaymentEntry paymentEntry
+    ) {
         var payment = this.paymentService.getPaymentById(id);
 
         this.paymentMapper.copyPropertiesToDomain(paymentEntry, payment);

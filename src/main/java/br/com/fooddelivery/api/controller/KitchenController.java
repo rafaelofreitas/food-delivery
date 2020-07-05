@@ -1,8 +1,8 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.KitchenMapper;
 import br.com.fooddelivery.api.dto.entry.KitchenEntry;
 import br.com.fooddelivery.api.dto.output.KitchenOutput;
+import br.com.fooddelivery.api.mapper.KitchenMapper;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.service.KitchenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +65,10 @@ public class KitchenController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<KitchenOutput> updateKitchen(@PathVariable Integer id, @Valid @RequestBody KitchenEntry kitchenEntry) {
+    public ResponseEntity<KitchenOutput> updateKitchen(
+            @PathVariable Integer id,
+            @Valid @RequestBody KitchenEntry kitchenEntry
+    ) {
         var kitchen = this.kitchenService.getKitchenById(id);
 
         this.kitchenMapper.copyPropertiesToDomain(kitchenEntry, kitchen);

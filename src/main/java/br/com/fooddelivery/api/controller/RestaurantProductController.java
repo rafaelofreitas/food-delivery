@@ -1,8 +1,8 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.ProductMapper;
 import br.com.fooddelivery.api.dto.entry.ProductEntry;
 import br.com.fooddelivery.api.dto.output.ProductOutput;
+import br.com.fooddelivery.api.mapper.ProductMapper;
 import br.com.fooddelivery.domain.model.Product;
 import br.com.fooddelivery.domain.service.ProductService;
 import br.com.fooddelivery.domain.service.RestaurantService;
@@ -25,7 +25,11 @@ public class RestaurantProductController {
     private final ProductMapper productMapper;
 
     @Autowired
-    public RestaurantProductController(RestaurantService restaurantService, ProductService productService, ProductMapper productMapper) {
+    public RestaurantProductController(
+            RestaurantService restaurantService,
+            ProductService productService,
+            ProductMapper productMapper
+    ) {
         this.restaurantService = restaurantService;
         this.productService = productService;
         this.productMapper = productMapper;
@@ -43,7 +47,10 @@ public class RestaurantProductController {
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductOutput> getProductById(@PathVariable Integer restaurantId, @PathVariable Integer productId) {
+    public ResponseEntity<ProductOutput> getProductById(
+            @PathVariable Integer restaurantId,
+            @PathVariable Integer productId
+    ) {
         var product = this.productService.getProductById(restaurantId, productId);
 
         var productOutput = this.productMapper.toOutput(product);
@@ -54,7 +61,10 @@ public class RestaurantProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductOutput> saveProduct(@PathVariable Integer restaurantId, @RequestBody @Valid ProductEntry productEntry) {
+    public ResponseEntity<ProductOutput> saveProduct(
+            @PathVariable Integer restaurantId,
+            @RequestBody @Valid ProductEntry productEntry
+    ) {
         var restaurant = this.restaurantService.getRestaurantById(restaurantId);
 
         Product product = this.productMapper.toDomain(productEntry);
@@ -73,8 +83,11 @@ public class RestaurantProductController {
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<ProductOutput> updateRestaurant(@PathVariable Integer restaurantId, @PathVariable Integer productId,
-                                                          @Valid @RequestBody ProductEntry productEntry) {
+    public ResponseEntity<ProductOutput> updateRestaurant(
+            @PathVariable Integer restaurantId,
+            @PathVariable Integer productId,
+            @Valid @RequestBody ProductEntry productEntry
+    ) {
         var product = this.productService.getProductById(restaurantId, productId);
 
         this.productMapper.copyPropertiesToDomain(productEntry, product);

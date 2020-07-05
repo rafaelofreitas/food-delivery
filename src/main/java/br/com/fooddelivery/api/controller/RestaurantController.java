@@ -1,8 +1,8 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.RestaurantMapper;
 import br.com.fooddelivery.api.dto.entry.RestaurantEntry;
 import br.com.fooddelivery.api.dto.output.RestaurantOutput;
+import br.com.fooddelivery.api.mapper.RestaurantMapper;
 import br.com.fooddelivery.domain.exception.BusinessException;
 import br.com.fooddelivery.domain.exception.RestaurantNotFoundException;
 import br.com.fooddelivery.domain.model.Restaurant;
@@ -65,7 +65,10 @@ public class RestaurantController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RestaurantOutput> updateRestaurant(@PathVariable Integer id, @Valid @RequestBody RestaurantEntry restaurantEntry) {
+    public ResponseEntity<RestaurantOutput> updateRestaurant(
+            @PathVariable Integer id,
+            @Valid @RequestBody RestaurantEntry restaurantEntry
+    ) {
         var restaurant = this.restaurantService.getRestaurantById(id);
 
         this.restaurantMapper.copyPropertiesToDomain(restaurantEntry, restaurant);

@@ -1,12 +1,13 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.dto.entry.PurchaseEntry;
+import br.com.fooddelivery.api.dto.output.PaymentOutput;
 import br.com.fooddelivery.api.dto.output.PurchaseOutput;
 import br.com.fooddelivery.api.dto.output.PurchaseSummaryOutput;
-import br.com.fooddelivery.api.mapper.OrderItemMapper;
 import br.com.fooddelivery.api.mapper.PurchaseMapper;
 import br.com.fooddelivery.api.mapper.PurchaseSummaryMapper;
 import br.com.fooddelivery.domain.model.User;
+import br.com.fooddelivery.domain.service.PurchaseOrderFlowService;
 import br.com.fooddelivery.domain.service.PurchaseService;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +25,18 @@ public class PurchaseController {
     private final PurchaseService purchaseService;
     private final PurchaseMapper purchaseMapper;
     private final PurchaseSummaryMapper purchaseSummaryMapper;
-    private final OrderItemMapper orderItemMapper;
+    private final PurchaseOrderFlowService purchaseOrderFlowService;
 
-    public PurchaseController(PurchaseService purchaseService, PurchaseMapper purchaseMapper, PurchaseSummaryMapper purchaseSummaryMapper, OrderItemMapper orderItemMapper) {
+    public PurchaseController(
+            PurchaseService purchaseService,
+            PurchaseMapper purchaseMapper,
+            PurchaseSummaryMapper purchaseSummaryMapper,
+            PurchaseOrderFlowService purchaseOrderFlowService
+    ) {
         this.purchaseService = purchaseService;
         this.purchaseMapper = purchaseMapper;
         this.purchaseSummaryMapper = purchaseSummaryMapper;
-        this.orderItemMapper = orderItemMapper;
+        this.purchaseOrderFlowService = purchaseOrderFlowService;
     }
 
     @GetMapping
@@ -71,5 +77,26 @@ public class PurchaseController {
                 .toUri();
 
         return ResponseEntity.created(uri).body(this.purchaseMapper.toOutput(purchase));
+    }
+
+    @PutMapping("/{id}/confirmed")
+    public ResponseEntity<PurchaseOutput> confirmedPurchase(@PathVariable Integer id) {
+        var purchase = this.purchaseOrderFlowService.confirmedPurchase(id);
+
+        return ResponseEntity.ok().body(this.purchaseMapper.toOutput(purchase));
+    }
+
+    @PutMapping("/{id}/delivered")
+    public ResponseEntity<PurchaseOutput> deliveredPurchase(@PathVariable Integer id) {
+        var purchase = this.purchaseOrderFlowService.deliveredPurchase(id);
+
+        return ResponseEntity.ok().body(this.purchaseMapper.toOutput(purchase));
+    }
+
+    @PutMapping("/{id}/canceled")
+    public ResponseEntity<PurchaseOutput> canceledPurchase(@PathVariable Integer id) {
+        var purchase = this.purchaseOrderFlowService.canceledPurchase(id);
+
+        return ResponseEntity.ok().body(this.purchaseMapper.toOutput(purchase));
     }
 }
