@@ -1,7 +1,7 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.mapper.PurchaseMapper;
-import br.com.fooddelivery.api.model.output.PurchaseOutput;
+import br.com.fooddelivery.api.dto.output.PurchaseOutput;
 import br.com.fooddelivery.domain.service.PurchaseService;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;

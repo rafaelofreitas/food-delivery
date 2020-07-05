@@ -1,6 +1,6 @@
 package br.com.fooddelivery.core.modelmapper;
 
-import br.com.fooddelivery.api.model.output.AddressOutput;
+import br.com.fooddelivery.api.dto.output.AddressOutput;
 import br.com.fooddelivery.domain.model.Address;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

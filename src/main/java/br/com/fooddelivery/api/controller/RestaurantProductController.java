@@ -1,8 +1,8 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.mapper.ProductMapper;
-import br.com.fooddelivery.api.model.entry.ProductEntry;
-import br.com.fooddelivery.api.model.output.ProductOutput;
+import br.com.fooddelivery.api.dto.entry.ProductEntry;
+import br.com.fooddelivery.api.dto.output.ProductOutput;
 import br.com.fooddelivery.domain.model.Product;
 import br.com.fooddelivery.domain.service.ProductService;
 import br.com.fooddelivery.domain.service.RestaurantService;

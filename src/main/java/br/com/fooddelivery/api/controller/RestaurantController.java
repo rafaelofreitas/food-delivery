@@ -1,8 +1,8 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.mapper.RestaurantMapper;
-import br.com.fooddelivery.api.model.entry.RestaurantEntry;
-import br.com.fooddelivery.api.model.output.RestaurantOutput;
+import br.com.fooddelivery.api.dto.entry.RestaurantEntry;
+import br.com.fooddelivery.api.dto.output.RestaurantOutput;
 import br.com.fooddelivery.domain.exception.BusinessException;
 import br.com.fooddelivery.domain.exception.RestaurantNotFoundException;
 import br.com.fooddelivery.domain.model.Restaurant;

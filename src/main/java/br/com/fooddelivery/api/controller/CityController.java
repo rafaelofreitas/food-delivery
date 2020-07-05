@@ -1,8 +1,8 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.mapper.CityMapper;
-import br.com.fooddelivery.api.model.entry.CityEntry;
-import br.com.fooddelivery.api.model.output.CityOutput;
+import br.com.fooddelivery.api.dto.entry.CityEntry;
+import br.com.fooddelivery.api.dto.output.CityOutput;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;

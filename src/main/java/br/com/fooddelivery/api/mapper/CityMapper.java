@@ -1,7 +1,7 @@
 package br.com.fooddelivery.api.mapper;
 
-import br.com.fooddelivery.api.model.entry.CityEntry;
-import br.com.fooddelivery.api.model.output.CityOutput;
+import br.com.fooddelivery.api.dto.entry.CityEntry;
+import br.com.fooddelivery.api.dto.output.CityOutput;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.model.State;
 import org.modelmapper.ModelMapper;

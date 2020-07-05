@@ -1,7 +1,7 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.mapper.PermissionMapper;
-import br.com.fooddelivery.api.model.output.PermissionOutput;
+import br.com.fooddelivery.api.dto.output.PermissionOutput;
 import br.com.fooddelivery.domain.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;

@@ -1,7 +1,7 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.mapper.GroupMapper;
-import br.com.fooddelivery.api.model.output.GroupOutput;
+import br.com.fooddelivery.api.dto.output.GroupOutput;
 import br.com.fooddelivery.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;

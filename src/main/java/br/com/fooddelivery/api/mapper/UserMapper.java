@@ -1,7 +1,7 @@
 package br.com.fooddelivery.api.mapper;
 
-import br.com.fooddelivery.api.model.entry.UserEntry;
-import br.com.fooddelivery.api.model.output.UserOutput;
+import br.com.fooddelivery.api.dto.entry.UserEntry;
+import br.com.fooddelivery.api.dto.output.UserOutput;
 import br.com.fooddelivery.domain.model.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

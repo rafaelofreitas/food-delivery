@@ -1,6 +1,6 @@
 package br.com.fooddelivery.api.mapper;
 
-import br.com.fooddelivery.api.model.output.PermissionOutput;
+import br.com.fooddelivery.api.dto.output.PermissionOutput;
 import br.com.fooddelivery.domain.model.Permission;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

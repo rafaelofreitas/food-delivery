@@ -1,9 +1,9 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.mapper.UserMapper;
-import br.com.fooddelivery.api.model.entry.PasswordEntry;
-import br.com.fooddelivery.api.model.entry.UserEntry;
-import br.com.fooddelivery.api.model.output.UserOutput;
+import br.com.fooddelivery.api.dto.entry.PasswordEntry;
+import br.com.fooddelivery.api.dto.entry.UserEntry;
+import br.com.fooddelivery.api.dto.output.UserOutput;
 import br.com.fooddelivery.domain.model.User;
 import br.com.fooddelivery.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
