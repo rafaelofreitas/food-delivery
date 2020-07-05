@@ -62,23 +62,17 @@ public class Purchase {
     @JoinColumn(name = "user_id", nullable = false)
     private User client;
 
-    @OneToMany(mappedBy = "purchase")
+    @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
 
     public void calculateTotalValue() {
+        this.getItems().forEach(OrderItem::calculatePriceTotal);
+
         this.subtotal = this.getItems()
                 .stream()
                 .map(OrderItem::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.amount = this.subtotal.add(this.shippingFee);
-    }
-
-    public void setShipping() {
-        this.setShippingFee(this.getRestaurant().getFreightRate());
-    }
-
-    public void assignOrderToItems() {
-        this.getItems().forEach(item -> item.setPurchase(this));
     }
 }

@@ -110,4 +110,12 @@ public class Restaurant {
     public boolean removeResponsible(User user) {
         return this.getResponsible().remove(user);
     }
+
+    public boolean acceptedShapePayment(Payment payment) {
+        return this.getPayments().contains(payment);
+    }
+
+    public boolean noAcceptShapePayment(Payment payment) {
+        return !this.acceptedShapePayment(payment);
+    }
 }

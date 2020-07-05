@@ -1,17 +1,20 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.dto.entry.PurchaseEntry;
 import br.com.fooddelivery.api.dto.output.PurchaseOutput;
 import br.com.fooddelivery.api.dto.output.PurchaseSummaryOutput;
+import br.com.fooddelivery.api.mapper.OrderItemMapper;
 import br.com.fooddelivery.api.mapper.PurchaseMapper;
 import br.com.fooddelivery.api.mapper.PurchaseSummaryMapper;
+import br.com.fooddelivery.domain.model.User;
 import br.com.fooddelivery.domain.service.PurchaseService;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -21,11 +24,13 @@ public class PurchaseController {
     private final PurchaseService purchaseService;
     private final PurchaseMapper purchaseMapper;
     private final PurchaseSummaryMapper purchaseSummaryMapper;
+    private final OrderItemMapper orderItemMapper;
 
-    public PurchaseController(PurchaseService purchaseService, PurchaseMapper purchaseMapper, PurchaseSummaryMapper purchaseSummaryMapper) {
+    public PurchaseController(PurchaseService purchaseService, PurchaseMapper purchaseMapper, PurchaseSummaryMapper purchaseSummaryMapper, OrderItemMapper orderItemMapper) {
         this.purchaseService = purchaseService;
         this.purchaseMapper = purchaseMapper;
         this.purchaseSummaryMapper = purchaseSummaryMapper;
+        this.orderItemMapper = orderItemMapper;
     }
 
     @GetMapping
@@ -47,5 +52,24 @@ public class PurchaseController {
                 .ok()
                 .cacheControl(cache)
                 .body(this.purchaseMapper.toOutput(purchase));
+    }
+
+    @PostMapping
+    public ResponseEntity<PurchaseOutput> savePurchase(@RequestBody @Valid PurchaseEntry purchaseEntry) {
+        var purchase = this.purchaseMapper.toDomain(purchaseEntry);
+
+        // TODO pegar usuário autenticado
+        purchase.setClient(new User());
+        purchase.getClient().setId(1);
+
+        purchase = this.purchaseService.savePurchase(purchase);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(purchase.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(this.purchaseMapper.toOutput(purchase));
     }
 }
