@@ -17,16 +17,16 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Integer id;
 
-    @Column
+    @Column(name = "amount")
     private Integer amount;
 
-    @Column
+    @Column(name = "unit_price")
     private BigDecimal unitPrice;
 
-    @Column
+    @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    @Column
+    @Column(name = "note")
     private String note;
 
     @ManyToOne

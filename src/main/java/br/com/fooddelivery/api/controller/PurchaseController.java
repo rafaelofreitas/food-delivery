@@ -1,7 +1,9 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.PurchaseMapper;
 import br.com.fooddelivery.api.dto.output.PurchaseOutput;
+import br.com.fooddelivery.api.dto.output.PurchaseSummaryOutput;
+import br.com.fooddelivery.api.mapper.PurchaseMapper;
+import br.com.fooddelivery.api.mapper.PurchaseSummaryMapper;
 import br.com.fooddelivery.domain.service.PurchaseService;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +20,17 @@ import java.util.concurrent.TimeUnit;
 public class PurchaseController {
     private final PurchaseService purchaseService;
     private final PurchaseMapper purchaseMapper;
+    private final PurchaseSummaryMapper purchaseSummaryMapper;
 
-    public PurchaseController(PurchaseService purchaseService, PurchaseMapper purchaseMapper) {
+    public PurchaseController(PurchaseService purchaseService, PurchaseMapper purchaseMapper, PurchaseSummaryMapper purchaseSummaryMapper) {
         this.purchaseService = purchaseService;
         this.purchaseMapper = purchaseMapper;
+        this.purchaseSummaryMapper = purchaseSummaryMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<PurchaseOutput>> getPurchases() {
-        List<PurchaseOutput> purchases = this.purchaseMapper.toCollectionOutput(this.purchaseService.getPurchases());
+    public ResponseEntity<List<PurchaseSummaryOutput>> getPurchases() {
+        List<PurchaseSummaryOutput> purchases = this.purchaseSummaryMapper.toCollectionOutput(this.purchaseService.getPurchases());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 

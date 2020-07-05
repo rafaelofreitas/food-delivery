@@ -21,28 +21,36 @@ public class Purchase {
     @Column(name = "purchase_id")
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(name = "subtotal", nullable = false)
     private BigDecimal subtotal;
 
-    @Column(nullable = false)
+    @Column(name = "shipping_fee", nullable = false)
     private BigDecimal shippingFee;
 
-    @Column(nullable = false)
+    @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
     @CreationTimestamp
+    @Column(name = "creation_date")
     private OffsetDateTime creationDate;
+
+    @Column(name = "confirmation_date")
     private OffsetDateTime confirmationDate;
+
+    @Column(name = "cancellation_date")
     private OffsetDateTime cancellationDate;
+
+    @Column(name = "delivery_date")
     private OffsetDateTime deliveryDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "order_status")
     private final OrderStatus orderStatus = OrderStatus.CREATED;
 
     @Embedded
     private Address deliveryAddress;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id", nullable = false)
     private Payment payment;
 
