@@ -3,6 +3,7 @@ package br.com.fooddelivery.domain.service;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 public class PurchaseOrderFlowService {
@@ -13,22 +14,22 @@ public class PurchaseOrderFlowService {
     }
 
     @Transactional
-    public void confirmedPurchase(Integer id) {
-        var purchase = this.purchaseService.getById(id);
+    public void confirmedPurchase(UUID purchaseCode) {
+        var purchase = this.purchaseService.getByPurchaseCode(purchaseCode);
 
         purchase.confirmed();
     }
 
     @Transactional
-    public void deliveredPurchase(Integer id) {
-        var purchase = this.purchaseService.getById(id);
+    public void deliveredPurchase(UUID purchaseCode) {
+        var purchase = this.purchaseService.getByPurchaseCode(purchaseCode);
 
         purchase.delivered();
     }
 
     @Transactional
-    public void canceledPurchase(Integer id) {
-        var purchase = this.purchaseService.getById(id);
+    public void canceledPurchase(UUID purchaseCode) {
+        var purchase = this.purchaseService.getByPurchaseCode(purchaseCode);
 
         purchase.canceled();
     }

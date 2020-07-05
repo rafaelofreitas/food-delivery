@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PurchaseService {
@@ -34,10 +35,10 @@ public class PurchaseService {
         this.productService = productService;
     }
 
-    public Purchase getById(Integer id) {
+    public Purchase getByPurchaseCode(UUID purchaseCode) {
         return this.purchaseRepository
-                .findById(id)
-                .orElseThrow(() -> new PurchaseNotFoundException(id));
+                .findByPurchaseCode(purchaseCode)
+                .orElseThrow(() -> new PurchaseNotFoundException(purchaseCode));
     }
 
     public List<Purchase> getPurchases() {

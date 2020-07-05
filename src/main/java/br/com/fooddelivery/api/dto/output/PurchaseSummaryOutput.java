@@ -7,12 +7,13 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PurchaseSummaryOutput {
-    private Integer id;
+    private UUID purchaseCode;
     private BigDecimal subtotal;
     private BigDecimal shippingFee;
     private BigDecimal amount;

@@ -1,7 +1,6 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.dto.entry.PurchaseEntry;
-import br.com.fooddelivery.api.dto.output.PaymentOutput;
 import br.com.fooddelivery.api.dto.output.PurchaseOutput;
 import br.com.fooddelivery.api.dto.output.PurchaseSummaryOutput;
 import br.com.fooddelivery.api.mapper.PurchaseMapper;
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -48,9 +48,9 @@ public class PurchaseController {
         return ResponseEntity.ok().cacheControl(cache).body(purchases);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PurchaseOutput> getRestaurantById(@PathVariable Integer id) {
-        var purchase = this.purchaseService.getById(id);
+    @GetMapping("/{purchaseCode}")
+    public ResponseEntity<PurchaseOutput> getPurchaseByPurchaseCode(@PathVariable UUID purchaseCode) {
+        var purchase = this.purchaseService.getByPurchaseCode(purchaseCode);
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
@@ -79,23 +79,23 @@ public class PurchaseController {
         return ResponseEntity.created(uri).body(this.purchaseMapper.toOutput(purchase));
     }
 
-    @PutMapping("/{id}/confirmed")
-    public ResponseEntity<?> confirmedPurchase(@PathVariable Integer id) {
-        this.purchaseOrderFlowService.confirmedPurchase(id);
+    @PutMapping("/{purchaseCode}/confirmed")
+    public ResponseEntity<?> confirmedPurchase(@PathVariable UUID purchaseCode) {
+        this.purchaseOrderFlowService.confirmedPurchase(purchaseCode);
 
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/delivered")
-    public ResponseEntity<?> deliveredPurchase(@PathVariable Integer id) {
-        this.purchaseOrderFlowService.deliveredPurchase(id);
+    @PutMapping("/{purchaseCode}/delivered")
+    public ResponseEntity<?> deliveredPurchase(@PathVariable UUID purchaseCode) {
+        this.purchaseOrderFlowService.deliveredPurchase(purchaseCode);
 
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/canceled")
-    public ResponseEntity<?> canceledPurchase(@PathVariable Integer id) {
-        this.purchaseOrderFlowService.canceledPurchase(id);
+    @PutMapping("/{purchaseCode}/canceled")
+    public ResponseEntity<?> canceledPurchase(@PathVariable UUID purchaseCode) {
+        this.purchaseOrderFlowService.canceledPurchase(purchaseCode);
 
         return ResponseEntity.noContent().build();
     }

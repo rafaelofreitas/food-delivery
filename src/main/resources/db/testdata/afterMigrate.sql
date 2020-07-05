@@ -87,10 +87,10 @@ insert into tb_user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2);
 
 insert into tb_user_restaurant_responsible(restaurant_id, user_id) values (1, 5), (3, 5);
 
-insert into tb_purchase (purchase_id, restaurant_id, user_id, payment_id, city_id, address_zip_code,
+insert into tb_purchase (purchase_id, purchase_code, restaurant_id, user_id, payment_id, city_id, address_zip_code,
                          address_public_place, address_number, address_complement, address_neighborhood,
                          order_status, creation_date, subtotal, shipping_fee, amount)
-values (1, 1, 1, 1, 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil',
+values (1, UUID_TO_BIN(UUID()), 1, 1, 1, 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil',
         'CREATED', utc_timestamp, 298.90, 10, 308.90);
 
 insert into tb_order_item (order_item_id, purchase_id, product_id, amount, unit_price, total_price, note)
@@ -99,10 +99,10 @@ values (1, 1, 1, 1, 78.9, 78.9, null);
 insert into tb_order_item (order_item_id, purchase_id, product_id, amount, unit_price, total_price, note)
 values (2, 1, 2, 2, 110, 220, 'Menos picante, por favor');
 
-insert into tb_purchase (purchase_id, restaurant_id, user_id, payment_id, city_id, address_zip_code,
+insert into tb_purchase (purchase_id, purchase_code, restaurant_id, user_id, payment_id, city_id, address_zip_code,
                          address_public_place, address_number, address_complement, address_neighborhood,
                          order_status, creation_date, subtotal, shipping_fee, amount)
-values (2, 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro',
+values (2, UUID_TO_BIN(UUID()), 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro',
         'CREATED', utc_timestamp, 79, 0, 79);
 
 insert into tb_order_item (order_item_id, purchase_id, product_id, amount, unit_price, total_price, note)
