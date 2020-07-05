@@ -80,23 +80,23 @@ public class PurchaseController {
     }
 
     @PutMapping("/{id}/confirmed")
-    public ResponseEntity<PurchaseOutput> confirmedPurchase(@PathVariable Integer id) {
-        var purchase = this.purchaseOrderFlowService.confirmedPurchase(id);
+    public ResponseEntity<?> confirmedPurchase(@PathVariable Integer id) {
+        this.purchaseOrderFlowService.confirmedPurchase(id);
 
-        return ResponseEntity.ok().body(this.purchaseMapper.toOutput(purchase));
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/delivered")
-    public ResponseEntity<PurchaseOutput> deliveredPurchase(@PathVariable Integer id) {
-        var purchase = this.purchaseOrderFlowService.deliveredPurchase(id);
+    public ResponseEntity<?> deliveredPurchase(@PathVariable Integer id) {
+        this.purchaseOrderFlowService.deliveredPurchase(id);
 
-        return ResponseEntity.ok().body(this.purchaseMapper.toOutput(purchase));
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/canceled")
-    public ResponseEntity<PurchaseOutput> canceledPurchase(@PathVariable Integer id) {
-        var purchase = this.purchaseOrderFlowService.canceledPurchase(id);
+    public ResponseEntity<?> canceledPurchase(@PathVariable Integer id) {
+        this.purchaseOrderFlowService.canceledPurchase(id);
 
-        return ResponseEntity.ok().body(this.purchaseMapper.toOutput(purchase));
+        return ResponseEntity.noContent().build();
     }
 }

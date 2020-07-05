@@ -1,5 +1,6 @@
 package br.com.fooddelivery.domain.model;
 
+import br.com.fooddelivery.domain.exception.BusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -74,5 +75,35 @@ public class Purchase {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.amount = this.subtotal.add(this.shippingFee);
+    }
+
+    public void confirmed() {
+        this.setOrderStatus(OrderStatus.CONFIRMED);
+        this.setConfirmationDate(OffsetDateTime.now());
+    }
+
+    public void delivered() {
+        this.setOrderStatus(OrderStatus.DELIVERED);
+        this.setDeliveryDate(OffsetDateTime.now());
+    }
+
+    public void canceled() {
+        this.setOrderStatus(OrderStatus.CANCELED);
+        this.setCancellationDate(OffsetDateTime.now());
+    }
+
+    public void setOrderStatus(OrderStatus newStatus) {
+        if (this.getOrderStatus().noCanChangeTo(newStatus)) {
+            throw new BusinessException(
+                    String.format(
+                            "Order status %d cannot be changed %s for %s",
+                            this.getId(),
+                            this.getOrderStatus().getDescription(),
+                            newStatus.getDescription()
+                    )
+            );
+        }
+
+        this.orderStatus = newStatus;
     }
 }
