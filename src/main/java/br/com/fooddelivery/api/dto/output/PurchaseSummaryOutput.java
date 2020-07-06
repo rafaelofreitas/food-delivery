@@ -1,6 +1,5 @@
 package br.com.fooddelivery.api.dto.output;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
@@ -10,7 +9,9 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@JsonFilter("purchaseFilter")
+/*  @JsonFilter("purchaseFilter")
+    example: Limiting the fields returned by the API with Jackson's @JsonFilter
+ */
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)

@@ -2,6 +2,7 @@ package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.dto.entry.PurchaseEntry;
 import br.com.fooddelivery.api.dto.output.PurchaseOutput;
+import br.com.fooddelivery.api.dto.output.PurchaseSummaryOutput;
 import br.com.fooddelivery.api.mapper.PurchaseMapper;
 import br.com.fooddelivery.api.mapper.PurchaseSummaryMapper;
 import br.com.fooddelivery.domain.model.User;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +37,15 @@ public class PurchaseController {
         this.purchaseMapper = purchaseMapper;
         this.purchaseSummaryMapper = purchaseSummaryMapper;
         this.purchaseOrderFlowService = purchaseOrderFlowService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PurchaseSummaryOutput>> getPurchases() {
+        List<PurchaseSummaryOutput> purchases = this.purchaseSummaryMapper.toCollectionOutput(this.purchaseService.getPurchases());
+
+        CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
+
+        return ResponseEntity.ok().cacheControl(cache).body(purchases);
     }
 
     /* example: Limiting the fields returned by the API with Jackson's @JsonFilter
