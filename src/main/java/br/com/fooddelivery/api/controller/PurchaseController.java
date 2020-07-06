@@ -2,7 +2,6 @@ package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.dto.entry.PurchaseEntry;
 import br.com.fooddelivery.api.dto.output.PurchaseOutput;
-import br.com.fooddelivery.api.dto.output.PurchaseSummaryOutput;
 import br.com.fooddelivery.api.mapper.PurchaseMapper;
 import br.com.fooddelivery.api.mapper.PurchaseSummaryMapper;
 import br.com.fooddelivery.domain.model.User;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -39,14 +37,28 @@ public class PurchaseController {
         this.purchaseOrderFlowService = purchaseOrderFlowService;
     }
 
+    /* example: Limiting the fields returned by the API with Jackson's @JsonFilter
     @GetMapping
-    public ResponseEntity<List<PurchaseSummaryOutput>> getPurchases() {
-        List<PurchaseSummaryOutput> purchases = this.purchaseSummaryMapper.toCollectionOutput(this.purchaseService.getPurchases());
+    public ResponseEntity<MappingJacksonValue> getPurchases(@RequestParam(required = false) String fields) {
+        var purchases = this.purchaseService.getPurchases();
+        List<PurchaseSummaryOutput> purchaseSummaryOutput = this.purchaseSummaryMapper.toCollectionOutput(purchases);
+
+        MappingJacksonValue purchasesWrapper = new MappingJacksonValue(purchaseSummaryOutput);
+        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+
+        filterProvider.addFilter("purchaseFilter", SimpleBeanPropertyFilter.serializeAll());
+
+        if (StringUtils.isNotBlank(fields)) {
+            String[] array = fields.split(",");
+            filterProvider.addFilter("purchaseFilter", SimpleBeanPropertyFilter.filterOutAllExcept(array));
+        }
+
+        purchasesWrapper.setFilters(filterProvider);
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.ok().cacheControl(cache).body(purchases);
-    }
+        return ResponseEntity.ok().cacheControl(cache).body(purchasesWrapper);
+    } */
 
     @GetMapping("/{purchaseCode}")
     public ResponseEntity<PurchaseOutput> getPurchaseByPurchaseCode(@PathVariable UUID purchaseCode) {

@@ -2,11 +2,13 @@ package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.dto.entry.RestaurantEntry;
 import br.com.fooddelivery.api.dto.output.RestaurantOutput;
+import br.com.fooddelivery.api.dto.view.RestaurantView;
 import br.com.fooddelivery.api.mapper.RestaurantMapper;
 import br.com.fooddelivery.domain.exception.BusinessException;
 import br.com.fooddelivery.domain.exception.RestaurantNotFoundException;
 import br.com.fooddelivery.domain.model.Restaurant;
 import br.com.fooddelivery.domain.service.RestaurantService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,18 @@ public class RestaurantController {
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
         return ResponseEntity.ok().cacheControl(cache).body(restaurants);
+    }
+
+    @JsonView(RestaurantView.Resume.class)
+    @GetMapping(params = "projection=resume")
+    public ResponseEntity<List<RestaurantOutput>> getResumeRestaurants() {
+        return this.getRestaurants();
+    }
+
+    @JsonView(RestaurantView.OnlyName.class)
+    @GetMapping(params = "projection=only-name")
+    public ResponseEntity<List<RestaurantOutput>> getOnlyNameRestaurants() {
+        return this.getRestaurants();
     }
 
     @GetMapping("/{id}")
