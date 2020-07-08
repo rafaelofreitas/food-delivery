@@ -36,10 +36,19 @@ public class RestaurantProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductOutput>> getRestaurantProducts(@PathVariable Integer restaurantId) {
+    public ResponseEntity<List<ProductOutput>> getRestaurantProducts(
+            @PathVariable Integer restaurantId,
+            @RequestParam(required = false) boolean inactive
+    ) {
         var restaurant = this.restaurantService.getRestaurantById(restaurantId);
 
-        List<ProductOutput> productOutputs = this.productMapper.toCollectionOutput(this.productService.getProductsByRestaurant(restaurant));
+        List<ProductOutput> productOutputs;
+
+        if (inactive) {
+            productOutputs = this.productMapper.toCollectionOutput(this.productService.getAllProductsByRestaurant(restaurant));
+        } else {
+            productOutputs = this.productMapper.toCollectionOutput(this.productService.getProductsByRestaurantActive(restaurant));
+        }
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 

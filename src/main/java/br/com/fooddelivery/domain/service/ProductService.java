@@ -22,7 +22,11 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getProductsByRestaurant(Restaurant restaurant) {
+    public List<Product> getProductsByRestaurantActive(Restaurant restaurant) {
+        return this.productRepository.findActivesByRestaurant(restaurant);
+    }
+
+    public List<Product> getAllProductsByRestaurant(Restaurant restaurant) {
         return this.productRepository.findByRestaurant(restaurant);
     }
 
