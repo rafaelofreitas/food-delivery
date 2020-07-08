@@ -5,6 +5,7 @@ import br.com.fooddelivery.api.dto.output.PermissionOutput;
 import br.com.fooddelivery.domain.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,13 +40,13 @@ public class GroupPermissionController {
     public ResponseEntity<?> disassociatePermission(@PathVariable Integer groupId, @PathVariable Integer permissionId) {
         this.groupService.disassociatePermission(groupId, permissionId);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{permissionId}")
     public ResponseEntity<?> associatePermission(@PathVariable Integer groupId, @PathVariable Integer permissionId) {
         this.groupService.associatePermission(groupId, permissionId);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

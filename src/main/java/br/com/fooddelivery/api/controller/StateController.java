@@ -1,12 +1,13 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.StateMapper;
 import br.com.fooddelivery.api.dto.entry.StateEntry;
 import br.com.fooddelivery.api.dto.output.StateOutput;
+import br.com.fooddelivery.api.mapper.StateMapper;
 import br.com.fooddelivery.domain.model.State;
 import br.com.fooddelivery.domain.service.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -77,6 +78,6 @@ public class StateController {
     public ResponseEntity<?> deleteState(@PathVariable Integer id) {
         this.stateService.deleteById(id);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

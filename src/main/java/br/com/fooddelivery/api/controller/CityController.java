@@ -7,6 +7,7 @@ import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -77,6 +78,6 @@ public class CityController {
     public ResponseEntity<?> deleteCity(@PathVariable Integer id) {
         this.cityService.deleteById(id);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

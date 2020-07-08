@@ -7,6 +7,7 @@ import br.com.fooddelivery.domain.model.Group;
 import br.com.fooddelivery.domain.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -77,6 +78,6 @@ public class GroupController {
     public ResponseEntity<?> deleteGroup(@PathVariable Integer id) {
         this.groupService.deleteById(id);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -1,10 +1,11 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.GroupMapper;
 import br.com.fooddelivery.api.dto.output.GroupOutput;
+import br.com.fooddelivery.api.mapper.GroupMapper;
 import br.com.fooddelivery.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,13 +40,13 @@ public class UserGroupController {
     public ResponseEntity<?> associateGroup(@PathVariable Integer userId, @PathVariable Integer groupId) {
         this.userService.associateGroup(userId, groupId);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{groupId}")
     public ResponseEntity<?> disassociateGroup(@PathVariable Integer userId, @PathVariable Integer groupId) {
         this.userService.disassociateGroup(userId, groupId);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

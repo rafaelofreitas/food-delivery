@@ -11,6 +11,7 @@ import br.com.fooddelivery.domain.service.RestaurantService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -96,7 +97,7 @@ public class RestaurantController {
     public ResponseEntity<?> activate(@PathVariable Integer id) {
         this.restaurantService.activate(id);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/active-restaurants")
@@ -107,14 +108,14 @@ public class RestaurantController {
             throw new BusinessException(e.getMessage(), e);
         }
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}/active")
     public ResponseEntity<?> inactivate(@PathVariable Integer id) {
         this.restaurantService.inactivate(id);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/active-restaurants")
@@ -125,20 +126,20 @@ public class RestaurantController {
             throw new BusinessException(e.getMessage(), e);
         }
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}/opening")
     public ResponseEntity<?> open(@PathVariable Integer id) {
         this.restaurantService.open(id);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}/closure")
     public ResponseEntity<?> close(@PathVariable Integer id) {
         this.restaurantService.close(id);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

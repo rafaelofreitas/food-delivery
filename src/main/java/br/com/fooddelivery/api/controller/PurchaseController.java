@@ -9,6 +9,7 @@ import br.com.fooddelivery.domain.model.User;
 import br.com.fooddelivery.domain.service.PurchaseOrderFlowService;
 import br.com.fooddelivery.domain.service.PurchaseService;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -106,20 +107,20 @@ public class PurchaseController {
     public ResponseEntity<?> confirmedPurchase(@PathVariable UUID purchaseCode) {
         this.purchaseOrderFlowService.confirmedPurchase(purchaseCode);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{purchaseCode}/delivered")
     public ResponseEntity<?> deliveredPurchase(@PathVariable UUID purchaseCode) {
         this.purchaseOrderFlowService.deliveredPurchase(purchaseCode);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{purchaseCode}/canceled")
     public ResponseEntity<?> canceledPurchase(@PathVariable UUID purchaseCode) {
         this.purchaseOrderFlowService.canceledPurchase(purchaseCode);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

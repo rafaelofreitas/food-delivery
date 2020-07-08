@@ -8,6 +8,7 @@ import br.com.fooddelivery.domain.model.User;
 import br.com.fooddelivery.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -78,13 +79,13 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
         this.userService.deleteById(id);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}/password")
     public ResponseEntity<?> changePassword(@PathVariable Integer id, @RequestBody @Valid PasswordEntry passwordEntry) {
         this.userService.changePassword(id, passwordEntry.getCurrentPassword(), passwordEntry.getNewPassword());
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -7,6 +7,7 @@ import br.com.fooddelivery.domain.model.Payment;
 import br.com.fooddelivery.domain.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -80,6 +81,6 @@ public class PaymentController {
     public ResponseEntity<?> deletePayment(@PathVariable Integer id) {
         this.paymentService.deleteById(id);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

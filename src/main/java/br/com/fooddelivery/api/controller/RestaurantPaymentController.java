@@ -5,6 +5,7 @@ import br.com.fooddelivery.api.mapper.PaymentMapper;
 import br.com.fooddelivery.domain.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,6 @@ public class RestaurantPaymentController {
     public ResponseEntity<?> deleteRestaurantPayment(@PathVariable Integer restaurantId, @PathVariable Integer paymentId) {
         this.restaurantService.deletePayment(restaurantId, paymentId);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
