@@ -7,10 +7,12 @@ import br.com.fooddelivery.api.dto.output.PurchaseSummaryOutput;
 import br.com.fooddelivery.api.mapper.PurchaseFilterMapper;
 import br.com.fooddelivery.api.mapper.PurchaseMapper;
 import br.com.fooddelivery.api.mapper.PurchaseSummaryMapper;
+import br.com.fooddelivery.core.data.PageableTranslator;
 import br.com.fooddelivery.domain.model.Purchase;
 import br.com.fooddelivery.domain.model.User;
 import br.com.fooddelivery.domain.service.PurchaseOrderFlowService;
 import br.com.fooddelivery.domain.service.PurchaseService;
+import com.google.common.collect.ImmutableMap;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -54,6 +56,8 @@ public class PurchaseController {
             PurchaseFilterEntry filter,
             @PageableDefault Pageable pageable
     ) {
+        pageable = this.translatePageable(pageable);
+        
         Page<Purchase> purchasePage = this.purchaseService.searchPurchases(this.purchaseFilterMapper.toDomain(filter), pageable);
 
         List<PurchaseSummaryOutput> purchaseSummaryOutputs = this.purchaseSummaryMapper.toCollectionOutput(purchasePage.getContent());
@@ -138,5 +142,16 @@ public class PurchaseController {
         this.purchaseOrderFlowService.canceledPurchase(purchaseCode);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    private Pageable translatePageable(Pageable pageable) {
+        var map = ImmutableMap.of(
+                "purchase_code", "purchaseCode",
+                "restaurant_name", "restaurant.name",
+                "client_name", "client.name",
+                "subtotal", "subtotal"
+        );
+
+        return PageableTranslator.translate(pageable, map);
     }
 }
