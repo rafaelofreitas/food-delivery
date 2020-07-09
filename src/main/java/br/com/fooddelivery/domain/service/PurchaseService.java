@@ -4,6 +4,8 @@ import br.com.fooddelivery.domain.exception.BusinessException;
 import br.com.fooddelivery.domain.exception.PurchaseNotFoundException;
 import br.com.fooddelivery.domain.model.Purchase;
 import br.com.fooddelivery.domain.repository.PurchaseRepository;
+import br.com.fooddelivery.domain.repository.filter.PurchaseFilter;
+import br.com.fooddelivery.domain.repository.spec.PurchaseSpecs;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -41,8 +43,8 @@ public class PurchaseService {
                 .orElseThrow(() -> new PurchaseNotFoundException(purchaseCode));
     }
 
-    public List<Purchase> getPurchases() {
-        return this.purchaseRepository.findAll();
+    public List<Purchase> searchPurchases(PurchaseFilter filter) {
+        return this.purchaseRepository.findAll(PurchaseSpecs.usingFilter(filter));
     }
 
     @Transactional

@@ -1,10 +1,13 @@
 package br.com.fooddelivery.api.controller;
 
 import br.com.fooddelivery.api.dto.entry.PurchaseEntry;
+import br.com.fooddelivery.api.dto.entry.PurchaseFilterEntry;
 import br.com.fooddelivery.api.dto.output.PurchaseOutput;
 import br.com.fooddelivery.api.dto.output.PurchaseSummaryOutput;
+import br.com.fooddelivery.api.mapper.PurchaseFilterMapper;
 import br.com.fooddelivery.api.mapper.PurchaseMapper;
 import br.com.fooddelivery.api.mapper.PurchaseSummaryMapper;
+import br.com.fooddelivery.domain.model.Purchase;
 import br.com.fooddelivery.domain.model.User;
 import br.com.fooddelivery.domain.service.PurchaseOrderFlowService;
 import br.com.fooddelivery.domain.service.PurchaseService;
@@ -25,28 +28,32 @@ import java.util.concurrent.TimeUnit;
 public class PurchaseController {
     private final PurchaseService purchaseService;
     private final PurchaseMapper purchaseMapper;
+    private final PurchaseFilterMapper purchaseFilterMapper;
     private final PurchaseSummaryMapper purchaseSummaryMapper;
     private final PurchaseOrderFlowService purchaseOrderFlowService;
 
     public PurchaseController(
             PurchaseService purchaseService,
             PurchaseMapper purchaseMapper,
-            PurchaseSummaryMapper purchaseSummaryMapper,
+            PurchaseFilterMapper purchaseFilterMapper, PurchaseSummaryMapper purchaseSummaryMapper,
             PurchaseOrderFlowService purchaseOrderFlowService
     ) {
         this.purchaseService = purchaseService;
         this.purchaseMapper = purchaseMapper;
+        this.purchaseFilterMapper = purchaseFilterMapper;
         this.purchaseSummaryMapper = purchaseSummaryMapper;
         this.purchaseOrderFlowService = purchaseOrderFlowService;
     }
 
     @GetMapping
-    public ResponseEntity<List<PurchaseSummaryOutput>> getPurchases() {
-        List<PurchaseSummaryOutput> purchases = this.purchaseSummaryMapper.toCollectionOutput(this.purchaseService.getPurchases());
+    public ResponseEntity<List<PurchaseSummaryOutput>> search(PurchaseFilterEntry filter) {
+        List<Purchase> purchases = this.purchaseService.searchPurchases(this.purchaseFilterMapper.toDomain(filter));
+
+        List<PurchaseSummaryOutput> purchaseSummaryOutputs = this.purchaseSummaryMapper.toCollectionOutput(purchases);
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.ok().cacheControl(cache).body(purchases);
+        return ResponseEntity.ok().cacheControl(cache).body(purchaseSummaryOutputs);
     }
 
     /* example: Limiting the fields returned by the API with Jackson's @JsonFilter
