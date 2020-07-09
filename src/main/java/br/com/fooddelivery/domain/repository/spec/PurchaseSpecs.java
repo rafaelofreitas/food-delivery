@@ -11,8 +11,10 @@ import java.util.List;
 public class PurchaseSpecs {
     public static Specification<Purchase> usingFilter(PurchaseFilter filter) {
         return (root, query, builder) -> {
-            root.fetch("restaurant").fetch("kitchen");
-            root.fetch("client");
+            if (Purchase.class.equals(query.getResultType())) {
+                root.fetch("restaurant").fetch("kitchen");
+                root.fetch("client");
+            }
 
             List<Predicate> predicates = new ArrayList<>();
 

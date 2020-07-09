@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class PaymentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PaymentOutput>> getPayments(Pageable pageable) {
+    public ResponseEntity<Page<PaymentOutput>> getPayments(@PageableDefault Pageable pageable) {
         Page<Payment> paymentPage = this.paymentService.getPayments(pageable);
 
         List<PaymentOutput> paymentOutputs = this.paymentMapper.toCollectionOutput(paymentPage.getContent());

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class CityController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CityOutput>> getCities(Pageable pageable) {
+    public ResponseEntity<Page<CityOutput>> getCities(@PageableDefault Pageable pageable) {
         Page<City> cityPage = this.cityService.getCities(pageable);
 
         List<CityOutput> cityOutputs = this.cityMapper.toCollectionOutput(cityPage.getContent());

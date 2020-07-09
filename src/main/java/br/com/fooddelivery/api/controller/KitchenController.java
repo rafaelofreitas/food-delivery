@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class KitchenController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<KitchenOutput>> getKitchens(Pageable pageable) {
+    public ResponseEntity<Page<KitchenOutput>> getKitchens(@PageableDefault Pageable pageable) {
         Page<Kitchen> kitchenPage = this.kitchenService.getKitchens(pageable);
 
         List<KitchenOutput> kitchenOutputs = this.kitchenMapper.toCollectionOutput(kitchenPage.getContent());

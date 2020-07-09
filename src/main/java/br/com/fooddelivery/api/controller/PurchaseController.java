@@ -11,6 +11,10 @@ import br.com.fooddelivery.domain.model.Purchase;
 import br.com.fooddelivery.domain.model.User;
 import br.com.fooddelivery.domain.service.PurchaseOrderFlowService;
 import br.com.fooddelivery.domain.service.PurchaseService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,14 +50,19 @@ public class PurchaseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PurchaseSummaryOutput>> search(PurchaseFilterEntry filter) {
-        List<Purchase> purchases = this.purchaseService.searchPurchases(this.purchaseFilterMapper.toDomain(filter));
+    public ResponseEntity<Page<PurchaseSummaryOutput>> search(
+            PurchaseFilterEntry filter,
+            @PageableDefault Pageable pageable
+    ) {
+        Page<Purchase> purchasePage = this.purchaseService.searchPurchases(this.purchaseFilterMapper.toDomain(filter), pageable);
 
-        List<PurchaseSummaryOutput> purchaseSummaryOutputs = this.purchaseSummaryMapper.toCollectionOutput(purchases);
+        List<PurchaseSummaryOutput> purchaseSummaryOutputs = this.purchaseSummaryMapper.toCollectionOutput(purchasePage.getContent());
+
+        Page<PurchaseSummaryOutput> purchaseOutputPage = new PageImpl<>(purchaseSummaryOutputs, pageable, purchasePage.getTotalElements());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.ok().cacheControl(cache).body(purchaseSummaryOutputs);
+        return ResponseEntity.ok().cacheControl(cache).body(purchaseOutputPage);
     }
 
     /* example: Limiting the fields returned by the API with Jackson's @JsonFilter

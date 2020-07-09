@@ -6,10 +6,11 @@ import br.com.fooddelivery.domain.model.Purchase;
 import br.com.fooddelivery.domain.repository.PurchaseRepository;
 import br.com.fooddelivery.domain.repository.filter.PurchaseFilter;
 import br.com.fooddelivery.domain.repository.spec.PurchaseSpecs;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -43,8 +44,8 @@ public class PurchaseService {
                 .orElseThrow(() -> new PurchaseNotFoundException(purchaseCode));
     }
 
-    public List<Purchase> searchPurchases(PurchaseFilter filter) {
-        return this.purchaseRepository.findAll(PurchaseSpecs.usingFilter(filter));
+    public Page<Purchase> searchPurchases(PurchaseFilter filter, Pageable pageable) {
+        return this.purchaseRepository.findAll(PurchaseSpecs.usingFilter(filter), pageable);
     }
 
     @Transactional

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<GroupOutput>> getGroups(Pageable pageable) {
+    public ResponseEntity<Page<GroupOutput>> getGroups(@PageableDefault Pageable pageable) {
         Page<Group> groupPage = this.groupService.getGroups(pageable);
 
         List<GroupOutput> groups = this.groupMapper.toCollectionOutput(groupPage.getContent());
