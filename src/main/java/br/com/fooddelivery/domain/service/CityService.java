@@ -7,6 +7,8 @@ import br.com.fooddelivery.domain.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,8 +25,8 @@ public class CityService {
         this.stateService = stateService;
     }
 
-    public List<City> getCities() {
-        return this.cityRepository.findAll();
+    public Page<City> getCities(Pageable pageable) {
+        return this.cityRepository.findAll(pageable);
     }
 
     public City getCityById(Integer id) {

@@ -7,10 +7,11 @@ import br.com.fooddelivery.domain.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class PaymentService {
@@ -21,8 +22,8 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
-    public List<Payment> getPayments() {
-        return this.paymentRepository.findAll();
+    public Page<Payment> getPayments(Pageable pageable) {
+        return this.paymentRepository.findAll(pageable);
     }
 
     public Payment getPaymentById(Integer id) {

@@ -6,6 +6,9 @@ import br.com.fooddelivery.api.mapper.KitchenMapper;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.service.KitchenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +33,16 @@ public class KitchenController {
     }
 
     @GetMapping
-    public ResponseEntity<List<KitchenOutput>> getKitchens() {
-        List<KitchenOutput> cities = this.kitchenMapper.toCollectionOutput(this.kitchenService.getKitchens());
+    public ResponseEntity<Page<KitchenOutput>> getKitchens(Pageable pageable) {
+        Page<Kitchen> kitchenPage = this.kitchenService.getKitchens(pageable);
+
+        List<KitchenOutput> kitchenOutputs = this.kitchenMapper.toCollectionOutput(kitchenPage.getContent());
+
+        Page<KitchenOutput> kitchenOutputPage = new PageImpl<>(kitchenOutputs, pageable, kitchenPage.getTotalElements());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.ok().cacheControl(cache).body(cities);
+        return ResponseEntity.ok().cacheControl(cache).body(kitchenOutputPage);
     }
 
     @GetMapping("/{id}")

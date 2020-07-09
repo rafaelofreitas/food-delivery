@@ -6,6 +6,9 @@ import br.com.fooddelivery.api.mapper.StateMapper;
 import br.com.fooddelivery.domain.model.State;
 import br.com.fooddelivery.domain.service.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +33,16 @@ public class StateController {
     }
 
     @GetMapping
-    public ResponseEntity<List<StateOutput>> getCities() {
-        List<StateOutput> states = this.stateMapper.toCollectionOutput(this.stateService.getStates());
+    public ResponseEntity<Page<StateOutput>> getCities(Pageable pageable) {
+        Page<State> statePage = this.stateService.getStates(pageable);
+
+        List<StateOutput> stateOutputs = this.stateMapper.toCollectionOutput(statePage.getContent());
+
+        Page<StateOutput> stateOutputPage = new PageImpl<>(stateOutputs, pageable, statePage.getTotalElements());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.ok().cacheControl(cache).body(states);
+        return ResponseEntity.ok().cacheControl(cache).body(stateOutputPage);
     }
 
     @GetMapping("/{id}")

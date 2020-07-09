@@ -1,11 +1,14 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.CityMapper;
 import br.com.fooddelivery.api.dto.entry.CityEntry;
 import br.com.fooddelivery.api.dto.output.CityOutput;
+import br.com.fooddelivery.api.mapper.CityMapper;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +33,16 @@ public class CityController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CityOutput>> getCities() {
-        List<CityOutput> cities = this.cityMapper.toCollectionOutput(this.cityService.getCities());
+    public ResponseEntity<Page<CityOutput>> getCities(Pageable pageable) {
+        Page<City> cityPage = this.cityService.getCities(pageable);
+
+        List<CityOutput> cityOutputs = this.cityMapper.toCollectionOutput(cityPage.getContent());
+
+        Page<CityOutput> cityOutputPage = new PageImpl<>(cityOutputs, pageable, cityPage.getTotalElements());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.ok().cacheControl(cache).body(cities);
+        return ResponseEntity.ok().cacheControl(cache).body(cityOutputPage);
     }
 
     @GetMapping("/{id}")

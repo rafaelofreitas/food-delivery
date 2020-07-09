@@ -7,10 +7,11 @@ import br.com.fooddelivery.domain.repository.KitchenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class KitchenService {
@@ -21,8 +22,8 @@ public class KitchenService {
         this.kitchenRepository = kitchenRepository;
     }
 
-    public List<Kitchen> getKitchens() {
-        return this.kitchenRepository.findAll();
+    public Page<Kitchen> getKitchens(Pageable pageable) {
+        return this.kitchenRepository.findAll(pageable);
     }
 
     public Kitchen getKitchenById(Integer id) {

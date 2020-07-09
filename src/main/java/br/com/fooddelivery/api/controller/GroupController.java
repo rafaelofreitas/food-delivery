@@ -1,11 +1,14 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.GroupMapper;
 import br.com.fooddelivery.api.dto.entry.GroupEntry;
 import br.com.fooddelivery.api.dto.output.GroupOutput;
+import br.com.fooddelivery.api.mapper.GroupMapper;
 import br.com.fooddelivery.domain.model.Group;
 import br.com.fooddelivery.domain.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +33,16 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GroupOutput>> getGroups() {
-        List<GroupOutput> groups = this.groupMapper.toCollectionOutput(this.groupService.getGroups());
+    public ResponseEntity<Page<GroupOutput>> getGroups(Pageable pageable) {
+        Page<Group> groupPage = this.groupService.getGroups(pageable);
+
+        List<GroupOutput> groups = this.groupMapper.toCollectionOutput(groupPage.getContent());
+
+        Page<GroupOutput> groupOutputPage = new PageImpl<>(groups, pageable, groupPage.getTotalElements());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.ok().cacheControl(cache).body(groups);
+        return ResponseEntity.ok().cacheControl(cache).body(groupOutputPage);
     }
 
     @GetMapping("/{id}")

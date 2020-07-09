@@ -25,8 +25,8 @@ public class GroupPermissionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PermissionOutput>> getPermissions(@PathVariable Integer id) {
-        var group = this.groupService.getGroupById(id);
+    public ResponseEntity<List<PermissionOutput>> getPermissions(@PathVariable Integer groupId) {
+        var group = this.groupService.getGroupById(groupId);
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 

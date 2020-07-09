@@ -7,10 +7,11 @@ import br.com.fooddelivery.domain.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class GroupService {
@@ -23,8 +24,8 @@ public class GroupService {
         this.permissionService = permissionService;
     }
 
-    public List<Group> getGroups() {
-        return this.groupRepository.findAll();
+    public Page<Group> getGroups(Pageable pageable) {
+        return this.groupRepository.findAll(pageable);
     }
 
     public Group getGroupById(Integer id) {

@@ -6,6 +6,9 @@ import br.com.fooddelivery.api.mapper.PaymentMapper;
 import br.com.fooddelivery.domain.model.Payment;
 import br.com.fooddelivery.domain.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +33,16 @@ public class PaymentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PaymentOutput>> getPayments() {
-        List<PaymentOutput> payments = this.paymentMapper.toCollectionOutput(this.paymentService.getPayments());
+    public ResponseEntity<Page<PaymentOutput>> getPayments(Pageable pageable) {
+        Page<Payment> paymentPage = this.paymentService.getPayments(pageable);
+
+        List<PaymentOutput> paymentOutputs = this.paymentMapper.toCollectionOutput(paymentPage.getContent());
+
+        Page<PaymentOutput> paymentOutputPage = new PageImpl<>(paymentOutputs, pageable, paymentPage.getTotalElements());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
-        return ResponseEntity.ok().cacheControl(cache).body(payments);
+        return ResponseEntity.ok().cacheControl(cache).body(paymentOutputPage);
     }
 
     @GetMapping("/{id}")
