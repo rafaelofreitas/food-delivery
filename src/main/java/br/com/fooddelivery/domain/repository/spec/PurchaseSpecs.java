@@ -28,7 +28,7 @@ public class PurchaseSpecs {
                 predicates.add(builder.greaterThanOrEqualTo(root.get("creationDate"), filter.getCreationDateIni()));
             }
 
-            if (filter.getCreationDateIni() != null) {
+            if (filter.getCreationDateEnd() != null) {
                 predicates.add(builder.lessThanOrEqualTo(root.get("creationDate"), filter.getCreationDateEnd()));
             }
 
