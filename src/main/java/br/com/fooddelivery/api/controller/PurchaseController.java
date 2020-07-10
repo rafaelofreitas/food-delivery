@@ -57,7 +57,7 @@ public class PurchaseController {
             @PageableDefault Pageable pageable
     ) {
         pageable = this.translatePageable(pageable);
-        
+
         Page<Purchase> purchasePage = this.purchaseService.searchPurchases(this.purchaseFilterMapper.toDomain(filter), pageable);
 
         List<PurchaseSummaryOutput> purchaseSummaryOutputs = this.purchaseSummaryMapper.toCollectionOutput(purchasePage.getContent());

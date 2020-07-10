@@ -1,4 +1,4 @@
-package br.com.fooddelivery.domain.repository.filter;
+package br.com.fooddelivery.domain.filter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,9 +8,7 @@ import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-public class PurchaseFilter {
-    private Integer clientId;
-
+public class DailySalesFilter {
     private Integer restaurantId;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

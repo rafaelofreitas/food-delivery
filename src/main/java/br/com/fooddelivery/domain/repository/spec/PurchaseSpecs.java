@@ -1,7 +1,7 @@
 package br.com.fooddelivery.domain.repository.spec;
 
 import br.com.fooddelivery.domain.model.Purchase;
-import br.com.fooddelivery.domain.repository.filter.PurchaseFilter;
+import br.com.fooddelivery.domain.filter.PurchaseFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;

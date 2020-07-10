@@ -4,7 +4,7 @@ import br.com.fooddelivery.domain.exception.BusinessException;
 import br.com.fooddelivery.domain.exception.PurchaseNotFoundException;
 import br.com.fooddelivery.domain.model.Purchase;
 import br.com.fooddelivery.domain.repository.PurchaseRepository;
-import br.com.fooddelivery.domain.repository.filter.PurchaseFilter;
+import br.com.fooddelivery.domain.filter.PurchaseFilter;
 import br.com.fooddelivery.domain.repository.spec.PurchaseSpecs;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
