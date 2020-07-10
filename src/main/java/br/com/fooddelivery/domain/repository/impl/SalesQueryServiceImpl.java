@@ -1,6 +1,7 @@
 package br.com.fooddelivery.domain.repository.impl;
 
 import br.com.fooddelivery.domain.filter.DailySalesFilter;
+import br.com.fooddelivery.domain.model.OrderStatus;
 import br.com.fooddelivery.domain.model.Purchase;
 import br.com.fooddelivery.domain.model.aggregate.DailySales;
 import br.com.fooddelivery.domain.repository.SalesQueryRepository;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class SalesQueryServiceImpl implements SalesQueryRepository {
         var builder = this.entityManager.getCriteriaBuilder();
         var query = builder.createQuery(DailySales.class);
         var root = query.from(Purchase.class);
+        List<Predicate> predicates = new ArrayList<>();
 
         var functionDateCreationDate = builder.function("date", Date.class, root.get("creationDate"));
 
@@ -31,7 +35,22 @@ public class SalesQueryServiceImpl implements SalesQueryRepository {
                 builder.sum(root.get("subtotal"))
         );
 
+        if (filter.getRestaurantId() != null) {
+            predicates.add(builder.equal(root.get("restaurant"), filter.getRestaurantId()));
+        }
+
+        if (filter.getCreationDateIni() != null) {
+            predicates.add(builder.greaterThanOrEqualTo(root.get("creationDate"), filter.getCreationDateIni()));
+        }
+
+        if (filter.getCreationDateEnd() != null) {
+            predicates.add(builder.lessThanOrEqualTo(root.get("creationDate"), filter.getCreationDateEnd()));
+        }
+
+        predicates.add(root.get("orderStatus").in(OrderStatus.CONFIRMED, OrderStatus.DELIVERED));
+
         query.select(selection);
+        query.where(predicates.toArray(new Predicate[0]));
         query.groupBy(functionDateCreationDate);
 
         return entityManager.createQuery(query).getResultList();
