@@ -2,11 +2,20 @@ package br.com.fooddelivery.domain.service;
 
 import br.com.fooddelivery.domain.filter.DailySalesFilter;
 import br.com.fooddelivery.domain.model.aggregate.DailySales;
+import br.com.fooddelivery.domain.repository.SalesQueryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public interface SalesQueryService {
-    List<DailySales> consultDailySales(DailySalesFilter dailySalesFilter);
+public class SalesQueryService {
+    private final SalesQueryRepository salesQueryRepository;
+
+    public SalesQueryService(SalesQueryRepository salesQueryRepository) {
+        this.salesQueryRepository = salesQueryRepository;
+    }
+
+    public List<DailySales> consultDailySales(DailySalesFilter filter) {
+        return this.salesQueryRepository.consultDailySales(filter);
+    }
 }

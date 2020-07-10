@@ -3,6 +3,7 @@ package br.com.fooddelivery.api.controller;
 import br.com.fooddelivery.domain.filter.DailySalesFilter;
 import br.com.fooddelivery.domain.model.aggregate.DailySales;
 import br.com.fooddelivery.domain.service.SalesQueryService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ public class StatisticsController {
         this.salesQueryService = salesQueryService;
     }
 
+    @GetMapping
     public List<DailySales> consultDailySales(DailySalesFilter filter) {
         return this.salesQueryService.consultDailySales(filter);
     }
