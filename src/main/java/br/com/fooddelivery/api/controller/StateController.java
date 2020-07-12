@@ -5,7 +5,6 @@ import br.com.fooddelivery.api.dto.output.StateOutput;
 import br.com.fooddelivery.api.mapper.StateMapper;
 import br.com.fooddelivery.domain.model.State;
 import br.com.fooddelivery.domain.service.StateService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,6 @@ public class StateController {
     private final StateService stateService;
     private final StateMapper stateMapper;
 
-    @Autowired
     public StateController(StateService stateService, StateMapper stateMapper) {
         this.stateService = stateService;
         this.stateMapper = stateMapper;

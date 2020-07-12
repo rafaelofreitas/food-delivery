@@ -9,7 +9,6 @@ import br.com.fooddelivery.domain.exception.RestaurantNotFoundException;
 import br.com.fooddelivery.domain.model.Restaurant;
 import br.com.fooddelivery.domain.service.RestaurantService;
 import com.fasterxml.jackson.annotation.JsonView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,6 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
 
-    @Autowired
     public RestaurantController(RestaurantService restaurantService, RestaurantMapper restaurantMapper) {
         this.restaurantService = restaurantService;
         this.restaurantMapper = restaurantMapper;

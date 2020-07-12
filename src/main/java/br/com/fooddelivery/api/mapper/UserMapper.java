@@ -4,7 +4,6 @@ import br.com.fooddelivery.api.dto.entry.UserEntry;
 import br.com.fooddelivery.api.dto.output.UserOutput;
 import br.com.fooddelivery.domain.model.User;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 public class UserMapper {
     private final ModelMapper modelMapper;
 
-    @Autowired
     public UserMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }

@@ -6,7 +6,6 @@ import br.com.fooddelivery.api.mapper.ProductMapper;
 import br.com.fooddelivery.domain.model.Product;
 import br.com.fooddelivery.domain.service.ProductService;
 import br.com.fooddelivery.domain.service.RestaurantService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,6 @@ public class RestaurantProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
 
-    @Autowired
     public RestaurantProductController(
             RestaurantService restaurantService,
             ProductService productService,

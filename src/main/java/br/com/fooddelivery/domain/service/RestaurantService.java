@@ -3,7 +3,6 @@ package br.com.fooddelivery.domain.service;
 import br.com.fooddelivery.domain.exception.RestaurantNotFoundException;
 import br.com.fooddelivery.domain.model.Restaurant;
 import br.com.fooddelivery.domain.repository.RestaurantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,7 +16,6 @@ public class RestaurantService {
     private final PaymentService paymentService;
     private final UserService userService;
 
-    @Autowired
     public RestaurantService(
             RestaurantRepository restaurantRepository,
             KitchenService kitchenService,

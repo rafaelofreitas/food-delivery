@@ -4,7 +4,6 @@ import br.com.fooddelivery.api.dto.entry.KitchenEntry;
 import br.com.fooddelivery.api.dto.output.KitchenOutput;
 import br.com.fooddelivery.domain.model.Kitchen;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.stream.Collectors;
 public class KitchenMapper {
     private final ModelMapper modelMapper;
 
-    @Autowired
     public KitchenMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }

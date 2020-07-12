@@ -4,7 +4,6 @@ import br.com.fooddelivery.domain.exception.CityNotFoundException;
 import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.repository.CityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -18,7 +17,6 @@ public class CityService {
     private final CityRepository cityRepository;
     private final StateService stateService;
 
-    @Autowired
     public CityService(CityRepository cityRepository, StateService stateService) {
         this.cityRepository = cityRepository;
         this.stateService = stateService;

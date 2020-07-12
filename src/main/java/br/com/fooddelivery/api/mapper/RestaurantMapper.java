@@ -6,7 +6,6 @@ import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.stream.Collectors;
 public class RestaurantMapper {
     private final ModelMapper modelMapper;
 
-    @Autowired
     public RestaurantMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }

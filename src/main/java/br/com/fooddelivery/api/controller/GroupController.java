@@ -5,7 +5,6 @@ import br.com.fooddelivery.api.dto.output.GroupOutput;
 import br.com.fooddelivery.api.mapper.GroupMapper;
 import br.com.fooddelivery.domain.model.Group;
 import br.com.fooddelivery.domain.service.GroupService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,6 @@ public class GroupController {
     private final GroupService groupService;
     private final GroupMapper groupMapper;
 
-    @Autowired
     public GroupController(GroupService groupService, GroupMapper groupMapper) {
         this.groupService = groupService;
         this.groupMapper = groupMapper;

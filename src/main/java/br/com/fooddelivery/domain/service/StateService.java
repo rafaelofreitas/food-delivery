@@ -4,7 +4,6 @@ import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.exception.StateNotFoundException;
 import br.com.fooddelivery.domain.model.State;
 import br.com.fooddelivery.domain.repository.StateRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,6 @@ import javax.transaction.Transactional;
 public class StateService {
     private final StateRepository stateRepository;
 
-    @Autowired
     public StateService(StateRepository stateRepository) {
         this.stateRepository = stateRepository;
     }

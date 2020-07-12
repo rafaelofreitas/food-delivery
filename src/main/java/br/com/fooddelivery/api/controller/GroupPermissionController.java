@@ -1,9 +1,8 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.PermissionMapper;
 import br.com.fooddelivery.api.dto.output.PermissionOutput;
+import br.com.fooddelivery.api.mapper.PermissionMapper;
 import br.com.fooddelivery.domain.service.GroupService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ public class GroupPermissionController {
     private final GroupService groupService;
     private final PermissionMapper permissionMapper;
 
-    @Autowired
     public GroupPermissionController(GroupService groupService, PermissionMapper permissionMapper) {
         this.groupService = groupService;
         this.permissionMapper = permissionMapper;

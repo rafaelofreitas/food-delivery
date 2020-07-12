@@ -3,7 +3,6 @@ package br.com.fooddelivery.api.controller;
 import br.com.fooddelivery.api.dto.output.GroupOutput;
 import br.com.fooddelivery.api.mapper.GroupMapper;
 import br.com.fooddelivery.domain.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ public class UserGroupController {
     private final UserService userService;
     private final GroupMapper groupMapper;
 
-    @Autowired
     public UserGroupController(UserService userService, GroupMapper groupMapper) {
         this.userService = userService;
         this.groupMapper = groupMapper;

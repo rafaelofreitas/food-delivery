@@ -4,7 +4,6 @@ import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.exception.PaymentNotFoundException;
 import br.com.fooddelivery.domain.model.Payment;
 import br.com.fooddelivery.domain.repository.PaymentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,6 @@ import javax.transaction.Transactional;
 public class PaymentService {
     private final PaymentRepository paymentRepository;
 
-    @Autowired
     public PaymentService(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
     }

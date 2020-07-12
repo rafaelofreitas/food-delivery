@@ -5,7 +5,6 @@ import br.com.fooddelivery.api.dto.output.KitchenOutput;
 import br.com.fooddelivery.api.mapper.KitchenMapper;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.service.KitchenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,6 @@ public class KitchenController {
     private final KitchenService kitchenService;
     private final KitchenMapper kitchenMapper;
 
-    @Autowired
     public KitchenController(KitchenService kitchenService, KitchenMapper kitchenMapper) {
         this.kitchenService = kitchenService;
         this.kitchenMapper = kitchenMapper;

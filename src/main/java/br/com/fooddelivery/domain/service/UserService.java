@@ -5,7 +5,6 @@ import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.exception.UserNotFoundException;
 import br.com.fooddelivery.domain.model.User;
 import br.com.fooddelivery.domain.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ public class UserService {
     private final EntityManager entityManager;
     private final GroupService groupService;
 
-    @Autowired
     public UserService(UserRepository userRepository, EntityManager entityManager, GroupService groupService) {
         this.userRepository = userRepository;
         this.entityManager = entityManager;

@@ -3,7 +3,6 @@ package br.com.fooddelivery.api.controller;
 import br.com.fooddelivery.api.dto.output.PaymentOutput;
 import br.com.fooddelivery.api.mapper.PaymentMapper;
 import br.com.fooddelivery.domain.service.RestaurantService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ public class RestaurantPaymentController {
     private final RestaurantService restaurantService;
     private final PaymentMapper paymentMapper;
 
-    @Autowired
     public RestaurantPaymentController(RestaurantService restaurantService, PaymentMapper paymentMapper) {
         this.restaurantService = restaurantService;
         this.paymentMapper = paymentMapper;

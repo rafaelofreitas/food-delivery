@@ -4,7 +4,6 @@ import br.com.fooddelivery.api.dto.entry.GroupEntry;
 import br.com.fooddelivery.api.dto.output.GroupOutput;
 import br.com.fooddelivery.domain.model.Group;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 public class GroupMapper {
     private final ModelMapper modelMapper;
 
-    @Autowired
     public GroupMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }

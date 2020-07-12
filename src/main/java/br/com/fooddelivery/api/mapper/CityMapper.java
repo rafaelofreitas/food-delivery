@@ -5,7 +5,6 @@ import br.com.fooddelivery.api.dto.output.CityOutput;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.model.State;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 public class CityMapper {
     private final ModelMapper modelMapper;
 
-    @Autowired
     public CityMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }

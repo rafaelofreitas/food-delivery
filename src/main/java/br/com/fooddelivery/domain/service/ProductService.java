@@ -5,7 +5,6 @@ import br.com.fooddelivery.domain.exception.ProductNotFoundException;
 import br.com.fooddelivery.domain.model.Product;
 import br.com.fooddelivery.domain.model.Restaurant;
 import br.com.fooddelivery.domain.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    @Autowired
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }

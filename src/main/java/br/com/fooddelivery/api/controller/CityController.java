@@ -5,7 +5,6 @@ import br.com.fooddelivery.api.dto.output.CityOutput;
 import br.com.fooddelivery.api.mapper.CityMapper;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.service.CityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,6 @@ public class CityController {
     private final CityService cityService;
     private final CityMapper cityMapper;
 
-    @Autowired
     public CityController(CityService cityService, CityMapper cityMapper) {
         this.cityService = cityService;
         this.cityMapper = cityMapper;

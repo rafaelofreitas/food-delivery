@@ -1,12 +1,11 @@
 package br.com.fooddelivery.api.controller;
 
-import br.com.fooddelivery.api.mapper.UserMapper;
 import br.com.fooddelivery.api.dto.entry.PasswordEntry;
 import br.com.fooddelivery.api.dto.entry.UserEntry;
 import br.com.fooddelivery.api.dto.output.UserOutput;
+import br.com.fooddelivery.api.mapper.UserMapper;
 import br.com.fooddelivery.domain.model.User;
 import br.com.fooddelivery.domain.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,6 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @Autowired
     public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;

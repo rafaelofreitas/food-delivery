@@ -5,7 +5,6 @@ import br.com.fooddelivery.api.dto.output.PaymentOutput;
 import br.com.fooddelivery.api.mapper.PaymentMapper;
 import br.com.fooddelivery.domain.model.Payment;
 import br.com.fooddelivery.domain.service.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,6 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final PaymentMapper paymentMapper;
 
-    @Autowired
     public PaymentController(PaymentService paymentService, PaymentMapper paymentMapper) {
         this.paymentService = paymentService;
         this.paymentMapper = paymentMapper;

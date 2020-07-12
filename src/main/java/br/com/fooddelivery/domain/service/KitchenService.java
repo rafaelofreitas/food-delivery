@@ -4,7 +4,6 @@ import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.exception.KitchenNotFoundException;
 import br.com.fooddelivery.domain.model.Kitchen;
 import br.com.fooddelivery.domain.repository.KitchenRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,6 @@ import javax.transaction.Transactional;
 public class KitchenService {
     private final KitchenRepository kitchenRepository;
 
-    @Autowired
     public KitchenService(KitchenRepository kitchenRepository) {
         this.kitchenRepository = kitchenRepository;
     }
