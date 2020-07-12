@@ -15,7 +15,7 @@ public class SalesQueryService {
         this.salesQueryRepository = salesQueryRepository;
     }
 
-    public List<DailySales> consultDailySales(DailySalesFilter filter) {
-        return this.salesQueryRepository.consultDailySales(filter);
+    public List<DailySales> consultDailySales(DailySalesFilter filter, String timeOffset) {
+        return this.salesQueryRepository.consultDailySales(filter, timeOffset);
     }
 }

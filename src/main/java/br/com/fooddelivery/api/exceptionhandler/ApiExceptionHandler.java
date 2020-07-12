@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -232,11 +233,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex,
             HttpHeaders headers,
-            HttpStatus status, WebRequest request
+            HttpStatus status,
+            WebRequest request
     ) {
         String detail = String.format(
                 "The URL parameter '%s' was given the value '%s', which is of an invalid type. Correct and enter a value compatible with type %s.",
-                ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()
+                ex.getName(), ex.getValue(), Objects.requireNonNull(ex.getRequiredType()).getSimpleName()
         );
 
         Error error = this.createErrorBuilder(status, ErrorType.INVALID_PARAMETER, detail)

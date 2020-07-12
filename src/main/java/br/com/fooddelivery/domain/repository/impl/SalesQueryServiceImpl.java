@@ -20,13 +20,20 @@ public class SalesQueryServiceImpl implements SalesQueryRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<DailySales> consultDailySales(DailySalesFilter filter) {
+    public List<DailySales> consultDailySales(DailySalesFilter filter, String timeOffset) {
         var builder = this.entityManager.getCriteriaBuilder();
         var query = builder.createQuery(DailySales.class);
         var root = query.from(Purchase.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        var functionDateCreationDate = builder.function("date", Date.class, root.get("creationDate"));
+        var functionConvertTzCreationDate = builder.function(
+                "convert_tz",
+                Date.class,
+                root.get("creationDate"),
+                builder.literal("+00:00"),
+                builder.literal(timeOffset));
+
+        var functionDateCreationDate = builder.function("date", Date.class, functionConvertTzCreationDate);
 
         var selection = builder.construct(
                 DailySales.class,
@@ -53,6 +60,6 @@ public class SalesQueryServiceImpl implements SalesQueryRepository {
         query.where(predicates.toArray(new Predicate[0]));
         query.groupBy(functionDateCreationDate);
 
-        return entityManager.createQuery(query).getResultList();
+        return this.entityManager.createQuery(query).getResultList();
     }
 }

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface SalesQueryRepository {
-    List<DailySales> consultDailySales(DailySalesFilter dailySalesFilter);
+    List<DailySales> consultDailySales(DailySalesFilter dailySalesFilter, String timeOffset);
 }
