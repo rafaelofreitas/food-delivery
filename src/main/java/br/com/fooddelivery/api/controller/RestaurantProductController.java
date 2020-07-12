@@ -1,5 +1,6 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.dto.entry.PhotoProductEntry;
 import br.com.fooddelivery.api.dto.entry.ProductEntry;
 import br.com.fooddelivery.api.dto.output.ProductOutput;
 import br.com.fooddelivery.api.mapper.ProductMapper;
@@ -7,13 +8,17 @@ import br.com.fooddelivery.domain.model.Product;
 import br.com.fooddelivery.domain.service.ProductService;
 import br.com.fooddelivery.domain.service.RestaurantService;
 import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -102,5 +107,25 @@ public class RestaurantProductController {
         product = this.productService.saveProduct(product);
 
         return ResponseEntity.ok().body(this.productMapper.toOutput(product));
+    }
+
+    @PutMapping(path = "/{productId}/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProductOutput> updateProductPhoto(
+            @PathVariable Integer restaurantId,
+            @PathVariable Integer productId,
+            @Valid PhotoProductEntry photoProductEntry
+    ) {
+        //TODO implement...
+        var fileName = UUID.randomUUID().toString() + "_" + photoProductEntry.getFile().getOriginalFilename();
+
+        var pathPhoto = Path.of("/home/rafael/Documents/upload", fileName);
+
+        try {
+            photoProductEntry.getFile().transferTo(pathPhoto);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return ResponseEntity.ok().body(this.productMapper.toOutput(null));
     }
 }
