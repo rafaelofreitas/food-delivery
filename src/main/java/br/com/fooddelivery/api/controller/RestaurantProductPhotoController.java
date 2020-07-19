@@ -39,6 +39,7 @@ public class RestaurantProductPhotoController {
             @Valid PhotoProductEntry photoProductEntry
     ) {
         var product = this.productService.getProductById(restaurantId, productId);
+
         var file = photoProductEntry.getFile();
 
         ProductPhoto productPhoto = ProductPhoto.builder()

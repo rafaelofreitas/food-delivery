@@ -1,6 +1,7 @@
 package br.com.fooddelivery.domain.repository;
 
 import br.com.fooddelivery.domain.model.Product;
+import br.com.fooddelivery.domain.model.ProductPhoto;
 import br.com.fooddelivery.domain.model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, Prod
 
     @Query("from Product p where p.active = true and p.restaurant = :restaurant")
     List<Product> findActivesByRestaurant(Restaurant restaurant);
+
+    @Query("select pf from ProductPhoto pf join pf.product p where p.restaurant.id = :restaurantId and pf.product.id = :productId")
+    Optional<ProductPhoto> findByProductPhotoId(Integer restaurantId, Integer productId);
 }

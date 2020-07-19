@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Builder
 @Data
@@ -22,18 +21,31 @@ public class ProductPhoto {
     @MapsId
     private Product product;
 
-    @NotBlank
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
-    @NotBlank
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NotBlank
     @Column(name = "content_type", nullable = false)
     private String contentType;
 
     @Column(name = "size")
     private Long size;
+
+    public Integer getRestaurantId() {
+        if (this.getProduct() == null) {
+            return null;
+        }
+
+        return this.getProduct().getRestaurant().getId();
+    }
+
+    public Integer getProductId() {
+        if (this.getProduct() == null) {
+            return null;
+        }
+
+        return this.getProduct().getId();
+    }
 }
