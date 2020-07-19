@@ -8,10 +8,7 @@ import br.com.fooddelivery.domain.service.ProductPhotoCatalogService;
 import br.com.fooddelivery.domain.service.ProductService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -52,6 +49,16 @@ public class RestaurantProductPhotoController {
                 .build();
 
         productPhoto = this.productPhotoCatalogService.saveProductPhoto(productPhoto, file.getInputStream());
+
+        return ResponseEntity.ok().body(this.productPhotoMapper.toOutput(productPhoto));
+    }
+
+    @GetMapping
+    public ResponseEntity<ProductPhotoOutput> getProductPhoto(
+            @PathVariable Integer restaurantId,
+            @PathVariable Integer productId
+    ) {
+        var productPhoto = this.productPhotoCatalogService.getProductPhotoById(restaurantId, productId);
 
         return ResponseEntity.ok().body(this.productPhotoMapper.toOutput(productPhoto));
     }
