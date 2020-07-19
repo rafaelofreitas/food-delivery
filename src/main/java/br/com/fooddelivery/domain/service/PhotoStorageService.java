@@ -11,6 +11,8 @@ public interface PhotoStorageService {
 
     void delete(String fileName);
 
+    InputStream toRecover(String fileName);
+
     default String getGenerateFileName(String fileName) {
         return UUID.randomUUID() + "_" + fileName;
     }

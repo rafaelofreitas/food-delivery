@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -17,11 +18,12 @@ public class PhotoStorageLocalImpl implements PhotoStorageService {
 
     @Override
     public void store(NewPicture newPicture) {
-        var pathPhoto = this.getFilePath(newPicture.getFileName());
-
         try {
+            var pathPhoto = this.getFilePath(newPicture.getFileName());
+
             FileCopyUtils.copy(newPicture.getInputStream(), Files.newOutputStream(pathPhoto));
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             throw new StorageException("Could not store the file!", e);
         }
     }
@@ -30,7 +32,19 @@ public class PhotoStorageLocalImpl implements PhotoStorageService {
     public void delete(String fileName) {
         try {
             var pathPhoto = this.getFilePath(fileName);
+
             Files.deleteIfExists(pathPhoto);
+        } catch (IOException e) {
+            throw new StorageException("Couldn't delete file!", e);
+        }
+    }
+
+    @Override
+    public InputStream toRecover(String fileName) {
+        try {
+            var pathPhoto = this.getFilePath(fileName);
+
+            return Files.newInputStream(pathPhoto);
         } catch (IOException e) {
             throw new StorageException("Couldn't delete file!", e);
         }
