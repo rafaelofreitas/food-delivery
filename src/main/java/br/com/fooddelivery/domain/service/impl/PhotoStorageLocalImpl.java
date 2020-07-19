@@ -1,8 +1,8 @@
 package br.com.fooddelivery.domain.service.impl;
 
+import br.com.fooddelivery.core.storage.StorageProperties;
 import br.com.fooddelivery.domain.exception.StorageException;
 import br.com.fooddelivery.domain.service.PhotoStorageService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
@@ -13,8 +13,11 @@ import java.nio.file.Path;
 
 @Service
 public class PhotoStorageLocalImpl implements PhotoStorageService {
-    @Value("${fooddelivery.storage.local.photos-directory}")
-    private Path directory;
+    private final StorageProperties storageProperties;
+
+    public PhotoStorageLocalImpl(StorageProperties storageProperties) {
+        this.storageProperties = storageProperties;
+    }
 
     @Override
     public void store(NewPicture newPicture) {
@@ -51,6 +54,6 @@ public class PhotoStorageLocalImpl implements PhotoStorageService {
     }
 
     private Path getFilePath(String fileName) {
-        return this.directory.resolve(Path.of(fileName));
+        return this.storageProperties.getLocal().getPhotosDirectory().resolve(Path.of(fileName));
     }
 }
