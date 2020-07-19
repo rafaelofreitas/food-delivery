@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -113,37 +114,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleValidationInternal(ex, headers, status, request, ex.getBindingResult());
     }
 
-    private ResponseEntity<Object> handleValidationInternal(
-            Exception ex,
-            HttpHeaders headers,
-            HttpStatus status,
-            WebRequest request,
-            BindingResult bindingResult
-    ) {
-        var errorType = ErrorType.INVALID_DATA;
-        var detail = "One or more fields are invalid. Fill in correctly and try again.";
-
-        List<Error.Field> errorFields = bindingResult
-                .getFieldErrors()
-                .stream()
-                .map(fieldError -> {
-                    String message = this.messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
-
-                    return Error.Field.builder()
-                            .name(fieldError.getField())
-                            .userMessage(message)
-                            .build();
-                })
-                .collect(Collectors.toList());
-
-        Error error = this.createErrorBuilder(status, errorType, detail)
-                .userMessage(detail)
-                .fields(errorFields)
-                .build();
-
-        return this.handleExceptionInternal(ex, error, headers, status, request);
-    }
-
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex,
@@ -225,6 +195,47 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         Error error = this.createErrorBuilder(status, ErrorType.INCOMPREHENSIBLE_MESSAGE, detail)
                 .userMessage(GENERIC_ERROR_MESSAGE_END_USER)
+                .build();
+
+        return this.handleExceptionInternal(ex, error, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(
+            HttpMediaTypeNotAcceptableException ex,
+            HttpHeaders headers,
+            HttpStatus status,
+            WebRequest request
+    ) {
+        return ResponseEntity.status(status).headers(headers).build();
+    }
+
+    private ResponseEntity<Object> handleValidationInternal(
+            Exception ex,
+            HttpHeaders headers,
+            HttpStatus status,
+            WebRequest request,
+            BindingResult bindingResult
+    ) {
+        var errorType = ErrorType.INVALID_DATA;
+        var detail = "One or more fields are invalid. Fill in correctly and try again.";
+
+        List<Error.Field> errorFields = bindingResult
+                .getFieldErrors()
+                .stream()
+                .map(fieldError -> {
+                    String message = this.messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+
+                    return Error.Field.builder()
+                            .name(fieldError.getField())
+                            .userMessage(message)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        Error error = this.createErrorBuilder(status, errorType, detail)
+                .userMessage(detail)
+                .fields(errorFields)
                 .build();
 
         return this.handleExceptionInternal(ex, error, headers, status, request);
