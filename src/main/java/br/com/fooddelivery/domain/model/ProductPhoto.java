@@ -1,16 +1,18 @@
 package br.com.fooddelivery.domain.model;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+@Builder
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "tb_photo_product")
-public class PhotoProduct {
+public class ProductPhoto {
     @EqualsAndHashCode.Include
     @Id
     @Column(name = "product_id")
@@ -33,5 +35,5 @@ public class PhotoProduct {
     private String contentType;
 
     @Column(name = "size")
-    private Integer size;
+    private Long size;
 }
