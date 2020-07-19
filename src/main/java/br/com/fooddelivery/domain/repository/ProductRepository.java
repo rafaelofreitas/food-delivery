@@ -21,6 +21,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, Prod
     @Query("from Product p where p.active = true and p.restaurant = :restaurant")
     List<Product> findActivesByRestaurant(Restaurant restaurant);
 
-    @Query("select pf from ProductPhoto pf join pf.product p where p.restaurant.id = :restaurantId and pf.product.id = :productId")
+    @Query("select photo from ProductPhoto photo join photo.product p where p.restaurant.id = :restaurantId and photo.product.id = :productId")
     Optional<ProductPhoto> findByProductPhotoId(Integer restaurantId, Integer productId);
 }

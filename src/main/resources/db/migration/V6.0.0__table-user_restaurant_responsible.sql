@@ -1,4 +1,5 @@
-create table tb_user_restaurant_responsible(
+create table tb_user_restaurant_responsible
+(
     restaurant_id integer not null,
     user_id       integer not null,
 

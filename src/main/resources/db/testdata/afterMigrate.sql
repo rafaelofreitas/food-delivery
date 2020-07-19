@@ -15,6 +15,7 @@ delete from tb_user_group;
 delete from tb_purchase;
 delete from tb_order_item;
 delete from tb_user_restaurant_responsible;
+delete from tb_product_photo;
 
 set foreign_key_checks = 1;
 

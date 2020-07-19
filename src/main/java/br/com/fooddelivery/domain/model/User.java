@@ -5,8 +5,6 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,8 +23,6 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @NotNull
-    @Email
     @Column(nullable = false)
     private String email;
 

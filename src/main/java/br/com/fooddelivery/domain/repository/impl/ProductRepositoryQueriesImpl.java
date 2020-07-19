@@ -3,10 +3,10 @@ package br.com.fooddelivery.domain.repository.impl;
 import br.com.fooddelivery.domain.model.ProductPhoto;
 import br.com.fooddelivery.domain.repository.ProductRepositoryQueries;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 @Repository
 public class ProductRepositoryQueriesImpl implements ProductRepositoryQueries {
@@ -16,7 +16,7 @@ public class ProductRepositoryQueriesImpl implements ProductRepositoryQueries {
     @Transactional
     @Override
     public ProductPhoto save(ProductPhoto productPhoto) {
-        return entityManager.merge(productPhoto);
+        return this.entityManager.merge(productPhoto);
     }
 
     @Transactional

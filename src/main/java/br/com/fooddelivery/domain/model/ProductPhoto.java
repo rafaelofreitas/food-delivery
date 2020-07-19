@@ -1,20 +1,20 @@
 package br.com.fooddelivery.domain.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tb_photo_product")
+@Table(name = "tb_product_photo")
 public class ProductPhoto {
     @EqualsAndHashCode.Include
     @Id
-    @Column(name = "product_id")
+    @Column(name = "product_product_id")
     private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY)

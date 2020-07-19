@@ -21,7 +21,6 @@ public class City {
     @Column(name = "city_id")
     private Integer id;
 
-    @NotBlank
     @Column(nullable = false)
     private String name;
 

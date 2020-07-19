@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/products/{productId}/photo")
@@ -32,12 +33,12 @@ public class RestaurantProductPhotoController {
         this.productPhotoMapper = productPhotoMapper;
     }
 
-    @PutMapping(path = "/{productId}/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductPhotoOutput> updateProductPhoto(
             @PathVariable Integer restaurantId,
             @PathVariable Integer productId,
             @Valid PhotoProductEntry photoProductEntry
-    ) {
+    ) throws IOException {
         var product = this.productService.getProductById(restaurantId, productId);
 
         var file = photoProductEntry.getFile();
@@ -50,7 +51,7 @@ public class RestaurantProductPhotoController {
                 .size(file.getSize())
                 .build();
 
-        productPhoto = this.productPhotoCatalogService.saveProductPhoto(productPhoto);
+        productPhoto = this.productPhotoCatalogService.saveProductPhoto(productPhoto, file.getInputStream());
 
         return ResponseEntity.ok().body(this.productPhotoMapper.toOutput(productPhoto));
     }
