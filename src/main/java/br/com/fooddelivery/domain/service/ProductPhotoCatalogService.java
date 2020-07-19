@@ -24,10 +24,15 @@ public class ProductPhotoCatalogService {
         Optional<ProductPhoto> existingPhoto = this.productRepository
                 .findByProductPhotoId(productPhoto.getRestaurantId(), productPhoto.getProductId());
 
-        existingPhoto.ifPresent(this.productRepository::delete);
+        if (existingPhoto.isPresent()) {
+            this.photoStorageService.delete(existingPhoto.get().getFileName());
+            this.productRepository.delete(existingPhoto.get());
+        }
+
+        String fileName = this.photoStorageService.getGenerateFileName(productPhoto.getFileName());
+        productPhoto.setFileName(fileName);
 
         productPhoto = this.productRepository.save(productPhoto);
-
         this.productRepository.flush();
 
         var newPicture = PhotoStorageService.NewPicture.builder()

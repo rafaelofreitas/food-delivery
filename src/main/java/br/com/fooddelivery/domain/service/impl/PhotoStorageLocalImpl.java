@@ -26,6 +26,16 @@ public class PhotoStorageLocalImpl implements PhotoStorageService {
         }
     }
 
+    @Override
+    public void delete(String fileName) {
+        try {
+            var pathPhoto = this.getFilePath(fileName);
+            Files.deleteIfExists(pathPhoto);
+        } catch (IOException e) {
+            throw new StorageException("Couldn't delete file!", e);
+        }
+    }
+
     private Path getFilePath(String fileName) {
         return this.directory.resolve(Path.of(fileName));
     }
