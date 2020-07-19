@@ -1,8 +1,11 @@
 package br.com.fooddelivery.domain.service;
 
+import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.exception.ProductPhotoNotFoundException;
 import br.com.fooddelivery.domain.model.ProductPhoto;
 import br.com.fooddelivery.domain.repository.ProductRepository;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,5 +53,22 @@ public class ProductPhotoCatalogService {
         return this.productRepository
                 .findByProductPhotoId(restaurantId, productId)
                 .orElseThrow(() -> new ProductPhotoNotFoundException(restaurantId, productId));
+    }
+
+    @Transactional
+    public void deleteProductPhotoById(Integer restaurantId, Integer productId) {
+        try {
+            var productPhoto = this.getProductPhotoById(restaurantId, productId);
+
+            this.productRepository.delete(productPhoto);
+
+            this.productRepository.flush();
+
+            this.photoStorageService.delete(productPhoto.getFileName());
+        } catch (EmptyResultDataAccessException e) {
+            throw new ProductPhotoNotFoundException(restaurantId, productId);
+        } catch (DataIntegrityViolationException e) {
+            throw new EntityInUseException("Product Photo cannot be removed as it is in use!");
+        }
     }
 }

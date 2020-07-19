@@ -9,6 +9,7 @@ import br.com.fooddelivery.domain.service.PhotoStorageService;
 import br.com.fooddelivery.domain.service.ProductPhotoCatalogService;
 import br.com.fooddelivery.domain.service.ProductService;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -95,6 +96,16 @@ public class RestaurantProductPhotoController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteProductPhoto(
+            @PathVariable Integer restaurantId,
+            @PathVariable Integer productId
+    ) {
+        this.productPhotoCatalogService.deleteProductPhotoById(restaurantId, productId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     private void isAcceptMediaType(MediaType mediaType, List<MediaType> accepts) throws HttpMediaTypeNotAcceptableException {
