@@ -1,4 +1,4 @@
-package br.com.fooddelivery.domain.repository.impl;
+package br.com.fooddelivery.domain.service.impl;
 
 import br.com.fooddelivery.domain.exception.ReportException;
 import br.com.fooddelivery.domain.filter.DailySalesFilter;
