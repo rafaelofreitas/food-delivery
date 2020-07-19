@@ -7,7 +7,7 @@ public class ProductPhotoNotFoundException extends EntityNotFoundException {
         super(message);
     }
 
-    public ProductPhotoNotFoundException(Integer id) {
-        this(String.format("No Product Photo found with code: %s!", id));
+    public ProductPhotoNotFoundException(Integer restaurantId, Integer productId) {
+        this(String.format("No Product Photo found with restaurant code: %s and product code: %s", restaurantId, productId));
     }
 }

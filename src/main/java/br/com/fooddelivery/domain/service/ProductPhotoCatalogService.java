@@ -49,6 +49,6 @@ public class ProductPhotoCatalogService {
     public ProductPhoto getProductPhotoById(Integer restaurantId, Integer productId) {
         return this.productRepository
                 .findByProductPhotoId(restaurantId, productId)
-                .orElseThrow(() -> new ProductPhotoNotFoundException(productId));
+                .orElseThrow(() -> new ProductPhotoNotFoundException(restaurantId, productId));
     }
 }
