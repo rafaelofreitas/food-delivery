@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -43,11 +42,14 @@ public class PhotoStorageLocalImpl implements PhotoStorageService {
     }
 
     @Override
-    public InputStream toRecover(String fileName) {
+    public PhotoRecover toRecover(String fileName) {
         try {
             var pathPhoto = this.getFilePath(fileName);
 
-            return Files.newInputStream(pathPhoto);
+            return PhotoRecover
+                    .builder()
+                    .inputStream(Files.newInputStream(pathPhoto))
+                    .build();
         } catch (IOException e) {
             throw new StorageException("Couldn't delete file!", e);
         }

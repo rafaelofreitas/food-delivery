@@ -10,7 +10,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
+import java.net.URL;
 
 @Service
 public class PhotoStorageS3Impl implements PhotoStorageService {
@@ -32,7 +32,7 @@ public class PhotoStorageS3Impl implements PhotoStorageService {
 
             var putObjectRequest = new PutObjectRequest(
                     s3.getBucketName(),
-                    this.filePath(newPicture.getFileName()),
+                    this.getFilePath(newPicture.getFileName()),
                     newPicture.getInputStream(),
                     metaData
             ).withCannedAcl(CannedAccessControlList.PublicRead);
@@ -48,7 +48,7 @@ public class PhotoStorageS3Impl implements PhotoStorageService {
         try {
             StorageProperties.S3 s3 = this.storageProperties.getS3();
 
-            var deleteObjectRequest = new DeleteObjectRequest(s3.getBucketName(), this.filePath(fileName));
+            var deleteObjectRequest = new DeleteObjectRequest(s3.getBucketName(), this.getFilePath(fileName));
 
             this.amazonS3.deleteObject(deleteObjectRequest);
         } catch (Exception e) {
@@ -57,11 +57,22 @@ public class PhotoStorageS3Impl implements PhotoStorageService {
     }
 
     @Override
-    public InputStream toRecover(String fileName) {
-        return null;
+    public PhotoRecover toRecover(String fileName) {
+        try {
+            StorageProperties.S3 s3 = this.storageProperties.getS3();
+
+            URL url = this.amazonS3.getUrl(s3.getBucketName(), this.getFilePath(fileName));
+
+            return PhotoRecover
+                    .builder()
+                    .url(url.toString())
+                    .build();
+        } catch (Exception e) {
+            throw new StorageException("Couldn't retrieve the file on Amazon S3", e);
+        }
     }
 
-    private String filePath(String fileName) {
+    private String getFilePath(String fileName) {
         return String.format("%s/%s", this.storageProperties.getS3().getPhotosDirectory(), fileName);
     }
 }

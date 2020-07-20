@@ -10,6 +10,7 @@ import br.com.fooddelivery.domain.service.ProductPhotoCatalogService;
 import br.com.fooddelivery.domain.service.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -75,7 +75,7 @@ public class RestaurantProductPhotoController {
     }
 
     @GetMapping
-    public ResponseEntity<InputStreamResource> toRecoverProductPhoto(
+    public ResponseEntity<?> toRecoverProductPhoto(
             @PathVariable Integer restaurantId,
             @PathVariable Integer productId,
             @RequestHeader(name = "accept") String acceptHeader
@@ -88,12 +88,19 @@ public class RestaurantProductPhotoController {
 
             this.isAcceptMediaType(mediaTypePhoto, mediaTypeAccept);
 
-            InputStream inputStream = this.photoStorageService.toRecover(productPhoto.getFileName());
+            PhotoStorageService.PhotoRecover photoRecover = this.photoStorageService.toRecover(productPhoto.getFileName());
+
+            if (photoRecover.hasUrl()) {
+                return ResponseEntity
+                        .status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, photoRecover.getUrl())
+                        .build();
+            }
 
             return ResponseEntity
                     .ok()
                     .contentType(mediaTypePhoto)
-                    .body(new InputStreamResource(inputStream));
+                    .body(new InputStreamResource(photoRecover.getInputStream()));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
