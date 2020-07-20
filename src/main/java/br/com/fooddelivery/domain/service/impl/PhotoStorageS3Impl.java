@@ -7,6 +7,8 @@ import java.io.InputStream;
 
 @Service
 public class PhotoStorageS3Impl implements PhotoStorageService {
+    private final AmazonS3 amazonS3;
+
     @Override
     public void store(NewPicture newPicture) {
 
