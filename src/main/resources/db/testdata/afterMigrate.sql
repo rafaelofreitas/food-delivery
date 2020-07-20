@@ -79,7 +79,9 @@ insert into tb_user (user_id, name, email, password, date_register) values
 (2, 'Maria Joaquina', 'maria.vnd@fooddelivery.com', '123', utc_timestamp),
 (3, 'José Souza', 'jose.aux@fooddelivery.com', '123', utc_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@fooddelivery.com', '123', utc_timestamp),
-(5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp);
+(5, 'Manoel Lima', 'manoel.loja@fooddelivery.com', '123', utc_timestamp),
+(6, 'Luciano Freitas', 'rafaelfreitas.dev+luciano@gmail.com', '123', utc_timestamp),
+(7, 'Thiago Freitas', 'rafaelfreitas.dev+thiago@gmail.com', '123', utc_timestamp);
 
 insert into tb_group (group_id, name) values (1, 'Gerente'), (2, 'Vendedor'), (3, 'Secretária'), (4, 'Cadastrador');
 insert into tb_group_permission (group_id, permission_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
@@ -91,7 +93,7 @@ insert into tb_user_restaurant_responsible(restaurant_id, user_id) values (1, 5)
 insert into tb_purchase (purchase_id, purchase_code, restaurant_id, user_id, payment_id, city_id, address_zip_code,
                          address_public_place, address_number, address_complement, address_neighborhood,
                          order_status, creation_date, subtotal, shipping_fee, amount)
-values (1, UUID_TO_BIN(UUID()), 1, 1, 1, 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil',
+values (1, UUID_TO_BIN(UUID()), 1, 6, 1, 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil',
         'CREATED', utc_timestamp, 298.90, 10, 308.90);
 
 insert into tb_order_item (order_item_id, purchase_id, product_id, amount, unit_price, total_price, note)
@@ -103,7 +105,7 @@ values (2, 1, 2, 2, 110, 220, 'Menos picante, por favor');
 insert into tb_purchase (purchase_id, purchase_code, restaurant_id, user_id, payment_id, city_id, address_zip_code,
                          address_public_place, address_number, address_complement, address_neighborhood,
                          order_status, creation_date, subtotal, shipping_fee, amount)
-values (2, UUID_TO_BIN(UUID()), 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro',
+values (2, UUID_TO_BIN(UUID()), 4, 6, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro',
         'CREATED', utc_timestamp, 79, 0, 79);
 
 insert into tb_order_item (order_item_id, purchase_id, product_id, amount, unit_price, total_price, note)
@@ -113,8 +115,8 @@ values (3, 2, 6, 1, 79, 79, 'Ao ponto');
 insert into tb_purchase (purchase_id, purchase_code, restaurant_id, user_id, payment_id, city_id, address_zip_code,
                          address_public_place, address_number, address_complement, address_neighborhood,
                          order_status, creation_date, confirmation_date, cancellation_date, subtotal, shipping_fee, amount)
-values (3, UUID_TO_BIN(UUID()), 1, 1, 1, 1, '38400-222', 'Rua Natal', '200', null, 'Brasil',
-        'DELIVERED', '2019-10-30 21:10:00', '2019-10-30 21:10:45', '2019-10-30 21:55:44', 110, 10, 120);
+values (3, UUID_TO_BIN(UUID()), 1, 7, 1, 1, '38400-222', 'Rua Natal', '200', null, 'Brasil',
+        'CREATED', '2019-10-30 21:10:00', '2019-10-30 21:10:45', '2019-10-30 21:55:44', 110, 10, 120);
 
 insert into tb_order_item (order_item_id, purchase_id, product_id, amount, unit_price, total_price, note)
 values (4, 3, 2, 1, 110, 110, null);
@@ -123,8 +125,8 @@ values (4, 3, 2, 1, 110, 110, null);
 insert into tb_purchase (purchase_id, purchase_code, restaurant_id, user_id, payment_id, city_id, address_zip_code,
                          address_public_place, address_number, address_complement, address_neighborhood,
                          order_status, creation_date, confirmation_date, cancellation_date, subtotal, shipping_fee, amount)
-values (4, UUID_TO_BIN(UUID()), 1, 2, 1, 1, '38400-800', 'Rua Fortaleza', '900', 'Apto 504', 'Centro',
-        'DELIVERED', '2019-11-02 20:34:04', '2019-11-02 20:35:10', '2019-11-02 21:10:32', 174.4, 5, 179.4);
+values (4, UUID_TO_BIN(UUID()), 1, 7, 1, 1, '38400-800', 'Rua Fortaleza', '900', 'Apto 504', 'Centro',
+        'CREATED', '2019-11-02 20:34:04', '2019-11-02 20:35:10', '2019-11-02 21:10:32', 174.4, 5, 179.4);
 
 insert into tb_order_item (order_item_id, purchase_id, product_id, amount, unit_price, total_price, note)
 values (5, 4, 3, 2, 87.2, 174.4, null);
@@ -133,8 +135,8 @@ values (5, 4, 3, 2, 87.2, 174.4, null);
 insert into tb_purchase (purchase_id, purchase_code, restaurant_id, user_id, payment_id, city_id, address_zip_code,
                          address_public_place, address_number, address_complement, address_neighborhood,
                          order_status, creation_date, confirmation_date, cancellation_date, subtotal, shipping_fee, amount)
-values (5, UUID_TO_BIN(UUID()), 1, 3, 2, 1, '38400-200', 'Rua 10', '930', 'Casa 20', 'Martins',
-        'DELIVERED', '2019-11-02 21:00:30', '2019-11-02 21:01:21', '2019-11-02 21:20:10', 87.2, 10, 97.2);
+values (5, UUID_TO_BIN(UUID()), 1, 7, 2, 1, '38400-200', 'Rua 10', '930', 'Casa 20', 'Martins',
+        'CREATED', '2019-11-02 21:00:30', '2019-11-02 21:01:21', '2019-11-02 21:20:10', 87.2, 10, 97.2);
 
 insert into tb_order_item (order_item_id, purchase_id, product_id, amount, unit_price, total_price, note)
 values (6, 5, 3, 1, 87.2, 87.2, null);

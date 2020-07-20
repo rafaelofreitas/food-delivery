@@ -8,9 +8,11 @@ import java.util.UUID;
 @Service
 public class PurchaseOrderFlowService {
     private final PurchaseService purchaseService;
+    private final SendingEmailService sendingEmailService;
 
-    public PurchaseOrderFlowService(PurchaseService purchaseService) {
+    public PurchaseOrderFlowService(PurchaseService purchaseService, SendingEmailService sendingEmailService) {
         this.purchaseService = purchaseService;
+        this.sendingEmailService = sendingEmailService;
     }
 
     @Transactional
@@ -18,6 +20,14 @@ public class PurchaseOrderFlowService {
         var purchase = this.purchaseService.getByPurchaseCode(purchaseCode);
 
         purchase.confirmed();
+
+        var message = SendingEmailService.Message.builder()
+                .subjectMatter(purchase.getRestaurant().getName() + " - Pedido Confirmado")
+                .body("The code request <strong>" + purchase.getPurchaseCode() + "</strong> has been confirmed!")
+                .recipient(purchase.getClient().getEmail())
+                .build();
+
+        this.sendingEmailService.send(message);
     }
 
     @Transactional
