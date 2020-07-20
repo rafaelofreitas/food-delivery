@@ -4,6 +4,7 @@ import br.com.fooddelivery.domain.exception.EntityInUseException;
 import br.com.fooddelivery.domain.exception.ProductPhotoNotFoundException;
 import br.com.fooddelivery.domain.model.ProductPhoto;
 import br.com.fooddelivery.domain.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class ProductPhotoCatalogService {
     private final ProductRepository productRepository;
     private final PhotoStorageService photoStorageService;
 
-    public ProductPhotoCatalogService(ProductRepository productRepository, PhotoStorageService photoStorageService) {
+    public ProductPhotoCatalogService(ProductRepository productRepository, @Qualifier("photoStorageS3Impl") PhotoStorageService photoStorageService) {
         this.productRepository = productRepository;
         this.photoStorageService = photoStorageService;
     }
@@ -41,6 +42,7 @@ public class ProductPhotoCatalogService {
 
         var newPicture = PhotoStorageService.NewPicture.builder()
                 .fileName(productPhoto.getFileName())
+                .contentType(productPhoto.getContentType())
                 .inputStream(fileData)
                 .build();
 

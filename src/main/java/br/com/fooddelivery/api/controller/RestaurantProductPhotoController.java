@@ -8,6 +8,7 @@ import br.com.fooddelivery.domain.model.ProductPhoto;
 import br.com.fooddelivery.domain.service.PhotoStorageService;
 import br.com.fooddelivery.domain.service.ProductPhotoCatalogService;
 import br.com.fooddelivery.domain.service.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,7 +33,7 @@ public class RestaurantProductPhotoController {
             ProductService productService,
             ProductPhotoCatalogService productPhotoCatalogService,
             ProductPhotoMapper productPhotoMapper,
-            PhotoStorageService photoStorageService
+            @Qualifier("photoStorageS3Impl") PhotoStorageService photoStorageService
     ) {
         this.productService = productService;
         this.productPhotoCatalogService = productPhotoCatalogService;

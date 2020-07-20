@@ -22,5 +22,6 @@ public interface PhotoStorageService {
     class NewPicture {
         private final String fileName;
         private final InputStream inputStream;
+        private final String contentType;
     }
 }
