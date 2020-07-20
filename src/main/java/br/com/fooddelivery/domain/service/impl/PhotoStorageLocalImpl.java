@@ -3,20 +3,16 @@ package br.com.fooddelivery.domain.service.impl;
 import br.com.fooddelivery.core.storage.StorageProperties;
 import br.com.fooddelivery.domain.exception.StorageException;
 import br.com.fooddelivery.domain.service.PhotoStorageService;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Service
 public class PhotoStorageLocalImpl implements PhotoStorageService {
-    private final StorageProperties storageProperties;
-
-    public PhotoStorageLocalImpl(StorageProperties storageProperties) {
-        this.storageProperties = storageProperties;
-    }
+    @Autowired
+    private StorageProperties storageProperties;
 
     @Override
     public void store(NewPicture newPicture) {
