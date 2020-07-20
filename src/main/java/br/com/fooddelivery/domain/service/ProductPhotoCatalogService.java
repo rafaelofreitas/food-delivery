@@ -25,12 +25,14 @@ public class ProductPhotoCatalogService {
 
     @Transactional
     public ProductPhoto saveProductPhoto(ProductPhoto productPhoto, InputStream fileData) {
+        String oldFileName = null;
+
         // Delete photo before a new one persists
         Optional<ProductPhoto> existingPhoto = this.productRepository
                 .findByProductPhotoId(productPhoto.getRestaurantId(), productPhoto.getProductId());
 
         if (existingPhoto.isPresent()) {
-            this.photoStorageService.delete(existingPhoto.get().getFileName());
+            oldFileName = existingPhoto.get().getFileName();
             this.productRepository.delete(existingPhoto.get());
         }
 
@@ -46,7 +48,7 @@ public class ProductPhotoCatalogService {
                 .inputStream(fileData)
                 .build();
 
-        this.photoStorageService.store(newPicture);
+        this.photoStorageService.replace(oldFileName, newPicture);
 
         return productPhoto;
     }

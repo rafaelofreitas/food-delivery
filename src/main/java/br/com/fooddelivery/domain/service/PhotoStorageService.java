@@ -13,6 +13,14 @@ public interface PhotoStorageService {
 
     InputStream toRecover(String fileName);
 
+    default void replace(String oldFileName, NewPicture newPicture) {
+        this.store(newPicture);
+
+        if (oldFileName != null) {
+            this.delete(oldFileName);
+        }
+    }
+
     default String getGenerateFileName(String fileName) {
         return UUID.randomUUID() + "_" + fileName;
     }
