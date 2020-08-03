@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="description" content="Template for order confirmation" />
-</head>
-
 <body style="font: 14px Arial, Helvetica, sans-serif">
 <div width="100%" style="margin:0;padding:0!important;background-color:#ffffff">
     <center style="width:100%;background-color:#ffffff">
@@ -98,7 +93,7 @@
                                         </td>
                                         <td style="padding:10px 10px 0 10px;text-align:right"
                                             width="auto" align="right">
-                                            <p style="margin:0">${item.totalPrice}</p>
+                                            <p style="margin:0">${item.totalPrice?string.currency}</p>
                                         </td>
                                     </tr>
                                     </#list>
@@ -131,7 +126,7 @@
                                         <td style="padding:0 10px 10px;text-align:right" width="auto"
                                             align="right">
                                             <p style="margin:0">
-                                                R$ ${purchase.subtotal}</p>
+                                                ${purchase.subtotal?string.currency}</p>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -159,7 +154,7 @@
                                         <td style="padding:0 10px 10px;text-align:right" width="auto"
                                             align="right">
                                             <p style="margin:0">
-                                                R$ ${purchase.shippingFee}</p>
+                                                ${purchase.shippingFee?string.currency}</p>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -186,7 +181,7 @@
                                         <td style="padding:0 10px 10px;text-align:right" width="auto"
                                             align="right">
                                             <p style="margin:0">
-                                                R$ ${purchase.amount}</p>
+                                                ${purchase.amount?string.currency}</p>
                                         </td>
                                     </tr>
                                     </tbody>
