@@ -2,6 +2,7 @@ package br.com.fooddelivery.domain.service;
 
 import lombok.*;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface SendingEmailService {
@@ -19,5 +20,8 @@ public interface SendingEmailService {
 
         @NonNull
         private String body;
+
+        @Singular("variable")
+        private Map<String, Object> variable;
     }
 }

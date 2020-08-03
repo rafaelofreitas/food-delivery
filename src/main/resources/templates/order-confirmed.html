@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Template for order confirmation" />
+</head>
+
+<body style="font: 14px Arial, Helvetica, sans-serif">
+<div width="100%" style="margin:0;padding:0!important;background-color:#ffffff">
+    <center style="width:100%;background-color:#ffffff">
+        <h1 style="padding-top:20px; text-align:center;color: red; font-size: 26px">Pedido confirmado!</h1>
+        <div style="max-height:0;overflow:hidden" aria-hidden="true">
+            Pedido: ${purchase.purchaseCode} • ${purchase.confirmationDate}
+        </div>
+        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600"
+               style="margin:auto">
+            <tbody>
+            <tr>
+                <td style="padding:0 0 5px 0;text-align:center">
+                    <hr>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0;text-align:center">
+                    <img src="https://raw.githubusercontent.com/RafaelOFreitas/email-templates/master/ex-1/logo.png"
+                         height="120px" alt="logo" border="0" style="height:auto;max-height:120px">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p style="padding-top:20px; text-align:center;color: rgb(90, 196, 48); font-size: 20px">
+                        ${purchase.client.name}, seu
+                        pedido foi confirmado pelo restaurante e já está sendo preparado.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:20px 10px 0 10px;background-color:#ffffff">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th valign="top" width="100%">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                       width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td style="padding:0 10px 10px;text-align:left">
+                                            <p style="margin:0;display:inline-block">Pedido: #${purchase.purchaseCode} •
+                                            </p>
+                                            <p style="margin:0;display:inline-block">${purchase.confirmationDate?datetime("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")?string("d 'de' MMM 'de' y HH:mm:ss")}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0px 10px 0 10px;background-color:#ffffff">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th valign="top" width="100%">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                       width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td style="padding:0 10px 10px;text-align:left">
+                                            <p style="margin:0">${purchase.restaurant.name}</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px 10px 0 10px;background-color:#ffffff">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th valign="top" width="100%">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                       width="100%">
+                                    <tbody>
+                                    <#list purchase.items as item>
+                                    <tr>
+                                        <td style="padding:10px 10px 0 10px;text-align:left">
+                                            <p style="margin:0;display:inline-block">${item.amount}</p>
+                                            <p style="margin:0;display:inline-block">${item.product.name}</p>
+                                        </td>
+                                        <td style="padding:10px 10px 0 10px;text-align:right"
+                                            width="auto" align="right">
+                                            <p style="margin:0">${item.totalPrice}</p>
+                                        </td>
+                                    </tr>
+                                    </#list>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0 10px 0 10px;background-color:#ffffff">
+                    <hr>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0px 10px 0 10px;background-color:#ffffff">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th valign="top" width="100%">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                       width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td style="padding:0 10px 10px;text-align:left">
+                                            <span style="margin:0">Subtotal</span>
+                                        </td>
+                                        <td style="padding:0 10px 10px;text-align:right" width="auto"
+                                            align="right">
+                                            <p style="margin:0">
+                                                R$ ${purchase.subtotal}</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0px 10px 0 10px;background-color:#ffffff">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th valign="top" width="100%">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                       width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td style="padding:0 10px 10px;text-align:left">
+                                            <p style="margin:0;display:inline-block">Taxa de entrega
+                                            </p>
+                                        </td>
+                                        <td style="padding:0 10px 10px;text-align:right" width="auto"
+                                            align="right">
+                                            <p style="margin:0">
+                                                R$ ${purchase.shippingFee}</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px 10px 0 10px;background-color:#ffffff">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th valign="top" width="100%">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                       width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td style="padding:0 10px 10px;text-align:left">
+                                            <span style="margin:0">Total</span>
+                                        </td>
+                                        <td style="padding:0 10px 10px;text-align:right" width="auto"
+                                            align="right">
+                                            <p style="margin:0">
+                                                R$ ${purchase.amount}</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:20px 10px 0 10px;background-color:#ffffff">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th valign="top" width="100%">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                       width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td style="padding:0 10px 0 10px;text-align:left">
+                                            <p style="margin:0">
+                                                Endereço de entrega:
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0px 10px 0 10px;background-color:#ffffff">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th valign="top" width="100%">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                       width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td style="padding:0 10px 10px;text-align:left">
+                                            <p style="margin:0">
+                                                ${purchase.deliveryAddress.publicPlace}, ${purchase.deliveryAddress.number}
+                                                ${purchase.deliveryAddress.neighborhood} -
+                                                ${purchase.deliveryAddress.city.name} - ${purchase.deliveryAddress.city.state.name}<br>
+                                                CEP: ${purchase.deliveryAddress.zipCode}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:20px 10px 0 10px;background-color:#ffffff">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th valign="top" width="100%">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                       width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td style="padding:0 10px 0 10px;text-align:left">
+                                            <p style="margin:0">
+                                                Forma de pagamento</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:0px 10px 0 10px;background-color:#ffffff">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th valign="top" width="100%">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                       width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td style="padding:0 10px 10px;text-align:left">
+                                            <p style="margin:0">
+                                                ${purchase.payment.description}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600"
+               style="margin:auto">
+            <tbody>
+            <tr>
+                <td dir="ltr" width="100%" style="padding:10px;background-color:#ffffff">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <th>
+                                <table role="presentation" border="0" cellpadding="0" cellspacing="0"
+                                       width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td align="center" style="padding:26px 0 20px">
+                                            <p>Pensou comida,
+                                                pensou
+                                                <span>FoodDelivery</span></p>
+                                            <a href="/" rel="external"
+                                               style="text-decoration:none;display:inline-block"
+                                               target="_blank"
+                                               data-saferedirecturl="https://www.google.com/url">
+                                                <img src="https://ci3.googleusercontent.com/proxy/fB3VfH87OpZC7NL1pGlZHOI1-7_3xsmjCWeZ30bBwru1BFFj0roj0id5DQ24qL1gWRSv6v8S_Iw6J8Q_-mO2AOMw7ne7Yl7pcZ7ydM-2ZDTM=s0-d-e1-ft#/"
+                                                     alt="Google Play" height="40"
+                                                     style="vertical-align:middle">
+                                            </a>
+                                            <p></p>
+                                            <a href="/" rel="external"
+                                               style="text-decoration:none;display:inline-block"
+                                               target="_blank"
+                                               data-saferedirecturl="https://www.google.com/url">
+                                                <img src="https://ci4.googleusercontent.com/proxy/ZUDFzLEBN3OYbFiWgZTUjwLT06boLAls7UgHIcHKzzEsYK9lVXdWIkvp4FtiuZR6Vcc6c8RNacUAdy4ijunXG2stQoC-3ul63QcrjmpTIvnQ=s0-d-e1-ft"
+                                                     alt="iTunes Store" height="40"
+                                                     style="vertical-align:middle">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center"
+                                            style="border-top:1px solid #f5f0eb;border-bottom:1px solid #f5f0eb;padding:10px 0 10px 0">
+                                            <a href="/" rel="external" style="text-decoration:none"
+                                               target="_blank"
+                                               data-saferedirecturl="https://www.google.com/url">
+                                                <img src="https://ci6.googleusercontent.com/proxy/GVCeh-Ru_68B4LKJkhkWvMM9aBUQTdGZm8hM1C1pIfbd_QMKQXGtXfXcx3wzOlIVJYJ8VjrhtrxiAIpkkzLqfkfpzA_ibm1Nm80M6zk=s0-d-e1-ft"
+                                                     alt="Curta no Facebook" width="32" height="32">
+                                            </a>
+
+                                            <a href="/" rel="external" style="text-decoration:none"
+                                               target="_blank"
+                                               data-saferedirecturl="https://www.google.com/url">
+                                                <img src="https://ci4.googleusercontent.com/proxy/fKOcWx4KzNmc5IPD1ufEWZLFGsphIelH6OJWB1sp3Re_bq5Fyh48q0HOwvhY6qmaH8Zn8HpFm_3Ahj35LMYqLdY7r-5aLFd_N8715A=s0-d-e1-ft"
+                                                     alt="Siga no Twitter" width="32" height="32">
+                                            </a>
+
+                                            <a href="/" rel="external" style="text-decoration:none"
+                                               target="_blank"
+                                               data-saferedirecturl="https://www.google.com/url">
+                                                <img src="https://ci5.googleusercontent.com/proxy/RwyKtfDZ8cji4wCL-2-cM4sYKO1k_zr975a71tJCxs6fCOSetxY630Lo1nn2cQlZbHbyKZ6jRL9sfSnHnh1uP21xa-KiZU3NEou4_A=s0-d-e1-ft"
+                                                     alt="Assine no Youtube" width="32" height="32">
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="padding:0 20px 0 20px">
+                    <p>
+                        © 2020 FoodDelivery - Todos os direitos reservados.
+                        <br>
+                        Este é um e-mail automático. Em caso de dúvidas, acesse nossa área de
+                        <a href="/" rel="external" style="color:#ea1d2c;text-decoration:none" target="_blank"
+                           data-saferedirecturl="https://www.google.com/url">Ajuda</a>
+                    </p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </center>
+</div>
+</body>
+
+</html>

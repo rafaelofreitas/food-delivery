@@ -22,8 +22,9 @@ public class PurchaseOrderFlowService {
         purchase.confirmed();
 
         var message = SendingEmailService.Message.builder()
-                .subjectMatter(purchase.getRestaurant().getName() + " - Pedido Confirmado")
-                .body("The code request <strong>" + purchase.getPurchaseCode() + "</strong> has been confirmed!")
+                .subjectMatter(purchase.getRestaurant().getName() + " - Purchase has been confirmed!")
+                .variable("purchase", purchase)
+                .body("order-confirmed.html")
                 .recipient(purchase.getClient().getEmail())
                 .build();
 
