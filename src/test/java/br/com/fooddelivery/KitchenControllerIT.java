@@ -1,8 +1,10 @@
 package br.com.fooddelivery;
 
+import br.com.fooddelivery.domain.model.Kitchen;
+import br.com.fooddelivery.domain.repository.KitchenRepository;
+import br.com.fooddelivery.utils.DatabaseCleaner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +28,10 @@ public class KitchenControllerIT {
     private int port;
 
     @Autowired
-    private Flyway flyway;
+    private DatabaseCleaner databaseCleaner;
+
+    @Autowired
+    private KitchenRepository kitchenRepository;
 
     @Before
     public void setUp(){
@@ -34,7 +39,8 @@ public class KitchenControllerIT {
         RestAssured.port = this.port;
         RestAssured.basePath = BASE_PATH;
 
-        this.flyway.migrate();
+        this.databaseCleaner.clearTables();
+        this.prepareData();
     }
 
     @Test
@@ -54,7 +60,7 @@ public class KitchenControllerIT {
         .when()
                 .get()
         .then()
-                .body("content", hasSize(4));
+                .body("content", hasSize(2));
     }
 
     @Test
@@ -67,5 +73,19 @@ public class KitchenControllerIT {
                 .post()
         .then()
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    private void prepareData() {
+        Kitchen kitchen = Kitchen.builder()
+                .name("Tailandesa")
+                .build();
+
+        this.kitchenRepository.save(kitchen);
+
+        Kitchen kitchen2 = Kitchen.builder()
+                .name("Americana")
+                .build();
+
+        this.kitchenRepository.save(kitchen2);
     }
 }
