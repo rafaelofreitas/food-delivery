@@ -16,6 +16,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 @RunWith(SpringRunner.class)
@@ -73,6 +74,29 @@ public class KitchenControllerIT {
                 .post()
         .then()
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    public void mustReturnCorrectAnswerAndStatus_WhenConsultingExistingKitchen(){
+        given()
+                .pathParam("id", 2)
+                .accept(ContentType.JSON)
+        .when()
+                .get("/{id}")
+        .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("name", equalTo("Americana"));
+    }
+
+    @Test
+    public void mustReturnStatus404_WhenConsultingNonexistentKitchen(){
+        given()
+                .pathParam("id", Integer.MAX_VALUE)
+                .accept(ContentType.JSON)
+        .when()
+                .get("/{id}")
+        .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
     private void prepareData() {
