@@ -55,7 +55,7 @@ public class KitchenControllerIT {
     }
 
     @Test
-    public void mustContain4Kitchens_WhenConsultingKitchen() {
+    public void mustContain2Kitchens_WhenConsultingKitchen() {
         given()
                 .accept(ContentType.JSON)
         .when()
