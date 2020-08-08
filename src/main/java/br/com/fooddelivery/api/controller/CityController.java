@@ -49,12 +49,16 @@ public class CityController {
     public ResponseEntity<CityOutput> getCityById(@PathVariable Integer id) {
         var city = this.cityService.getCityById(id);
 
+        CityOutput cityOutput = this.cityMapper.toOutput(city);
+
+//        cityOutput.add(new Link());
+
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
         return ResponseEntity
                 .ok()
                 .cacheControl(cache)
-                .body(this.cityMapper.toOutput(city));
+                .body(cityOutput);
     }
 
     @PostMapping
