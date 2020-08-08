@@ -6,10 +6,8 @@ import br.com.fooddelivery.api.dto.output.CityOutput;
 import br.com.fooddelivery.api.mapper.CityMapper;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.service.CityService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/cities")
@@ -31,18 +32,32 @@ public class CityController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CityOutput>> getCities(@PageableDefault Pageable pageable) {
-        Page<City> cityPage = this.cityService.getCities(pageable);
+    public ResponseEntity<CollectionModel<CityOutput>> getCities() {
+        List<CityOutput> cityOutputs = this.cityMapper.toCollectionOutput(this.cityService.getCities());
 
-        List<CityOutput> cityOutputs = this.cityMapper.toCollectionOutput(cityPage.getContent());
+        cityOutputs.forEach(c -> {
+            c.add(linkTo(methodOn(CityController.class)
+                    .getCityById(c.getId()))
+                    .withSelfRel());
 
-        Page<CityOutput> cityOutputPage = new PageImpl<>(cityOutputs, pageable, cityPage.getTotalElements());
+            c.add(linkTo(methodOn(CityController.class)
+                    .getCities())
+                    .withRel(IanaLinkRelations.COLLECTION));
+
+            c.add(linkTo(methodOn(StateController.class)
+                    .getStateById(c.getState().getId()))
+                    .withSelfRel());
+        });
+
+        CollectionModel<CityOutput> cityOutputCollectionModel = new CollectionModel<>(cityOutputs);
+
+        cityOutputCollectionModel.add(linkTo(CityController.class).withSelfRel());
 
         CacheControl cache = CacheControl
                 .maxAge(20, TimeUnit.SECONDS)
                 .cachePublic();
 
-        return ResponseEntity.ok().cacheControl(cache).body(cityOutputPage);
+        return ResponseEntity.ok().cacheControl(cache).body(cityOutputCollectionModel);
     }
 
     @GetMapping("/{id}")
@@ -51,7 +66,17 @@ public class CityController {
 
         CityOutput cityOutput = this.cityMapper.toOutput(city);
 
-//        cityOutput.add(new Link());
+        cityOutput.add(linkTo(methodOn(CityController.class)
+                .getCityById(cityOutput.getId()))
+                .withSelfRel());
+
+        cityOutput.add(linkTo(methodOn(CityController.class)
+                .getCities())
+                .withRel(IanaLinkRelations.COLLECTION));
+
+        cityOutput.add(linkTo(methodOn(StateController.class)
+                .getStateById(cityOutput.getState().getId()))
+                .withSelfRel());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
