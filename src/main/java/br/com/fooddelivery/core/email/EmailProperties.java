@@ -19,7 +19,15 @@ public class EmailProperties {
     @NotNull
     private String sender;
 
+    private Sandbox sandbox = new Sandbox();
+
     public enum Implementation {
-        SMTP, FAKE
+        SMTP, FAKE, SANDBOX
+    }
+
+    @Getter
+    @Setter
+    public class Sandbox {
+        private String sender;
     }
 }
