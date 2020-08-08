@@ -5,6 +5,7 @@ import br.com.fooddelivery.domain.exception.EmailException;
 import br.com.fooddelivery.domain.service.SendingEmailService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -13,20 +14,15 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import javax.mail.internet.MimeMessage;
 
 @Service
-public class SendingEmailServiceImpl implements SendingEmailService {
-    private final JavaMailSender mailSender;
-    private final EmailProperties emailProperties;
-    private final Configuration freeMarkerConfig;
+public class SmtpSendingEmailServiceImpl implements SendingEmailService {
+    @Autowired
+    private JavaMailSender mailSender;
 
-    public SendingEmailServiceImpl(
-            JavaMailSender mailSender,
-            EmailProperties emailProperties,
-            Configuration freeMarkerConfig
-    ) {
-        this.mailSender = mailSender;
-        this.emailProperties = emailProperties;
-        this.freeMarkerConfig = freeMarkerConfig;
-    }
+    @Autowired
+    private EmailProperties emailProperties;
+
+    @Autowired
+    private Configuration freeMarkerConfig;
 
     @Override
     public void send(Message message) {
@@ -46,7 +42,7 @@ public class SendingEmailServiceImpl implements SendingEmailService {
         }
     }
 
-    private String processTemplateBody(Message message) {
+    protected String processTemplateBody(Message message) {
         try {
             Template template = this.freeMarkerConfig.getTemplate(message.getBody());
 

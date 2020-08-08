@@ -39,7 +39,9 @@ public class CityController {
 
         Page<CityOutput> cityOutputPage = new PageImpl<>(cityOutputs, pageable, cityPage.getTotalElements());
 
-        CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
+        CacheControl cache = CacheControl
+                .maxAge(20, TimeUnit.SECONDS)
+                .cachePublic();
 
         return ResponseEntity.ok().cacheControl(cache).body(cityOutputPage);
     }
