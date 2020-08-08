@@ -1,5 +1,6 @@
 package br.com.fooddelivery.domain.model;
 
+import br.com.fooddelivery.domain.event.PurchaseCanceledEvent;
 import br.com.fooddelivery.domain.event.PurchaseConfirmedEvent;
 import br.com.fooddelivery.domain.exception.BusinessException;
 import lombok.Data;
@@ -98,6 +99,8 @@ public class Purchase extends AbstractAggregateRoot<Purchase> {
     public void canceled() {
         this.setOrderStatus(OrderStatus.CANCELED);
         this.setCancellationDate(OffsetDateTime.now());
+
+        this.registerEvent(new PurchaseCanceledEvent(this));
     }
 
     public void setOrderStatus(OrderStatus newStatus) {

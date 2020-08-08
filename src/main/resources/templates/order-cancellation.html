@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<body>
+<div align="center" bgcolor="red" cellpadding="0" cellspacing="0" marginheight="0" marginwidth="0">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-spacing:0; padding-bottom: 20px;"
+           width="100%">
+        <tbody>
+        <tr style="border-top-width:0;border-bottom-width:0;padding-top:0;padding-bottom:0" valign="top">
+            <td valign="top">
+                <table align="center" border="0" cellpadding="0" cellspacing="0"
+                       style="max-width:640px;border-collapse:collapse" width="100%">
+                    <tbody>
+                    <tr>
+                        <td
+                                style="padding-right:0;padding-left:0;padding-top:0;padding-bottom:0;text-align:center;vertical-align:bottom">
+                            <div style="height:6px">
+                            </div>
+                            <font color="#847870" size="2">
+                                <a href="" style="color:#939393" target="_blank" data-saferedirecturl="/">
+                                    <b>política de privacidade</b>
+                                </a>
+                                |
+                                <a href="/" style="color:#939393" target="_blank"
+                                   data-saferedirecturl="/"><b>descadastre-se</b></a>
+                            </font>
+                            <br>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-spacing:0" width="100%">
+        <tbody>
+        <tr style="border-top-width:0;border-bottom-width:0;padding-top:0;padding-bottom:0" valign="top">
+            <td valign="top">
+                <table align="center" border="0" cellpadding="0" cellspacing="0"
+                       style="max-width:640px;border-collapse:collapse" width="100%">
+                    <tbody>
+                    <tr>
+                        <td style="padding-right:0;padding-left:0;padding-top:0;padding-bottom:0;text-align:center;max-width:640px;background-color:red;">
+                            <h1 style="border-collapse:collapse;text-align:center;color:white;font-size:35px;vertical-align:text-top;">
+                                Pedido Cancelado!</h1>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-spacing:0; padding-bottom: 50px;"
+           width="100%">
+        <tbody>
+        <tr style="border-top-width:0;border-bottom-width:0;padding-top:0;padding-bottom:0" valign="top">
+            <td valign="top">
+                <table align="center" border="0" cellpadding="0" cellspacing="0"
+                       style="max-width:640px;border-collapse:collapse" width="100%">
+                    <tbody>
+                    <tr>
+                        <td
+                                style="padding-right:0;padding-left:0;padding-top:0;padding-bottom:0;text-align:center">
+                            <br>
+                            <span style="color:red;font-size:35px">Rafael,</span>
+                            <br><br>
+                            <span style="color:#3c3c3c;font-size:22px">o seu Pedido #${purchase.purchaseCode} foi cancelado
+                                            pelo
+                                            Restaurante :(</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600"
+           style="margin:auto; padding-bottom: 40px;">
+        <tr>
+            <td style="padding:0px 10px 0 10px;background-color:#ffffff; color:#3c3c3c;">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tbody>
+                    <tr>
+                        <td style="padding:0px 10px 0 10px;background-color:#ffffff">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tbody>
+                                <tr>
+                                    <th valign="top" width="100%">
+                                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                               width="100%">
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding:0 10px 10px;text-align:left">
+                                                    <p style="margin:0;display:inline-block">${purchase.restaurant.name} •</p>
+                                                    <p style="margin:0;display:inline-block">${purchase.cancellationDate?datetime("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")?string("d 'de' MMM 'de' y HH:mm:ss")}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px 10px 0 10px;background-color:#ffffff">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tbody>
+                                <tr>
+                                    <th valign="top" width="100%">
+                                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                               width="100%">
+                                            <tbody>
+                                            <#list purchase.items as item>
+                                            <tr>
+                                                <td style="padding:10px 10px 0 10px;text-align:left">
+                                                    <p style="margin:0;display:inline-block">${item.amount}</p>
+                                                    <p style="margin:0;display:inline-block">${item.product.name}</p>
+                                                </td>
+                                                <td style="padding:10px 10px 0 10px;text-align:right"
+                                                    width="auto" align="right">
+                                                    <p style="margin:0">${item.totalPrice?string.currency}</p>
+                                                </td>
+                                            </tr>
+                                            </#list>
+                                            </tbody>
+                                        </table>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0 10px 0 10px;background-color:#ffffff">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0px 10px 0 10px;background-color:#ffffff">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tbody>
+                                <tr>
+                                    <th valign="top" width="100%">
+                                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                               width="100%">
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding:0 10px 10px;text-align:left">
+                                                    <span style="margin:0">Subtotal</span>
+                                                </td>
+                                                <td style="padding:0 10px 10px;text-align:right" width="auto"
+                                                    align="right">
+                                                    <p style="margin:0">
+                                                        ${purchase.subtotal?string.currency}</p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0px 10px 0 10px;background-color:#ffffff">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tbody>
+                                <tr>
+                                    <th valign="top" width="100%">
+                                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                               width="100%">
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding:0 10px 10px;text-align:left">
+                                                    <p style="margin:0;display:inline-block">Taxa de entrega
+                                                    </p>
+                                                </td>
+                                                <td style="padding:0 10px 10px;text-align:right" width="auto"
+                                                    align="right">
+                                                    <p style="margin:0">
+                                                        ${purchase.shippingFee?string.currency}</p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px 10px 0 10px;background-color:#ffffff">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tbody>
+                                <tr>
+                                    <th valign="top" width="100%">
+                                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                               width="100%">
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding:0 10px 10px;text-align:left">
+                                                    <span style="margin:0">Total</span>
+                                                </td>
+                                                <td style="padding:0 10px 10px;text-align:right" width="auto"
+                                                    align="right">
+                                                    <p style="margin:0">
+                                                        ${purchase.amount?string.currency}</p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-spacing:0" width="100%">
+        <tbody>
+        <tr style="border-top-width:0;border-bottom-width:0;padding-top:0;padding-bottom:0" valign="top">
+            <td valign="top">
+                <table align="center" border="0" cellpadding="0" cellspacing="0"
+                       style="max-width:640px;border-collapse:collapse" width="100%">
+                    <tbody>
+                    <tr>
+                        <td
+                                style="padding-right:0;padding-left:0;padding-top:0;padding-bottom:0;text-align:center">
+                            <a href="/" target="_blank"><img style="max-width:640px;" alt="app store"
+                                                             border="0" src="https://raw.githubusercontent.com/RafaelOFreitas/email-templates/master/ex-3/img/canceled.png"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600"
+           style="margin:auto">
+        <tbody>
+        <tr>
+            <td dir="ltr" width="100%" style="padding:10px;background-color:#ffffff">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                    <tr>
+                        <th>
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"
+                                   width="100%">
+                                <tbody>
+                                <tr>
+                                    <td align="center" style="padding:26px 0 20px">
+                                        <p>Pensou comida,
+                                            pensou
+                                            <span>FoodDelivery</span></p>
+                                        <a href="/" rel="external"
+                                           style="text-decoration:none;display:inline-block"
+                                           target="_blank"
+                                           data-saferedirecturl="https://www.google.com/url">
+                                            <img src="https://ci3.googleusercontent.com/proxy/fB3VfH87OpZC7NL1pGlZHOI1-7_3xsmjCWeZ30bBwru1BFFj0roj0id5DQ24qL1gWRSv6v8S_Iw6J8Q_-mO2AOMw7ne7Yl7pcZ7ydM-2ZDTM=s0-d-e1-ft#/"
+                                                 alt="Google Play" height="40"
+                                                 style="vertical-align:middle">
+                                        </a>
+                                        <p></p>
+                                        <a href="/" rel="external"
+                                           style="text-decoration:none;display:inline-block"
+                                           target="_blank"
+                                           data-saferedirecturl="https://www.google.com/url">
+                                            <img src="https://ci4.googleusercontent.com/proxy/ZUDFzLEBN3OYbFiWgZTUjwLT06boLAls7UgHIcHKzzEsYK9lVXdWIkvp4FtiuZR6Vcc6c8RNacUAdy4ijunXG2stQoC-3ul63QcrjmpTIvnQ=s0-d-e1-ft"
+                                                 alt="iTunes Store" height="40"
+                                                 style="vertical-align:middle">
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center"
+                                        style="border-top:1px solid #f5f0eb;border-bottom:1px solid #f5f0eb;padding:10px 0 10px 0">
+                                        <a href="/" rel="external" style="text-decoration:none"
+                                           target="_blank"
+                                           data-saferedirecturl="https://www.google.com/url">
+                                            <img src="https://ci6.googleusercontent.com/proxy/GVCeh-Ru_68B4LKJkhkWvMM9aBUQTdGZm8hM1C1pIfbd_QMKQXGtXfXcx3wzOlIVJYJ8VjrhtrxiAIpkkzLqfkfpzA_ibm1Nm80M6zk=s0-d-e1-ft"
+                                                 alt="Curta no Facebook" width="32" height="32">
+                                        </a>
+
+                                        <a href="/" rel="external" style="text-decoration:none"
+                                           target="_blank"
+                                           data-saferedirecturl="https://www.google.com/url">
+                                            <img src="https://ci4.googleusercontent.com/proxy/fKOcWx4KzNmc5IPD1ufEWZLFGsphIelH6OJWB1sp3Re_bq5Fyh48q0HOwvhY6qmaH8Zn8HpFm_3Ahj35LMYqLdY7r-5aLFd_N8715A=s0-d-e1-ft"
+                                                 alt="Siga no Twitter" width="32" height="32">
+                                        </a>
+
+                                        <a href="/" rel="external" style="text-decoration:none"
+                                           target="_blank"
+                                           data-saferedirecturl="https://www.google.com/url">
+                                            <img src="https://ci5.googleusercontent.com/proxy/RwyKtfDZ8cji4wCL-2-cM4sYKO1k_zr975a71tJCxs6fCOSetxY630Lo1nn2cQlZbHbyKZ6jRL9sfSnHnh1uP21xa-KiZU3NEou4_A=s0-d-e1-ft"
+                                                 alt="Assine no Youtube" width="32" height="32">
+                                        </a>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="padding:0 20px 0 20px">
+                <p>
+                    © 2020 FoodDelivery - Todos os direitos reservados.
+                    <br>
+                    Este é um e-mail automático. Em caso de dúvidas, acesse nossa área de
+                    <a href="/" rel="external" style="color:#ea1d2c;text-decoration:none" target="_blank"
+                       data-saferedirecturl="https://www.google.com/url">Ajuda</a>
+                </p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</html>

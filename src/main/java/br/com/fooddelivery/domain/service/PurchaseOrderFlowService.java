@@ -37,5 +37,7 @@ public class PurchaseOrderFlowService {
         var purchase = this.purchaseService.getByPurchaseCode(purchaseCode);
 
         purchase.canceled();
+
+        this.repository.save(purchase);
     }
 }
