@@ -1,9 +1,11 @@
 package br.com.fooddelivery.domain.model;
 
+import br.com.fooddelivery.domain.event.PurchaseConfirmedEvent;
 import br.com.fooddelivery.domain.exception.BusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -12,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 @Entity
 @Table(name = "tb_purchase")
-public class Purchase {
+public class Purchase extends AbstractAggregateRoot<Purchase> {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,6 +86,8 @@ public class Purchase {
     public void confirmed() {
         this.setOrderStatus(OrderStatus.CONFIRMED);
         this.setConfirmationDate(OffsetDateTime.now());
+
+        this.registerEvent(new PurchaseConfirmedEvent(this));
     }
 
     public void delivered() {

@@ -1,5 +1,6 @@
 package br.com.fooddelivery.domain.service;
 
+import br.com.fooddelivery.domain.repository.PurchaseRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -8,11 +9,11 @@ import java.util.UUID;
 @Service
 public class PurchaseOrderFlowService {
     private final PurchaseService purchaseService;
-    private final SendingEmailService sendingEmailService;
+    private final PurchaseRepository repository;
 
-    public PurchaseOrderFlowService(PurchaseService purchaseService, SendingEmailService sendingEmailService) {
+    public PurchaseOrderFlowService(PurchaseService purchaseService, PurchaseRepository repository) {
         this.purchaseService = purchaseService;
-        this.sendingEmailService = sendingEmailService;
+        this.repository = repository;
     }
 
     @Transactional
@@ -21,14 +22,7 @@ public class PurchaseOrderFlowService {
 
         purchase.confirmed();
 
-        var message = SendingEmailService.Message.builder()
-                .subjectMatter(purchase.getRestaurant().getName() + " - Purchase has been confirmed!")
-                .variable("purchase", purchase)
-                .body("order-confirmed.html")
-                .recipient(purchase.getClient().getEmail())
-                .build();
-
-        this.sendingEmailService.send(message);
+        this.repository.save(purchase);
     }
 
     @Transactional
