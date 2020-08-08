@@ -1,5 +1,6 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.ResourceUriHelper;
 import br.com.fooddelivery.api.dto.entry.StateEntry;
 import br.com.fooddelivery.api.dto.output.StateOutput;
 import br.com.fooddelivery.api.mapper.StateMapper;
@@ -13,10 +14,8 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -57,16 +56,13 @@ public class StateController {
     }
 
     @PostMapping
-    public ResponseEntity<StateOutput> saveState(@Valid @RequestBody StateEntry stateEntry) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public StateOutput saveState(@Valid @RequestBody StateEntry stateEntry) {
         State state = this.stateService.saveState(this.stateMapper.toDomain(stateEntry));
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(state.getId())
-                .toUri();
+        ResourceUriHelper.addUriInResponseHeader(state.getId());
 
-        return ResponseEntity.created(uri).body(this.stateMapper.toOutput(state));
+        return this.stateMapper.toOutput(state);
     }
 
     @PutMapping("/{id}")

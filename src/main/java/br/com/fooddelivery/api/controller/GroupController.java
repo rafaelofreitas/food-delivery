@@ -1,5 +1,6 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.ResourceUriHelper;
 import br.com.fooddelivery.api.dto.entry.GroupEntry;
 import br.com.fooddelivery.api.dto.output.GroupOutput;
 import br.com.fooddelivery.api.mapper.GroupMapper;
@@ -13,10 +14,8 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -57,16 +56,13 @@ public class GroupController {
     }
 
     @PostMapping
-    public ResponseEntity<GroupOutput> saveGroup(@Valid @RequestBody GroupEntry groupEntry) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public GroupOutput saveGroup(@Valid @RequestBody GroupEntry groupEntry) {
         Group group = this.groupService.saveGroup(this.groupMapper.toDomain(groupEntry));
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(group.getId())
-                .toUri();
+        ResourceUriHelper.addUriInResponseHeader(group.getId());
 
-        return ResponseEntity.created(uri).body(this.groupMapper.toOutput(group));
+        return this.groupMapper.toOutput(group);
     }
 
     @PutMapping("/{id}")

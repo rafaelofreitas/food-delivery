@@ -1,5 +1,6 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.ResourceUriHelper;
 import br.com.fooddelivery.api.dto.entry.ProductEntry;
 import br.com.fooddelivery.api.dto.output.ProductOutput;
 import br.com.fooddelivery.api.mapper.ProductMapper;
@@ -7,12 +8,11 @@ import br.com.fooddelivery.domain.model.Product;
 import br.com.fooddelivery.domain.service.ProductService;
 import br.com.fooddelivery.domain.service.RestaurantService;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -68,7 +68,8 @@ public class RestaurantProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductOutput> saveProduct(
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductOutput saveProduct(
             @PathVariable Integer restaurantId,
             @RequestBody @Valid ProductEntry productEntry
     ) {
@@ -80,13 +81,9 @@ public class RestaurantProductController {
 
         product = this.productService.saveProduct(product);
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(product.getId())
-                .toUri();
+        ResourceUriHelper.addUriInResponseHeader(product.getId());
 
-        return ResponseEntity.created(uri).body(this.productMapper.toOutput(product));
+        return this.productMapper.toOutput(product);
     }
 
     @PutMapping("/{productId}")

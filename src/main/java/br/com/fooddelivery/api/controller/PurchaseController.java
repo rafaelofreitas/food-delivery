@@ -1,5 +1,6 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.ResourceUriHelper;
 import br.com.fooddelivery.api.dto.entry.PurchaseEntry;
 import br.com.fooddelivery.api.dto.entry.PurchaseFilterEntry;
 import br.com.fooddelivery.api.dto.output.PurchaseOutput;
@@ -21,10 +22,8 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -105,7 +104,8 @@ public class PurchaseController {
     }
 
     @PostMapping
-    public ResponseEntity<PurchaseOutput> savePurchase(@RequestBody @Valid PurchaseEntry purchaseEntry) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public PurchaseOutput savePurchase(@RequestBody @Valid PurchaseEntry purchaseEntry) {
         var purchase = this.purchaseMapper.toDomain(purchaseEntry);
 
         // TODO pegar usuário autenticado
@@ -114,13 +114,9 @@ public class PurchaseController {
 
         purchase = this.purchaseService.savePurchase(purchase);
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(purchase.getId())
-                .toUri();
+        ResourceUriHelper.addUriInResponseHeader(purchase.getId());
 
-        return ResponseEntity.created(uri).body(this.purchaseMapper.toOutput(purchase));
+        return this.purchaseMapper.toOutput(purchase);
     }
 
     @PutMapping("/{purchaseCode}/confirmed")

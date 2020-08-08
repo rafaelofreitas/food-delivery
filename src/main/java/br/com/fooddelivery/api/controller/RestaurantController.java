@@ -1,5 +1,6 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.ResourceUriHelper;
 import br.com.fooddelivery.api.dto.entry.RestaurantEntry;
 import br.com.fooddelivery.api.dto.output.RestaurantOutput;
 import br.com.fooddelivery.api.dto.view.RestaurantView;
@@ -13,10 +14,8 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -65,16 +64,13 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<RestaurantOutput> saveRestaurant(@Valid @RequestBody RestaurantEntry restaurantEntry) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public RestaurantOutput saveRestaurant(@Valid @RequestBody RestaurantEntry restaurantEntry) {
         Restaurant restaurant = this.restaurantService.saveRestaurant(this.restaurantMapper.toDomain(restaurantEntry));
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(restaurant.getId())
-                .toUri();
+        ResourceUriHelper.addUriInResponseHeader(restaurant.getId());
 
-        return ResponseEntity.created(uri).body(this.restaurantMapper.toOutput(restaurant));
+        return this.restaurantMapper.toOutput(restaurant);
     }
 
     @PutMapping("/{id}")

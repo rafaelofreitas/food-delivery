@@ -1,5 +1,6 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.ResourceUriHelper;
 import br.com.fooddelivery.api.dto.entry.KitchenEntry;
 import br.com.fooddelivery.api.dto.output.KitchenOutput;
 import br.com.fooddelivery.api.mapper.KitchenMapper;
@@ -13,10 +14,8 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -57,17 +56,13 @@ public class KitchenController {
     }
 
     @PostMapping
-    public ResponseEntity<KitchenOutput> createKitchen(@Valid @RequestBody KitchenEntry kitchenEntry) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public KitchenOutput createKitchen(@Valid @RequestBody KitchenEntry kitchenEntry) {
         Kitchen kitchen = this.kitchenService.saveKitchen(this.kitchenMapper.toDomain(kitchenEntry));
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(kitchen.getId())
-                .toUri();
+        ResourceUriHelper.addUriInResponseHeader(kitchen.getId());
 
-
-        return ResponseEntity.created(uri).body(this.kitchenMapper.toOutput(kitchen));
+        return this.kitchenMapper.toOutput(kitchen);
     }
 
     @PutMapping("/{id}")

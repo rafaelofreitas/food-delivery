@@ -1,5 +1,6 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.ResourceUriHelper;
 import br.com.fooddelivery.api.dto.entry.PasswordEntry;
 import br.com.fooddelivery.api.dto.entry.UserEntry;
 import br.com.fooddelivery.api.dto.output.UserOutput;
@@ -10,10 +11,8 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -50,16 +49,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserOutput> saveUser(@Valid @RequestBody UserEntry userEntry) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserOutput saveUser(@Valid @RequestBody UserEntry userEntry) {
         User user = this.userService.saveUser(this.userMapper.toDomain(userEntry));
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(user.getId())
-                .toUri();
+        ResourceUriHelper.addUriInResponseHeader(user.getId());
 
-        return ResponseEntity.created(uri).body(this.userMapper.toOutput(user));
+        return this.userMapper.toOutput(user);
     }
 
     @PutMapping("/{id}")

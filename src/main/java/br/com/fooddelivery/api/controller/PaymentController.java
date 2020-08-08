@@ -1,5 +1,6 @@
 package br.com.fooddelivery.api.controller;
 
+import br.com.fooddelivery.api.ResourceUriHelper;
 import br.com.fooddelivery.api.dto.entry.PaymentEntry;
 import br.com.fooddelivery.api.dto.output.PaymentOutput;
 import br.com.fooddelivery.api.mapper.PaymentMapper;
@@ -13,10 +14,8 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -57,16 +56,13 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<PaymentOutput> savePayment(@RequestBody @Valid PaymentEntry paymentEntry) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public PaymentOutput savePayment(@RequestBody @Valid PaymentEntry paymentEntry) {
         Payment payment = this.paymentService.savePayment(this.paymentMapper.toDomain(paymentEntry));
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(payment.getId())
-                .toUri();
+        ResourceUriHelper.addUriInResponseHeader(payment.getId());
 
-        return ResponseEntity.created(uri).body(this.paymentMapper.toOutput(payment));
+        return this.paymentMapper.toOutput(payment);
     }
 
     @PutMapping("/{id}")
