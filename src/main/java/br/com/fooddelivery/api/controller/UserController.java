@@ -7,13 +7,13 @@ import br.com.fooddelivery.api.dto.output.UserOutput;
 import br.com.fooddelivery.api.mapper.UserMapper;
 import br.com.fooddelivery.domain.model.User;
 import br.com.fooddelivery.domain.service.UserService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -28,8 +28,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserOutput>> getUsers() {
-        List<UserOutput> users = this.userMapper.toCollectionOutput(this.userService.getUsers());
+    public ResponseEntity<CollectionModel<UserOutput>> getUsers() {
+        CollectionModel<UserOutput> users = this.userMapper.toCollectionModel(this.userService.getUsers());
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
@@ -45,7 +45,7 @@ public class UserController {
         return ResponseEntity
                 .ok()
                 .cacheControl(cache)
-                .body(this.userMapper.toOutput(user));
+                .body(this.userMapper.toModel(user));
     }
 
     @PostMapping
@@ -55,7 +55,7 @@ public class UserController {
 
         ResourceUriHelper.addUriInResponseHeader(user.getId());
 
-        return this.userMapper.toOutput(user);
+        return this.userMapper.toModel(user);
     }
 
     @PutMapping("/{id}")
@@ -66,7 +66,7 @@ public class UserController {
 
         user = this.userService.saveUser(user);
 
-        return ResponseEntity.ok().body(this.userMapper.toOutput(user));
+        return ResponseEntity.ok().body(this.userMapper.toModel(user));
     }
 
     @DeleteMapping("/{id}")
