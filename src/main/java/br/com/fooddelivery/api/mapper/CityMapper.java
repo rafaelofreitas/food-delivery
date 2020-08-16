@@ -1,32 +1,55 @@
 package br.com.fooddelivery.api.mapper;
 
+import br.com.fooddelivery.api.controller.CityController;
+import br.com.fooddelivery.api.controller.StateController;
 import br.com.fooddelivery.api.dto.entry.CityEntry;
 import br.com.fooddelivery.api.dto.output.CityOutput;
 import br.com.fooddelivery.domain.model.City;
 import br.com.fooddelivery.domain.model.State;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class CityMapper {
+public class CityMapper extends RepresentationModelAssemblerSupport<City, CityOutput> {
     private final ModelMapper modelMapper;
 
     public CityMapper(ModelMapper modelMapper) {
+        super(CityController.class, CityOutput.class);
+
         this.modelMapper = modelMapper;
     }
 
-    public CityOutput toOutput(City city) {
-        return this.modelMapper.map(city, CityOutput.class);
+    @Override
+    public CityOutput toModel(City city) {
+        CityOutput cityOutput = super.createModelWithId(city.getId(), city);
+
+        this.modelMapper.map(city, cityOutput);
+
+        cityOutput.add(linkTo(methodOn(CityController.class)
+                .getCityById(cityOutput.getId()))
+                .withSelfRel());
+
+        cityOutput.add(linkTo(methodOn(CityController.class)
+                .getCities())
+                .withRel(IanaLinkRelations.COLLECTION));
+
+        cityOutput.add(linkTo(methodOn(StateController.class)
+                .getStateById(cityOutput.getState().getId()))
+                .withSelfRel());
+
+        return cityOutput;
     }
 
-    public List<CityOutput> toCollectionOutput(List<City> cities) {
-        return cities
-                .stream()
-                .map(this::toOutput)
-                .collect(Collectors.toList());
+    @Override
+    public CollectionModel<CityOutput> toCollectionModel(Iterable<? extends City> cities) {
+        return super.toCollectionModel(cities)
+                .add(linkTo(CityController.class).withSelfRel());
     }
 
     public City toDomain(CityEntry cityEntry) {
