@@ -3,6 +3,7 @@ package br.com.fooddelivery.api.controller;
 import br.com.fooddelivery.api.dto.output.UserOutput;
 import br.com.fooddelivery.api.mapper.UserMapper;
 import br.com.fooddelivery.domain.service.RestaurantService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class RestaurantUserResponsibleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserOutput>> getResponsible(@PathVariable Integer restaurantId) {
+    public ResponseEntity<CollectionModel<UserOutput>> getResponsible(@PathVariable Integer restaurantId) {
         var restaurant = this.restaurantService.getRestaurantById(restaurantId);
 
         CacheControl cache = CacheControl.maxAge(20, TimeUnit.SECONDS);
@@ -31,7 +32,7 @@ public class RestaurantUserResponsibleController {
         return ResponseEntity
                 .ok()
                 .cacheControl(cache)
-                .body(this.userMapper.toCollectionOutput(restaurant.getResponsible()));
+                .body(this.userMapper.toCollectionModel(restaurant.getResponsible()));
     }
 
     @PutMapping("/{userId}")
